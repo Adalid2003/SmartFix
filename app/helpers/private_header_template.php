@@ -30,6 +30,7 @@ class Dashboard_Page
              <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
              <!--Se informa al navegador que el sitio web está optimizado para dispositivos móviles-->
              <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+             <link rel="shotcut icon" href="../../resource/img/logo.jpg" type="image/x-icon">
          </head>
          
          <body>');
