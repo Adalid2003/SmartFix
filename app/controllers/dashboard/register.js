@@ -1,11 +1,11 @@
 // Constante para establecer la ruta y parámetros de comunicación con la API.
 const API_USUARIOS = '../../app/api/dashboard/usuarios.php?action=';
-const ENDPOINT_ESPECIALIDAD = '../../app/api/dashboard/usuarios.php?action=ReadAllEsp';
+const ENDPOINT_ESPECIALIDAD = '../../app/api/dashboard/usuarios.php?action=readAllEsp';
 // Método manejador de eventos que se ejecuta cuando el documento ha cargado.
 document.addEventListener('DOMContentLoaded', function () {
     // Se inicializa el componente Tooltip asignado al botón del formulario para que funcione la sugerencia textual.
     M.Tooltip.init(document.querySelectorAll('.tooltipped'));
-
+    fillSelect(ENDPOINT_ESPECIALIDAD, 'especialidad', null);
     // Petición para verificar si existen usuarios.
     fetch(API_USUARIOS + 'readAll', {
         method: 'get'
@@ -22,7 +22,6 @@ document.addEventListener('DOMContentLoaded', function () {
                         sweetAlert(2, response.exception, null);
                     } else {
                         sweetAlert(4, 'Debe crear un usuario para comenzar', null);
-                        fillSelect(ENDPOINT_ESPECIALIDAD, 'especialidad', null);
                     }
                 }
             });
