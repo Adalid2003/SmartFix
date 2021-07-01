@@ -263,7 +263,7 @@ if (isset($_GET['action'])) {
                     if (Database::getException()) {
                         $result['exception'] = Database::getException();
                     } else {
-                        $result['exception'] = 'No hay especialidades registradas';
+                        $result['exception'] = 'No hay tipos de usuario registrados';
                     }
                 }
                 break;
