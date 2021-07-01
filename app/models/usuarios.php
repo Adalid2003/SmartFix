@@ -248,7 +248,7 @@ class Usuarios extends Validator
     {
         // Se transforma la contraseña a una cadena de texto de longitud fija mediante el algoritmo por defecto.
         $hash = password_hash($this->clave, PASSWORD_DEFAULT);
-        $sql = 'UPDATE usuarios SET clave_usuario = ? WHERE id_usuario = ?';
+        $sql = 'UPDATE usuarios SET contrasena = ? WHERE id_usuario = ?';
         $params = array($hash, $_SESSION['id_usuario']);
         return Database::executeRow($sql, $params);
     }
@@ -266,7 +266,7 @@ class Usuarios extends Validator
     public function editProfile()
     {
         $sql = 'UPDATE usuarios
-                SET nombres_usuario = ?, apellidos_usuario = ?, correo_usuario = ?, alias_u = ?
+                SET nombres_u = ?, apellidos = ?, email_u = ?, alias_u = ?
                 WHERE id_usuario = ?';
         $params = array($this->nombres, $this->apellidos, $this->correo, $this->alias, $_SESSION['id_usuario']);
         return Database::executeRow($sql, $params);
