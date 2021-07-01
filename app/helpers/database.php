@@ -151,6 +151,7 @@ class Database
                 break;
             default:
                 self::$error = 'Ocurrió un problema en la base de datos';     
+                print_r($message);
         }
     }
 

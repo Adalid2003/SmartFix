@@ -277,10 +277,10 @@ class Usuarios extends Validator
     */
     public function searchRows($value)
     {
-        $sql = 'SELECT id_usuario, nombres_u, contrasena, dui_u, tipo_usuario, email_u, alias_u, apellidos, sueldo, telefono_u, estado_usuario, especialidad
+        $sql = 'SELECT id_usuario, nombres_u, apellidos, contrasena, dui_u, tipo_usuario, email_u, alias_u, apellidos, sueldo, telefono_u, estado_usuario, especialidad
         FROM usuarios INNER JOIN tipo_usuario USING(id_tipo_usuario)
         INNER JOIN especialidad USING(id_especialidad)
-                WHERE apellidos_usuario ILIKE ? OR nombres_usuario ILIKE ?
+                WHERE apellidos ILIKE ? OR nombres_u ILIKE ?
                 ORDER BY apellidos';
         $params = array("%$value%", "%$value%");
         return Database::getRows($sql, $params);
@@ -331,9 +331,9 @@ class Usuarios extends Validator
     public function updateRow()
     {
         $sql = 'UPDATE usuarios 
-                SET nombres_usuario = ?, apellidos_usuario = ?, correo_usuario = ?
+                SET nombres_u = ?, apellidos = ?, email_u = ?, id_tipo_usuario = ?, id_especialidad = ?, estado_usuario = ?, sueldo = ?, fecha_nacimiento = ?, telefono_u = ?, dui_u = ?
                 WHERE id_usuario = ?';
-        $params = array($this->nombres, $this->apellidos, $this->correo, $this->id);
+        $params = array($this->nombres, $this->apellidos, $this->correo, $this->tipo, $this->especialidad, $this->estado, $this->sueldo, $this->nacimiento, $this->telefono, $this->dui, $this->id);
         return Database::executeRow($sql, $params);
     }
 

@@ -60,7 +60,9 @@ function openCreateDialog() {
     // Se asigna el título para la caja de dialogo (modal).
     document.getElementById('modal-title').textContent = 'Crear usuario';
     // Se habilitan los campos de alias y contraseña.
-  
+    document.getElementById('alias').disabled = false;
+    document.getElementById('clave1').disabled = false;
+    document.getElementById('clave2').disabled = false;
     fillSelect(ENDPOINT_USUARIOS, 'tipo_usuario', null);
     fillSelect(ENDPOINT_ESPECIALIDAD, 'especialidad', null);
 }
@@ -75,9 +77,9 @@ function openUpdateDialog(id) {
     // Se asigna el título para la caja de dialogo (modal).
     document.getElementById('modal-title').textContent = 'Actualizar usuario';
     // Se deshabilitan los campos de alias y contraseña.
-    document.getElementById('alias_usuario').disabled = true;
-    document.getElementById('clave_usuario').disabled = true;
-    document.getElementById('confirmar_clave').disabled = true;
+    document.getElementById('alias').disabled = true;
+    document.getElementById('clave1').disabled = true;
+    document.getElementById('clave2').disabled = true;
 
     // Se define un objeto con los datos del registro seleccionado.
     const data = new FormData();
@@ -94,9 +96,20 @@ function openUpdateDialog(id) {
                 if (response.status) {
                     // Se inicializan los campos del formulario con los datos del registro seleccionado.
                     document.getElementById('id_usuario').value = response.dataset.id_usuario;
-                    document.getElementById('nombres_usuario').value = response.dataset.nombres_usuario;
-                    document.getElementById('apellidos_usuario').value = response.dataset.apellidos_usuario;
-                    document.getElementById('correo_usuario').value = response.dataset.correo_usuario;
+                    document.getElementById('nombres').value = response.dataset.nombres_u;
+                    document.getElementById('apellidos').value = response.dataset.apellidos;
+                    document.getElementById('correo').value = response.dataset.email_u;
+                    fillSelect(ENDPOINT_USUARIOS, 'tipo_usuario', response.dataset.id_tipo_usuario);
+                    fillSelect(ENDPOINT_ESPECIALIDAD, 'especialidad', response.dataset.id_especialidad);
+                    document.getElementById('telefono').value = response.dataset.telefono_u;
+                    document.getElementById('dui_u').value = response.dataset.dui_u;
+                    document.getElementById('sueldo').value = response.dataset.sueldo;
+                    document.getElementById('fecha_nacimiento').value = response.dataset.fecha_nacimiento;
+                    if (response.dataset.estado_usuario) {
+                        document.getElementById('estado_usuario').checked = true;
+                    } else {
+                        document.getElementById('estado_usuario').checked = false;
+                    }
                     // Se actualizan los campos para que las etiquetas (labels) no queden sobre los datos.
                     M.updateTextFields();
                 } else {

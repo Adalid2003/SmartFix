@@ -61,33 +61,33 @@ Dashboard_Page::headerTemplate('Mantenimiento Usuarios');
                         <div class="row">
                             <div class="input-field col s12 m6">
                                 <i class="material-icons prefix">person</i>
-                                <input id="nombres_usuario" type="text" name="nombres_usuario" class="validate" required />
-                                <label for="nombres_usuario">Nombres</label>
+                                <input id="nombres" type="text" name="nombres" class="validate" required />
+                                <label for="nombres">Nombres</label>
                             </div>
                             <div class="input-field col s12 m6">
                                 <i class="material-icons prefix">person</i>
-                                <input id="apellidos_usuario" type="text" name="apellidos_usuario" class="validate" required />
-                                <label for="apellidos_usuario">Apellidos</label>
+                                <input id="apellidos" type="text" name="apellidos" class="validate" required />
+                                <label for="apellidos">Apellidos</label>
                             </div>
                             <div class="input-field col s12 m6">
                                 <i class="material-icons prefix">email</i>
-                                <input id="correo_usuario" type="email" name="correo_usuario" class="validate" required />
-                                <label for="correo_usuario">Correo</label>
+                                <input id="correo" type="email" name="correo" class="validate" required />
+                                <label for="correo">Correo</label>
                             </div>
                             <div class="input-field col s12 m6">
                                 <i class="material-icons prefix">person_pin</i>
-                                <input id="alias_usuario" type="text" name="alias_usuario" class="validate" required />
-                                <label for="alias_usuario">Alias</label>
+                                <input id="alias" type="text" name="alias" class="validate" required />
+                                <label for="alias">Alias</label>
                             </div>
                             <div class="input-field col s12 m6">
                                 <i class="material-icons prefix">security</i>
-                                <input id="clave_usuario" type="password" name="clave_usuario" class="validate" required />
-                                <label for="clave_usuario">Clave</label>
+                                <input id="clave1" type="password" name="clave1" class="validate" required />
+                                <label for="clave1">Clave</label>
                             </div>
                             <div class="input-field col s12 m6">
                                 <i class="material-icons prefix">security</i>
-                                <input id="confirmar_clave" type="password" name="confirmar_clave" class="validate" required />
-                                <label for="confirmar_clave">Confirmar clave</label>
+                                <input id="clave2" type="password" name="clave2" class="validate" required />
+                                <label for="clave2">Confirmar clave</label>
                             </div>
                             <div class="input-field col s6">
                                 <select id="tipo_usuario" name="tipo_usuario">
@@ -98,6 +98,39 @@ Dashboard_Page::headerTemplate('Mantenimiento Usuarios');
                                 <select id="especialidad" name="especialidad">
                                 </select>
                                 <label>Especialidad</label>
+                            </div>
+                            <div class="input-field col s12 m6">
+                                <i class="material-icons prefix">phone</i>
+                                <input id="telefono" type="text" name="telefono" class="validate" required />
+                                <label for="telefono">Telefono</label>
+                            </div>
+                            <div class="input-field col s12 m6">
+                                <i class="material-icons prefix">perm_identity</i>
+                                <input id="dui_u" type="text" name="dui_u" placeholder="00000000-0" pattern="[0-9]{8}[-][0-9]{1}" class="validate" required />
+                                <label for="dui_u">DUI</label>
+                            </div>
+                            <div class="input-field col s12 m6">
+                                <i class="material-icons prefix">attach_money</i>
+                                <input id="sueldo" type="text" name="sueldo" class="validate" required />
+                                <label for="sueldo">Sueldo</label>
+                            </div>
+                            <div class="input-field col s12 m6">
+                                <i class="material-icons prefix">cake</i>
+                                <input id="fecha_nacimiento" type="date" name="fecha_nacimiento" class="validate" required />
+                                <label for="fecha_nacimiento">Fecha de nacimiento</label>
+                            </div>
+                            <div class="col s12 m6">
+                                <p>
+                                <div class="switch">
+                                    <span>Estado:</span>
+                                    <label>
+                                        <i class="material-icons">lock_outline</i>
+                                        <input id="estado_usuario" type="checkbox" name="estado_usuario" checked />
+                                        <span class="lever"></span>
+                                        <i class="material-icons">lock_open</i>
+                                    </label>
+                                </div>
+                                </p>
                             </div>
                         </div>
                         <div class="row center-align">
