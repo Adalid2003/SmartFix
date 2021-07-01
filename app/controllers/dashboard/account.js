@@ -21,10 +21,10 @@ function openProfileDialog() {
                 // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
                 if (response.status) {
                     // Se inicializan los campos del formulario con los datos del usuario que ha iniciado sesión.
-                    document.getElementById('nombres_perfil').value = response.dataset.nombres_usuario;
-                    document.getElementById('apellidos_perfil').value = response.dataset.apellidos_usuario;
-                    document.getElementById('correo_perfil').value = response.dataset.correo_usuario;
-                    document.getElementById('alias_perfil').value = response.dataset.alias_usuario;
+                    document.getElementById('nombres_perfil').value = response.dataset.nombres_u;
+                    document.getElementById('apellidos_perfil').value = response.dataset.apellidos;
+                    document.getElementById('correo_perfil').value = response.dataset.email_u;
+                    document.getElementById('alias_perfil').value = response.dataset.alias_u;
                     // Se actualizan los campos para que las etiquetas (labels) no queden sobre los datos.
                     M.updateTextFields();
                 } else {

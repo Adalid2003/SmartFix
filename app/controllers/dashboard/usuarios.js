@@ -1,6 +1,7 @@
 // Constante para establecer la ruta y parámetros de comunicación con la API.
 const API_USUARIOS = '../../app/api/dashboard/usuarios.php?action=';
-
+const ENDPOINT_USUARIOS = '../../app/api/dashboard/usuarios.php?action=readAll2';
+const ENDPOINT_ESPECIALIDAD = '../../app/api/dashboard/usuarios.php?action=readAllEsp';
 // Método manejador de eventos que se ejecuta cuando el documento ha cargado.
 document.addEventListener('DOMContentLoaded', function () {
     // Se llama a la función que obtiene los registros para llenar la tabla. Se encuentra en el archivo components.js
@@ -12,13 +13,22 @@ function fillTable(dataset) {
     let content = '';
     // Se recorre el conjunto de registros (dataset) fila por fila a través del objeto row.
     dataset.map(function (row) {
+        // Se establece un icono para el estado del usuario.
+        (row.estado_usuario) ? icon = 'lock_open' : icon = 'lock_outline';
         // Se crean y concatenan las filas de la tabla con los datos de cada registro.
         content += `
             <tr>
-                <td>${row.apellidos_usuario}</td>
-                <td>${row.nombres_usuario}</td>
-                <td>${row.correo_usuario}</td>
-                <td>${row.alias_usuario}</td>
+                <td>${row.nombres_u}</td>
+                <td>${row.apellidos}</td>
+                <td>${row.email_u}</td>
+                <td>${row.tipo_usuario}</td>
+                <td>${row.alias_u}</td>
+                <td>${row.telefono_u}</td>
+                <td>${row.dui_u}</td>
+                <td><i class="material-icons">${icon}</i></td>
+                <td>${row.sueldo}</td>
+                <td>${row.especialidad}</td>
+                <td>${row.fecha_nacimiento}</td>
                 <td>
                     <a href="#" onclick="openUpdateDialog(${row.id_usuario})" class="btn waves-effect blue tooltipped" data-tooltip="Actualizar"><i class="material-icons">mode_edit</i></a>
                     <a href="#" onclick="openDeleteDialog(${row.id_usuario})" class="btn waves-effect red tooltipped" data-tooltip="Eliminar"><i class="material-icons">delete</i></a>
@@ -50,9 +60,9 @@ function openCreateDialog() {
     // Se asigna el título para la caja de dialogo (modal).
     document.getElementById('modal-title').textContent = 'Crear usuario';
     // Se habilitan los campos de alias y contraseña.
-    document.getElementById('alias_usuario').disabled = false;
-    document.getElementById('clave_usuario').disabled = false;
-    document.getElementById('confirmar_clave').disabled = false;
+  
+    fillSelect(ENDPOINT_USUARIOS, 'tipo_usuario', null);
+    fillSelect(ENDPOINT_ESPECIALIDAD, 'especialidad', null);
 }
 
 // Función para preparar el formulario al momento de modificar un registro.

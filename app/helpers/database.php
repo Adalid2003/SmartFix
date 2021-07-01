@@ -16,7 +16,7 @@ class Database
     {
         // Credenciales para establecer la conexión con la base de datos.
         $server = 'localhost';
-        $database = 'SmartFixx';
+        $database = 'SmartFix31';
         $username = 'postgres';
         $password = 'rojo09';
 
@@ -138,6 +138,7 @@ class Database
                 break;
             case '42703':
                 self::$error = 'Nombre de campo desconocido';
+                print_r($message);
                 break;
             case '23505':
                 self::$error = 'Dato duplicado, no se puede guardar';

@@ -1,6 +1,6 @@
 <?php
 // Se incluye la clase con las plantillas del documento.
-require_once('../../app/helpers/private_header.php');
+require_once('../../app/helpers/private_header_template.php');
 // Se imprime la plantilla del encabezado enviando el título de la página web.
 Dashboard_Page::headerTemplate('Bienvenido');
 ?>

@@ -1,6 +1,6 @@
 // Constante para establecer la ruta y parámetros de comunicación con la API.
 const API_USUARIOS = '../../app/api/dashboard/usuarios.php?action=';
-
+const ENDPOINT_ESPECIALIDAD = '../../app/api/dashboard/usuarios.php?action=ReadAllEsp';
 // Método manejador de eventos que se ejecuta cuando el documento ha cargado.
 document.addEventListener('DOMContentLoaded', function () {
     // Se inicializa el componente Tooltip asignado al botón del formulario para que funcione la sugerencia textual.
@@ -22,6 +22,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         sweetAlert(2, response.exception, null);
                     } else {
                         sweetAlert(4, 'Debe crear un usuario para comenzar', null);
+                        fillSelect(ENDPOINT_ESPECIALIDAD, 'especialidad', null);
                     }
                 }
             });
@@ -37,7 +38,7 @@ document.addEventListener('DOMContentLoaded', function () {
 document.getElementById('register-form').addEventListener('submit', function (event) {
     // Se evita recargar la página web después de enviar el formulario.
     event.preventDefault();
-
+    
     fetch(API_USUARIOS + 'register', {
         method: 'post',
         body: new FormData(document.getElementById('register-form'))

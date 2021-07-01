@@ -1,3 +1,4 @@
+
 <?php
 /*
 *	Clase para definir las plantillas de las páginas web del sitio privado.
@@ -53,9 +54,16 @@ class Dashboard_Page
                              <a href= "../../views/dashboard/dashboard.php" class="brand-logo center"><img src="../../resource/img/logo.jpg" alt="" weight="100px" height="65px"></a>
                              <a href="#" data-target="mobile-sidenav" class="sidenav-trigger"><i class="material-icons">menu</i></a>
                                  <ul id="nav-mobile" class="right hide-on-med-and-down">
-                                     <li><a href="../../views/public/cita.php">Mi perfil</a></li>
-                                     <li><a href="../../views/public/login.php">Cerrar Sesión</a></li>
+                                     <li><a href="#"><i class="material-icons left">verified_user</i>Usuario: <b>' . $_SESSION['alias_u'] . '</b></a></li>
+                                     <li><a href="#" onclick="openProfileDialog()"><i class="material-icons left">person</i>Editar cuenta</a></li>
+                                     <li><a href="#" onclick="openPasswordDialog()"><i class="material-icons left">replay</i>Cambiar contraseña</a></li>
+                                     <li><a href="#" onclick="logOut()"><i class="material-icons left">clear</i>Cerrar Sesión</a></li>
                                  </ul>
+                                 <ul id="dropdown" class="dropdown-content">
+                                        
+                                        <li><a href="#" onclick="openPasswordDialog()"><i class="material-icons">lock</i>Cambiar clave</a></li>
+                                        
+                                </ul>
                          </div>
                      </nav>
                  </div>
@@ -64,19 +72,11 @@ class Dashboard_Page
                      <!--Menu Sidevar cuando se hace pequeña la ventana-->
                          <li><a href="../../views/public/nosotros.php">Mi perfil</a></li>
                          <li><a href="../../views/public/index.php">Cerrar Sesion</a></li>
+                         <li><a href="#" class="dropdown-trigger" data-target="dropdown"><i class="material-icons left">verified_user</i>Cuenta: <b>' . $_SESSION['alias_u'] . '</b></a></li>
                      </ul>
              
                      <ul id="slide-out" class="sidenav">
-                         <li>
-                             <div class="user-view">
-                                 <div class="background">
-                                     <img src="../../resource/img/fondo/fondo.jpg">
-                                 </div>
-                                 <a href="#user"><img class="circle" src="../../resource/img/users/user1.png"></a>
-                                 <a href="#name"><span class="white-text name">José Jiménez</span></a>
-                                 <a href="#email"><span class="white-text email">20190119@ricaldone.edu.sv</span></a>
-                             </div>
-                         </li>
+                     <li><a class="subheader">Mantenimientos</a></li>
                          <!--Enlaces otras paginas--> 
                          <li><a href="../../views/dashboard/usuarios.php"><i class="material-icons">person</i>Usuarios</a></li>
                          <li><a href="../../views/dashboard/automovil.php"><i class="material-icons">directions_car</i>Automoviles</a></li>
@@ -85,6 +85,11 @@ class Dashboard_Page
                          <li><a href="../../views/dashboard/facturacion.php"><i class="material-icons">receipt</i>Facturación</a></li>
                          <li><a href="../../views/dashboard/clientes.php"><i class="material-icons">contacts</i>Clientes</a></li>
                          <li><a href="../../views/dashboard/reportes.php"><i class="material-icons">insert_chart</i>Reportes</a></li>
+                         <li><a class="subheader">Detalles de su cuenta</a></li>
+                         <li><a class="dropdown-trigger" href="#" data-target="dropdown-mobile"><i class="material-icons">verified_user</i>Usuario: <b>' . $_SESSION['alias_u'] . '</b></a></li>
+                         <li><a href="#" onclick="openPasswordDialog()"><i class="material-icons">security</i>Cambiar contraseña</a></li>
+                         <li><a href="#" onclick="openProfileDialog()"><i class="material-icons">person</i>Editar perfil</a></li>
+                         <li><a href="#" onclick="logOut()"><i class="material-icons">clear</i>Cerrar sesión</a></li>
                      </ul>
                      <a href="#" data-target="slide-out" class="sidenav-trigger"><i class="material-icons">menu</i></a>
                  </header>
@@ -125,16 +130,6 @@ class Dashboard_Page
                      </ul>
              
                      <ul id="slide-out" class="sidenav">
-                         <li>
-                             <div class="user-view">
-                                 <div class="background">
-                                     <img src="../../resource/img/fondo/fondo.jpg">
-                                 </div>
-                                 <a href="#user"><img class="circle" src="../../resource/img/users/user1.png"></a>
-                                 <a href="#name"><span class="white-text name">José Jiménez</span></a>
-                                 <a href="#email"><span class="white-text email">20190119@ricaldone.edu.sv</span></a>
-                             </div>
-                         </li>
                          <!--Enlaces otras paginas--> 
                          <li><a href="../../views/dashboard/usuarios.php"><i class="material-icons">person</i>Usuarios</a></li>
                          <li><a href="../../views/dashboard/automovil.php"><i class="material-icons">directions_car</i>Automoviles</a></li>
@@ -168,7 +163,7 @@ class Dashboard_Page
                 <script type="text/javascript" src="../../resource/js/materialize.min.js"></script>
                 <script type="text/javascript" src="../../resource/js/sweetalert.min.js"></script>
                 <script type="text/javascript" src="../../app/helpers/components.js"></script>
-                <script type="text/javascript" src="../../app/controllers/initialization/iniciar.js"></script>
+                <script type="text/javascript" src="../../app/controllers/dashboard/iniciar.js"></script>
                 <script type="text/javascript" src="../../app/controllers/dashboard/account.js"></script>
                 <script type="text/javascript" src="../../app/controllers/dashboard/' . $controller . '"></script>
             ';
@@ -177,6 +172,7 @@ class Dashboard_Page
                 <script type="text/javascript" src="../../resource/js/materialize.min.js"></script>
                 <script type="text/javascript" src="../../resource/js/sweetalert.min.js"></script>
                 <script type="text/javascript" src="../../app/helpers/components.js"></script>
+                <script type="text/javascript" src="../../app/controllers/dashboard/iniciar.js"></script>
                 <script type="text/javascript" src="../../app/controllers/dashboard/' . $controller . '"></script>
             ';
         }
