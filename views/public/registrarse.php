@@ -81,7 +81,7 @@ include("../../app/helpers/header_template.php");
                     </select>
                 </div-->
                 <!--Registrar-->
-                <!--Te sale esto?-->
+               
                 <div class="form-field center-align">
                     <button class="btn-large blue-grey darken-4">Registrarse</button>
                 </div><br>
