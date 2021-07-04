@@ -1,139 +1,145 @@
 <?php
-include("../../app/helpers/private_header_template.php");
+// Se incluye la clase con las plantillas del documento.
+require_once('../../app/helpers/private_header_template.php');
+// Se imprime la plantilla del encabezado enviando el título de la página web.
+Dashboard_Page::headerTemplate('Mantenimiento Automoviles');
 ?>
-<!--Pagina Automoviles-->
 <div class="row">
     <div class="col s12 14 offset-14">
         <div class="container">
             <div class="container center">
-                <h4>Automoviles</h4>
 
-
-                <div class="row">
-                    <div class="col s12">
-                        <div class="row">
-                            <div class="input-field col s12">
-                                <i class="material-icons prefix">find_replace</i>
-                                <input type="text" id="autocomplete-input" class="autocomplete">
-                                <label for="autocomplete-input">Buscar automovil...</label>
+                <div class="row center-align">
+                    <form method="post" id="search-form">
+                        <div class="col s12">
+                            <div class="input-field col s4 m6 valing-wrapper">
+                                <i class="material-icons prefix ">search</i>
+                                <input type="text" id="search" name="search" required />
+                                <label for="search">Buscar automovil...</label>
                             </div>
-                        </div>
-                    </div>
+                            <div class="input-field col s6 m4 right-align">
+                                <button type="submit" class="btn waves-effect  light-blue darken-4 waves-light btn-medium" data-tooltip="Buscar"><i class="material-icons"></i>Buscar</button>
+                            </div>
+                    </form>
                 </div>
             </div>
-            <!--Encabezado tablas-->
-            <table class="striped responsive-table">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Marca</th>
-                        <th>Modelo</th>
-                        <th>Año</th>
-                        <th>Color</th>
-                        <th>N° Motor</th>
-                        <th>Clase de automovil</th>
-                        <th>Detalle de reparacion</th>
-                        <th>Acción</th>
-                    </tr>
-                </thead>
-                <!--Boton agregar-->
-                <tbody>
-                    <a id="scale-demo" href="#modal1" class="green btn-floating btn-large scale-transition modal-trigger">
-                        <i class="material-icons">add</i>
-                    </a>
-                    <!--Inicio modal-->
-                    <div id="modal1" class="modal">
-                        <div class="modal-content">
-                            <h4 class="center blue-grey-text">Automoviles</h4>
-                            <div class="row">
-                                <div class="col s12 14 offset-14">
-                                    <div class="card">
-                                        <div class="card-action white white-text">
-                                            <div class="card-content"></div>
-                                            <div class="form-field">
-                                                <label for="name" class="sr-only">Ingrese la marca del automovil:</label>
-                                                <input type="text" id="nombre" class="form-control">
-                                            </div><br>
-                                            <div class="form-field">
-                                                <label for="subname" class="sr-only">Ingrese el modelo:</label>
-                                                <input type="text" id="lastname" class="form-control">
-                                            </div><br>
-                                            <div class="form-field">
-                                                <label for="usuario" class="sr-only">Ingrese el año:</label>
-                                                <input type="text" id="usuario" class="form-control">
-                                            </div><br>
-                                            <div class="form-field">
-                                                <label for="contraseña">Ingrese el color:</label>
-                                                <input type="text" id="pass">
-                                            </div><br>
-                                            <div class="form-field">
-                                                <label for="email" class="sr-only">Ingrese el numero de motor:</label>
-                                                <input type="text" id="email" class="form-control">
-                                            </div><br>
-                                            <div class="form-field col s12">
-                                                <label>Seleccione la clase de automovil: </label><br>
-                                                <select class="browser-default"><br>
-                                                    <option value="" disabled selected>Escoga una opción</option><br>
-                                                    <option value="1">Sedan</option>
-                                                    <option value="2">Hatchback </option>
-                                                    <option value="3">SUV </option>
-                                                    <option value="4">Deportivos</option>
-                                                    <option value="5">Vehículos Comerciales</option>
-                                                    <option value="6">Van</option>
-                                                    <option value="7">Pick Up</option>
-                                                    <option value="8">Camioneta</option>
-                                                </select>
-                                            </div><br>
-                                            <div class="form-field">
-                                                <label for="email" class="sr-only">Detalle reparacion:</label>
-                                                <input type="text" id="email" class="form-control">
-                                            </div><br>
-                                            <!--Botones Modal-->
-                                            <div class="form-field center-align">
-                                                <button class="btn-large blue-grey darken-4 modal-close">AGREGAR</button>
-                                            </div><br>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="modal-footer">
-                                    <a href="#!" class="modal-close waves-effect waves-green btn-flat">CANCELAR</a>
-                                </div>
-                            </div><br>
-                            <tr>
-                            <!--datos de tabla-->
-                                <td>1</td>
-                                <td>Nissan</td>
-                                <td>Juke</td>
-                                <td>2015</td>
-                                <td>Vino</td>
-                                <td>LM165FMMQQ215080</td>
-                                <td>Camioneta</td>
-                                <td>Cambio pastilla de freno</td>
-                                <td>
-                                    <a id="scale-demo" href="#modal1" class="blue btn-floating btn-large scale-transition modal-trigger">
-                                        <i class="material-icons">autorenew</i>
-                                    </a>
-                                    <a id="scale-demo" href="#modal2" class="red btn-floating btn-large scale-transition modal-trigger">
-                                        <i class="material-icons">close</i>
-                                    </a>
-                                </td>
-                            </tr>
+        </div>
+        <div class="input-field col s6 m4">
+            <a href="#" onclick="openCreateDialog()" class="btn waves-effect cyan darken-1 tooltipped" data-tooltip="Crear"><i class="material-icons">add</i></a>
+        </div>
+        <table class="responsive-table highlight">
+            <thead>
+                <tr>
+                    <th>Marca</th>
+                    <th>Modelo</th>
+                    <th>Color</th>
+                    <th>Numero motor</th>
+                    <th>Clase</th>
+                    <th>Detalle</th>
+                    <th>Placa</th>
+                    <th>Cliente</th>
+                    <th class="actions-column">Acción</th>
+                </tr>
+            </thead>
 
-                </tbody>
-            </table>
-        </div>
-        <!--Modal de eliminar-->
-        <div id="modal2" class="modal">
-            <div class="modal-content">
-                <h4>¿Desea eliminar este vehiculo de la reparacion?</h4>
+            <tbody id="tbody-rows">
+            </tbody>
+        </table>
+        <tbody>
+            <!-- Componente Modal para mostrar una caja de dialogo -->
+            <div id="save-modal" class="modal">
+                <div class="modal-content">
+                    <!-- Título para la caja de dialogo -->
+                    <h4 id="modal-title" class="center-align"></h4>
+                    <!-- Formulario para crear o actualizar un registro -->
+                    <form method="post" id="save-form">
+                        <!-- Campo oculto para asignar el id del registro al momento de modificar -->
+                        <input class="hide" type="number" id="id_usuario" name="id_usuario" />
+                        <div class="row">
+                            <div class="input-field col s12 m6">
+                                <i class="material-icons prefix">person</i>
+                                <input id="nombres" type="text" name="nombres" class="validate" required />
+                                <label for="nombres">Nombres</label>
+                            </div>
+                            <div class="input-field col s12 m6">
+                                <i class="material-icons prefix">person</i>
+                                <input id="apellidos" type="text" name="apellidos" class="validate" required />
+                                <label for="apellidos">Apellidos</label>
+                            </div>
+                            <div class="input-field col s12 m6">
+                                <i class="material-icons prefix">email</i>
+                                <input id="correo" type="email" name="correo" class="validate" required />
+                                <label for="correo">Correo</label>
+                            </div>
+                            <div class="input-field col s12 m6">
+                                <i class="material-icons prefix">person_pin</i>
+                                <input id="alias" type="text" name="alias" class="validate" required />
+                                <label for="alias">Alias</label>
+                            </div>
+                            <div class="input-field col s12 m6">
+                                <i class="material-icons prefix">security</i>
+                                <input id="clave1" type="password" name="clave1" class="validate" required />
+                                <label for="clave1">Clave</label>
+                            </div>
+                            <div class="input-field col s12 m6">
+                                <i class="material-icons prefix">security</i>
+                                <input id="clave2" type="password" name="clave2" class="validate" required />
+                                <label for="clave2">Confirmar clave</label>
+                            </div>
+                            <div class="input-field col s6">
+                                <select id="tipo_usuario" name="tipo_usuario">
+                                </select>
+                                <label>Tipo de usuario</label>
+                            </div>
+                            <div class="input-field col s6">
+                                <select id="especialidad" name="especialidad">
+                                </select>
+                                <label>Especialidad</label>
+                            </div>
+                            <div class="input-field col s12 m6">
+                                <i class="material-icons prefix">phone</i>
+                                <input id="telefono" type="text" name="telefono" class="validate" required />
+                                <label for="telefono">Telefono</label>
+                            </div>
+                            <div class="input-field col s12 m6">
+                                <i class="material-icons prefix">perm_identity</i>
+                                <input id="dui_u" type="text" name="dui_u" placeholder="00000000-0" pattern="[0-9]{8}[-][0-9]{1}" class="validate" required />
+                                <label for="dui_u">DUI</label>
+                            </div>
+                            <div class="input-field col s12 m6">
+                                <i class="material-icons prefix">attach_money</i>
+                                <input id="sueldo" type="text" name="sueldo" class="validate" required />
+                                <label for="sueldo">Sueldo</label>
+                            </div>
+                            <div class="input-field col s12 m6">
+                                <i class="material-icons prefix">cake</i>
+                                <input id="fecha_nacimiento" type="date" name="fecha_nacimiento" class="validate" required />
+                                <label for="fecha_nacimiento">Fecha de nacimiento</label>
+                            </div>
+                            <div class="col s12 m6">
+                                <p>
+                                <div class="switch">
+                                    <span>Estado:</span>
+                                    <label>
+                                        <i class="material-icons">lock_outline</i>
+                                        <input id="estado_usuario" type="checkbox" name="estado_usuario" checked />
+                                        <span class="lever"></span>
+                                        <i class="material-icons">lock_open</i>
+                                    </label>
+                                </div>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="row center-align">
+                            <a href="#" class="btn waves-effect grey tooltipped modal-close" data-tooltip="Cancelar"><i class="material-icons">cancel</i></a>
+                            <button type="submit" class="btn waves-effect blue tooltipped" data-tooltip="Guardar"><i class="material-icons">save</i></button>
+                        </div>
+                    </form>
+                </div>
             </div>
-            <div class="modal-footer">
-                <a href="#!" class="modal-close waves-effect waves-green btn-flat green">ACEPTAR</a>
-                <a href="#!" class="modal-close waves-effect waves-green btn-flat red">CANCELAR</a>
-            </div>
-            /
-        </div>
+
     </div>
     <?php
-    include("../../app/helpers/footer_template.php");
+    // Se imprime la plantilla del pie enviando el nombre del controlador para la página web.
+    Dashboard_Page::footerTemplate('automoviles.js');
     ?>
