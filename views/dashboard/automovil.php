@@ -54,80 +54,47 @@ Dashboard_Page::headerTemplate('Mantenimiento Automoviles');
                     <!-- Formulario para crear o actualizar un registro -->
                     <form method="post" id="save-form">
                         <!-- Campo oculto para asignar el id del registro al momento de modificar -->
-                        <input class="hide" type="number" id="id_usuario" name="id_usuario" />
+                        <input class="hide" type="number" id="id_automovil" name="id_automovil" />
                         <div class="row">
-                            <div class="input-field col s12 m6">
-                                <i class="material-icons prefix">person</i>
-                                <input id="nombres" type="text" name="nombres" class="validate" required />
-                                <label for="nombres">Nombres</label>
-                            </div>
-                            <div class="input-field col s12 m6">
-                                <i class="material-icons prefix">person</i>
-                                <input id="apellidos" type="text" name="apellidos" class="validate" required />
-                                <label for="apellidos">Apellidos</label>
-                            </div>
-                            <div class="input-field col s12 m6">
-                                <i class="material-icons prefix">email</i>
-                                <input id="correo" type="email" name="correo" class="validate" required />
-                                <label for="correo">Correo</label>
-                            </div>
-                            <div class="input-field col s12 m6">
-                                <i class="material-icons prefix">person_pin</i>
-                                <input id="alias" type="text" name="alias" class="validate" required />
-                                <label for="alias">Alias</label>
-                            </div>
-                            <div class="input-field col s12 m6">
-                                <i class="material-icons prefix">security</i>
-                                <input id="clave1" type="password" name="clave1" class="validate" required />
-                                <label for="clave1">Clave</label>
-                            </div>
-                            <div class="input-field col s12 m6">
-                                <i class="material-icons prefix">security</i>
-                                <input id="clave2" type="password" name="clave2" class="validate" required />
-                                <label for="clave2">Confirmar clave</label>
+                            <div class="input-field col s6">
+                                <select id="marca" name="marca">
+                                </select>
+                                <label>Marca del vehiculo</label>
                             </div>
                             <div class="input-field col s6">
-                                <select id="tipo_usuario" name="tipo_usuario">
+                                <select id="modelo" name="modelo">
                                 </select>
-                                <label>Tipo de usuario</label>
+                                <label>Modelo del vehiculo</label>
+                            </div>
+                            <div class="input-field col s12 m6">
+                                <i class="material-icons prefix">color_lens</i>
+                                <input id="color" type="text" name="color" class="validate" required />
+                                <label for="color">Color del vehiculo</label>
+                            </div>
+                            <div class="input-field col s12 m6">
+                                <i class="material-icons prefix">filter_1</i>
+                                <input id="motor" type="text" name="motor" class="validate" required />
+                                <label for="motor">Numero de motor</label>
                             </div>
                             <div class="input-field col s6">
-                                <select id="especialidad" name="especialidad">
+                                <select id="clase" name="clase">
                                 </select>
-                                <label>Especialidad</label>
+                                <label>Clase del vehiculo</label>
+                            </div>
+                            <div class="input-field col s6">
+                                <select id="detalle" name="detalle">
+                                </select>
+                                <label>Detalle de reparacion</label>
                             </div>
                             <div class="input-field col s12 m6">
-                                <i class="material-icons prefix">phone</i>
-                                <input id="telefono" type="text" name="telefono" class="validate" required />
-                                <label for="telefono">Telefono</label>
+                                <i class="material-icons prefix">broken_image</i>
+                                <input id="placa" type="text" name="placa" class="validate" required />
+                                <label for="placa">Numero de placa</label>
                             </div>
-                            <div class="input-field col s12 m6">
-                                <i class="material-icons prefix">perm_identity</i>
-                                <input id="dui_u" type="text" name="dui_u" placeholder="00000000-0" pattern="[0-9]{8}[-][0-9]{1}" class="validate" required />
-                                <label for="dui_u">DUI</label>
-                            </div>
-                            <div class="input-field col s12 m6">
-                                <i class="material-icons prefix">attach_money</i>
-                                <input id="sueldo" type="text" name="sueldo" class="validate" required />
-                                <label for="sueldo">Sueldo</label>
-                            </div>
-                            <div class="input-field col s12 m6">
-                                <i class="material-icons prefix">cake</i>
-                                <input id="fecha_nacimiento" type="date" name="fecha_nacimiento" class="validate" required />
-                                <label for="fecha_nacimiento">Fecha de nacimiento</label>
-                            </div>
-                            <div class="col s12 m6">
-                                <p>
-                                <div class="switch">
-                                    <span>Estado:</span>
-                                    <label>
-                                        <i class="material-icons">lock_outline</i>
-                                        <input id="estado_usuario" type="checkbox" name="estado_usuario" checked />
-                                        <span class="lever"></span>
-                                        <i class="material-icons">lock_open</i>
-                                    </label>
-                                </div>
-                                </p>
+                            <div class="input-field col s6">
+                                <select id="cliente" name="cliente">
+                                </select>
+                                <label>Cliente</label>
                             </div>
                         </div>
                         <div class="row center-align">

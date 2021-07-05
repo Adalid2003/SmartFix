@@ -7,7 +7,7 @@ if (isset($_GET['action'])) {
     // Se crea una sesión o se reanuda la actual para poder utilizar variables de sesión en el script.
     session_start();
     // Se instancia la clase correspondiente.
-    $proveedores = new Automoviles;
+    $automoviles = new Automoviles;
     // Se declara e inicializa un arreglo para guardar el resultado que retorna la API.
     $result = array('status' => 0, 'message' => null, 'exception' => null);
     // Se verifica si existe una sesión iniciada como administrador, de lo contrario se finaliza el script con un mensaje de error.
@@ -15,13 +15,35 @@ if (isset($_GET['action'])) {
         // Se compara la acción a realizar cuando un administrador ha iniciado sesión.
         switch ($_GET['action']) {
             case 'readAll':
-                if ($result['dataset'] = $proveedores->readAll()) {
+                if ($result['dataset'] = $automoviles->readAll()) {
                     $result['status'] = 1;
                 } else {
                     if (Database::getException()) {
                         $result['exception'] = Database::getException();
                     } else {
-                        $result['exception'] = 'No hay proveedores ingresados aún';
+                        $result['exception'] = 'No hay automoviles ingresados aún';
+                    }
+                }
+                break;
+            case 'readAll2':
+                if ($result['dataset'] = $automoviles->readAll2()) {
+                    $result['status'] = 1;
+                } else {
+                    if (Database::getException()) {
+                        $result['exception'] = Database::getException();
+                    } else {
+                        $result['exception'] = 'No hay automoviles ingresados aún';
+                    }
+                }
+                break;
+            case 'readAll3':
+                if ($result['dataset'] = $automoviles->readAll3()) {
+                    $result['status'] = 1;
+                } else {
+                    if (Database::getException()) {
+                        $result['exception'] = Database::getException();
+                    } else {
+                        $result['exception'] = 'No hay automoviles ingresados aún';
                     }
                 }
                 break;
@@ -115,7 +137,7 @@ if (isset($_GET['action'])) {
                 $_POST = $proveedores->validateForm($_POST);
                 if ($proveedores->setId($_POST['id_proveedor'])) {
                     if ($data = $proveedores->readOne()) {
-                        if ($proveedores -> deleteRow()) {
+                        if ($proveedores->deleteRow()) {
                             $result['status'] = 1;
                             $result['message'] = 'Proveedor eliminado correctamente';
                         } else {

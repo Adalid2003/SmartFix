@@ -164,7 +164,7 @@ class Clientes extends Validator
     public function checkClient($alias)
     {
         $sql = 'SELECT id_cliente FROM clientes WHERE alias_c = ? or email_c = ?';
-        $params = array($aliasc);
+        $params = array($alias);
         if ($data = Database::getRow($sql, $params)) {
             $this->idc = $data['id_cliente'];
             $this->aliasc = $alias;

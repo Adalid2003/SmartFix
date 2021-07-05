@@ -105,7 +105,7 @@ Dashboard_Page::headerTemplate('Mantenimiento Usuarios');
                                 <label for="telefono">Telefono</label>
                             </div>
                             <div class="input-field col s12 m6">
-                                <i class="material-icons prefix">perm_identity</i>
+                                <i class="material-icons prefix">fingerprint</i>
                                 <input id="dui_u" type="text" name="dui_u" placeholder="00000000-0" pattern="[0-9]{8}[-][0-9]{1}" class="validate" required />
                                 <label for="dui_u">DUI</label>
                             </div>

@@ -1,5 +1,8 @@
 <?php
-include("../../app/helpers/header_template.php");
+// Se incluye la clase con las plantillas del documento.
+require_once('../../app/helpers/header_template.php');
+// Se imprime la plantilla del encabezado enviando el título de la página web.
+Public_Page::headerTemplate('Index');
 ?>
 <!--Sliders-->
 <section class="slider">
@@ -61,6 +64,7 @@ include("../../app/helpers/header_template.php");
     <i class="large material-icons">message</i>
   </a>
   </div>
-<?php
-include("../../app/helpers/footer_template.php");
-?>
+  <?php
+    // Se imprime la plantilla del pie enviando el nombre del controlador para la página web.
+    Public_Page::footerTemplate('index.js');
+    ?>

@@ -1,5 +1,8 @@
 <?php
-include("../../app/helpers/header_template.php");
+// Se incluye la clase con las plantillas del documento.
+require_once('../../app/helpers/header_template.php');
+// Se imprime la plantilla del encabezado enviando el título de la página web.
+Public_Page::headerTemplate('Iniciar sesión');
 ?>
 <!--Comienzo seccion quienes somos-->
 <h4 class="center blue-grey-text">Sobre nosotros</h4>
@@ -30,6 +33,7 @@ include("../../app/helpers/header_template.php");
         <div class="collapsible-body"><span>De lunes a sabado de 8:00 AM a 4:00 PM</span></div>
     </li>
     </ul>
-    <?php
-    include("../../app/helpers/footer_template.php");
-    ?>
+<?php
+// Se imprime la plantilla del pie enviando el nombre del controlador para la página web.
+Public_Page::footerTemplate('login.js');
+?>
