@@ -47,6 +47,28 @@ if (isset($_GET['action'])) {
                     }
                 }
                 break;
+            case 'readAll4':
+                if ($result['dataset'] = $automoviles->readAll4()) {
+                    $result['status'] = 1;
+                } else {
+                    if (Database::getException()) {
+                        $result['exception'] = Database::getException();
+                    } else {
+                        $result['exception'] = 'No hay clases ingresados aún';
+                    }
+                }
+                break;
+            case 'readAll5':
+                if ($result['dataset'] = $automoviles->readAll5()) {
+                    $result['status'] = 1;
+                } else {
+                    if (Database::getException()) {
+                        $result['exception'] = Database::getException();
+                    } else {
+                        $result['exception'] = 'No hay clientes ingresados aún';
+                    }
+                }
+                break;
             case 'search':
                 $_POST = $proveedores->validateForm($_POST);
                 if ($_POST['search'] != '') {

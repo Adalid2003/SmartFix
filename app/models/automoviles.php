@@ -129,6 +129,18 @@ class Automoviles extends Validator
         $params = null;
         return Database::getRows($sql, $params);
     }
+    public function readAll4()
+    {
+        $sql = 'SELECT id_clase_auto, clase_auto from clase_automovil';
+        $params = null;
+        return Database::getRows($sql, $params);
+    }
+    public function readAll5()
+    {
+        $sql = 'SELECT id_cliente, nombres_c from clientes';
+        $params = null;
+        return Database::getRows($sql, $params);
+    }
     public function readOne()
     {
         $sql = 'SELECT nombre_proveedor, telefono_prov,direccion_prov
