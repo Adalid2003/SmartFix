@@ -8,7 +8,7 @@ Public_Page::headerTemplate('Registrarse');
 <!-- Contenedor para mostrar el formulario de registro de clientes -->
 <div class="container">
     <!-- Título del contenido principal -->
-    <h4 class="center-align indigo-text">Regístrate como cliente</h4>
+    <h4 class="center-align indigo-text">Regístrate en SmartFix</h4>
     <!-- Formulario para crear cuenta -->
     <form method="post" id="register-form">
         <!-- Campo oculto para asignar el token del reCAPTCHA -->
