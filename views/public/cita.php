@@ -16,13 +16,13 @@ Public_Page::headerTemplate('Citas');
                     <input type="date" id="date">
                 </div><br>
                 <!--Boton agendar-->
-                <div class="form-field center-align">
-                    <button class="btn-large blue-grey darken-4">Agendar</button>
-                </div><br>
+                <div class="row center-align">
+                    <button type="submit" class="btn waves-effect blue tooltipped" data-tooltip="cita"><i class="material-icons">today</i></button>
+                </div>
                 <!--Imprimir comprobante-->
-                <div class="form-field center-align">
-                    <button class="btn-large blue-grey darken-4">Imprimir comprobante de cita</button>
-                </div><br>
+                <div class="row center-align">
+                    <button type="submit" class="btn waves-effect blue tooltipped" data-tooltip="Imprimir comprobante"><i class="material-icons">local_printshop</i></button>
+                </div>
             </div>
         </div>
         <?php
