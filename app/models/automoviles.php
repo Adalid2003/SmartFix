@@ -48,23 +48,58 @@ class Automoviles extends Validator
     public function setColor($value)
     {
         if ($this->validateAlphanumeric($value, 1, 50)) {
-            $this->Direccion_proveedor = $value;
+            $this->color = $value;
+            return true;
+        } else {
+            return false;
+        }
+    }
+    public function setMotor($value)
+    {
+        if ($this->validateNaturalNumber($value)) {
+            $this->numeromotor = $value;
+            return true;
+        } else {
+            return false;
+        }
+    }
+    public function setClase($value)
+    {
+        if ($this->validateNaturalNumber($value)) {
+            $this->clase = $value;
+            return true;
+        } else {
+            return false;
+        }
+    }
+    public function setDetalle($value)
+    {
+        if ($this->validateNaturalNumber($value)) {
+            $this->detalle = $value;
+            return true;
+        } else {
+            return false;
+        }
+    }
+    public function setPlaca($value)
+    {
+        if ($this->validateAlphanumeric($value, 1, 50)) {
+            $this->placa = $value;
+            return true;
+        } else {
+            return false;
+        }
+    }
+    public function setCliente($value)
+    {
+        if ($this->validateNaturalNumber($value)) {
+            $this->cliente = $value;
             return true;
         } else {
             return false;
         }
     }
     
-        // Se verifica que el número tenga el formato 0000-0000 y que inicie con 2, 6 o 7.
-        public function setTelefono_proveedor($value)
-    {
-        if ($this->validatePhone($value)) {
-            $this->Telefono_proveedor = $value;
-            return true;
-        } else {
-            return false;
-        }
-    }
     
     /*
     *   Métodos para obtener valores de los atributos.
@@ -74,19 +109,44 @@ class Automoviles extends Validator
         return $this->id;
     }
 
-    public function getNombre_proveedor()
+    public function getMarca()
     {
-        return $this->Nombre_proveedor;
+        return $this->marca;
     }
 
-    public function getTelefono_proveedor()
+    public function getModelo()
     {
-        return $this->Telefono_proveedor;
+        return $this->modelo;
     }
 
-    public function getDireccion_proveedor()
+    public function getColor()
     {
-        return $this->Direccion_proveedor;
+        return $this->color;
+    }
+
+    public function getMotor()
+    {
+        return $this->numeromotor;
+    }
+
+    public function getClase()
+    {
+        return $this->clase;
+    }
+
+    public function getDetalle()
+    {
+        return $this->detalle;
+    }
+
+    public function getPlaca()
+    {
+        return $this->placa;
+    }
+
+    public function getCliente()
+    {
+        return $this->cliente;
     }
 
      /*
@@ -119,7 +179,7 @@ class Automoviles extends Validator
     }
     public function readAll2()
     {
-        $sql = 'SELECT id_marca, marca from marca';
+        $sql = 'SELECT * FROM marca';
         $params = null;
         return Database::getRows($sql, $params);
     }
@@ -131,13 +191,19 @@ class Automoviles extends Validator
     }
     public function readAll4()
     {
-        $sql = 'SELECT id_clase_auto, clase_auto from clase_automovil';
+        $sql = 'SELECT * FROM detalle_automovil';
         $params = null;
         return Database::getRows($sql, $params);
     }
     public function readAll5()
     {
-        $sql = 'SELECT id_cliente, nombres_c from clientes';
+        $sql = 'SELECT * FROM clientes';
+        $params = null;
+        return Database::getRows($sql, $params);
+    }
+    public function readAll6()
+    {
+        $sql = 'SELECT * FROM detalle_reparacion';
         $params = null;
         return Database::getRows($sql, $params);
     }

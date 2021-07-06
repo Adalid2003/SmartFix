@@ -4,6 +4,7 @@ const ENDPOINT_MARCA = '../../app/api/dashboard/automoviles.php?action=readAll2'
 const ENDPOINT_MODELO = '../../app/api/dashboard/automoviles.php?action=readAll3';
 const ENDPOINT_CLASE = '../../app/api/dashboard/automoviles.php?action=readAll4';
 const ENDPOINT_CLIENTE = '../../app/api/dashboard/automoviles.php?action=readAll5';
+const ENDPOINT_DETALLE = '../../app/api/dashboard/automoviles.php?action=readAll6';
 // Método manejador de eventos que se ejecuta cuando el documento ha cargado.
 document.addEventListener('DOMContentLoaded', function () {
     // Se llama a la función que obtiene los registros para llenar la tabla. Se encuentra en el archivo components.js
@@ -64,6 +65,7 @@ function openCreateDialog() {
     fillSelect(ENDPOINT_MODELO, 'modelo', null);
     fillSelect(ENDPOINT_CLASE, 'clase', null);
     fillSelect(ENDPOINT_CLIENTE, 'cliente', null);
+    fillSelect(ENDPOINT_DETALLE, 'detalle', null);
 }
 
 // Función para preparar el formulario al momento de modificar un registro.

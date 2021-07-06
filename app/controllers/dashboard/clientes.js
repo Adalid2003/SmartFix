@@ -1,9 +1,9 @@
 // Constante para establecer la ruta y parámetros de comunicación con la API.
-const API_USUARIOS = '../../app/api/dashboard/clientes.php?action=';
+const API_CLIENTES = '../../app/api/dashboard/clientes.php?action=';
 // Método manejador de eventos que se ejecuta cuando el documento ha cargado.
 document.addEventListener('DOMContentLoaded', function () {
     // Se llama a la función que obtiene los registros para llenar la tabla. Se encuentra en el archivo components.js
-    readRows(API_USUARIOS);
+    readRows(API_CLIENTES);
 });
 
 // Función para llenar la tabla con los datos de los registros. Se manda a llamar en la función readRows().
@@ -45,7 +45,7 @@ document.getElementById('search-form').addEventListener('submit', function (even
     // Se evita recargar la página web después de enviar el formulario.
     event.preventDefault();
     // Se llama a la función que realiza la búsqueda. Se encuentra en el archivo components.js
-    searchRows(API_USUARIOS, 'search-form');
+    searchRows(API_CLIENTES, 'search-form');
 });
 
 // Función para preparar el formulario al momento de insertar un registro.

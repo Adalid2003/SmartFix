@@ -49,8 +49,9 @@ if (isset($_GET['action'])) {
                                                     $result['exception'] = 'Claves diferentes';
                                                 }
                                         } else {
-                                            $result['exception'] = 'Fecha de nacimiento incorrecta';
-                                } else {
+                                                 $result['exception'] = 'Fecha de nacimiento incorrecta';
+                                        }
+                                     } else {
                                     $result['exception'] = 'Teléfono incorrecto';
                                 }
                             } else {
