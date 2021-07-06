@@ -191,7 +191,7 @@ class Automoviles extends Validator
     }
     public function readAll4()
     {
-        $sql = 'SELECT * FROM detalle_automovil';
+        $sql = 'SELECT * FROM clase_automovil';
         $params = null;
         return Database::getRows($sql, $params);
     }

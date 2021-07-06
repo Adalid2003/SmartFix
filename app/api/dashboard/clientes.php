@@ -30,12 +30,13 @@ if (isset($_GET['action'])) {
                 $_POST = $cliente->validateForm($_POST);
                 if ($cliente->setNombres($_POST['nombres_cliente'])) {
                     if ($cliente->setApellidos($_POST['apellidos_cliente'])) {
-                        if ($cliente->setCorreo($_POST['correo_cliente'])) {
+                        if ($cliente->setEmail($_POST['correo_cliente'])) {
+                            if ($cliente->setAlias($_POST['alias'])) {
                             if ($cliente->setDUI($_POST['dui_cliente'])) {
                                 if ($cliente->setTelefono($_POST['telefono_cliente'])) {
-                                        if ($cliente->setNacimiento($_POST['nacimiento_cliente'])) {
+                                        if ($cliente->setNacimineto($_POST['nacimiento_cliente'])) {
                                                 if ($_POST['clave_cliente'] == $_POST['confirmar_clave']) {
-                                                    if ($cliente->setClave($_POST['clave_cliente'])) {
+                                                    if ($cliente->setPassword($_POST['clave_cliente'])) {
                                                         if ($cliente->createRow()) {
                                                             $result['status'] = 1;
                                                             $result['message'] = 'Cliente creado correctamente';
@@ -43,7 +44,7 @@ if (isset($_GET['action'])) {
                                                             $result['exception'] = Database::getException();
                                                         }
                                                     } else {
-                                                        $result['exception'] = $usuario->getPasswordError();
+                                                        $result['exception'] = $cliente->getPasswordError();
                                                     }
                                                 } else {
                                                     $result['exception'] = 'Claves diferentes';
@@ -66,6 +67,9 @@ if (isset($_GET['action'])) {
                 } else {
                     $result['exception'] = 'Nombres incorrectos';
                 }
+            }else{
+
+            }
                 break;
             case 'search':
                 $_POST = $cliente->validateForm($_POST);

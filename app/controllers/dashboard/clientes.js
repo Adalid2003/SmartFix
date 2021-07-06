@@ -11,22 +11,16 @@ function fillTable(dataset) {
     let content = '';
     // Se recorre el conjunto de registros (dataset) fila por fila a través del objeto row.
     dataset.map(function (row) {
-        // Se establece un icono para el estado del usuario.
-        (row.estado_usuario) ? icon = 'lock_open' : icon = 'lock_outline';
         // Se crean y concatenan las filas de la tabla con los datos de cada registro.
         content += `
             <tr>
-                <td>${row.nombres_u}</td>
-                <td>${row.apellidos}</td>
-                <td>${row.email_u}</td>
-                <td>${row.tipo_usuario}</td>
-                <td>${row.alias_u}</td>
-                <td>${row.telefono_u}</td>
-                <td>${row.dui_u}</td>
-                <td><i class="material-icons">${icon}</i></td>
-                <td>${row.sueldo}</td>
-                <td>${row.especialidad}</td>
-                <td>${row.fecha_nacimiento}</td>
+                <td>${row.nombres_c}</td>
+                <td>${row.apellidos_c}</td>
+                <td>${row.dui_c}</td>
+                <td>${row.email_c}</td>
+                <td>${row.alias_c}</td>
+                <td>${row.telefono_c}</td>
+                <td>${row.fecha_nac}</td>
                 <td>
                     <a href="#" onclick="openUpdateDialog(${row.id_usuario})" class="btn waves-effect blue tooltipped" data-tooltip="Actualizar"><i class="material-icons">mode_edit</i></a>
                     <a href="#" onclick="openDeleteDialog(${row.id_usuario})" class="btn waves-effect red tooltipped" data-tooltip="Eliminar"><i class="material-icons">delete</i></a>
@@ -56,11 +50,11 @@ function openCreateDialog() {
     let instance = M.Modal.getInstance(document.getElementById('save-modal'));
     instance.open();
     // Se asigna el título para la caja de dialogo (modal).
-    document.getElementById('modal-title').textContent = 'Crear usuario';
+    document.getElementById('modal-title').textContent = 'Crear cliente';
     // Se habilitan los campos de alias y contraseña.
     document.getElementById('alias').disabled = false;
-    document.getElementById('clave1').disabled = false;
-    document.getElementById('clave2').disabled = false;
+    document.getElementById('confirmar_clave').disabled = false;
+    document.getElementById('clave_cliente').disabled = false;
 }
 
 // Función para preparar el formulario al momento de modificar un registro.
@@ -81,7 +75,7 @@ function openUpdateDialog(id) {
     const data = new FormData();
     data.append('id_usuario', id);
 
-    fetch(API_USUARIOS + 'readOne', {
+    fetch(API_CLIENTES + 'readOne', {
         method: 'post',
         body: data
     }).then(function (request) {
@@ -127,16 +121,16 @@ document.getElementById('save-form').addEventListener('submit', function (event)
     // Se define una variable para establecer la acción a realizar en la API.
     let action = '';
     // Se comprueba si el campo oculto del formulario esta seteado para actualizar, de lo contrario será para crear.
-    (document.getElementById('id_usuario').value) ? action = 'update' : action = 'create';
+    (document.getElementById('id_cliente').value) ? action = 'update' : action = 'create';
     // Se llama a la función para guardar el registro. Se encuentra en el archivo components.js
-    saveRow(API_USUARIOS, action, 'save-form', 'save-modal');
+    saveRow(API_CLIENTES, action, 'save-form', 'save-modal');
 });
 
 // Función para establecer el registro a eliminar y abrir una caja de dialogo de confirmación.
 function openDeleteDialog(id) {
     // Se define un objeto con los datos del registro seleccionado.
     const data = new FormData();
-    data.append('id_usuario', id);
+    data.append('id_cliente', id);
     // Se llama a la función que elimina un registro. Se encuentra en el archivo components.js
-    confirmDelete(API_USUARIOS, data);
+    confirmDelete(API_CLIENTES, data);
 }

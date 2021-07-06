@@ -37,7 +37,6 @@ Dashboard_Page::headerTemplate('Mantenimiento Clientes');
                     <th>DUI</th>
                     <th>Correo electronico</th>
                     <th>Alias</th>
-                    <th>Contraseña</th>
                     <th>Telefono</th>
                     <th>Fecha de nacimiento</th>
                     <th class="actions-column">Acción</th>
@@ -56,7 +55,7 @@ Dashboard_Page::headerTemplate('Mantenimiento Clientes');
                     <!-- Formulario para crear o actualizar un registro -->
                     <form method="post" id="save-form">
                         <!-- Campo oculto para asignar el id del registro al momento de modificar -->
-                        <input class="hide" type="number" id="id_automovil" name="id_automovil" />
+                        <input class="hide" type="number" id="id_cliente" name="id_cliente" />
                         <div class="row">
                             <div class="input-field col s12 m6">
                                 <i class="material-icons prefix">account_box</i>
@@ -80,8 +79,8 @@ Dashboard_Page::headerTemplate('Mantenimiento Clientes');
                             </div>
                             <div class="input-field col s12">
                                 <i class="material-icons prefix">face</i>
-                                <input type="text" id="direccion_cliente" name="direccion_cliente" maxlength="200" class="validate" required />
-                                <label for="direccion_cliente">Alias</label>
+                                <input type="text" id="alias" name="alias" maxlength="200" class="validate" required />
+                                <label for="alias">Alias</label>
                             </div>
 
                             <div class="input-field col s12 m6">

@@ -135,14 +135,13 @@ document.getElementById('save-form').addEventListener('submit', function (event)
     (document.getElementById('id_usuario').value) ? action = 'update' : action = 'create';
     // Se llama a la función para guardar el registro. Se encuentra en el archivo components.js
     saveRow(API_AUTO, action, 'save-form', 'save-modal');
-    fillSelect(ENDPOINT_USUARIOS, 'marca', null);
 });
 
 // Función para establecer el registro a eliminar y abrir una caja de dialogo de confirmación.
 function openDeleteDialog(id) {
     // Se define un objeto con los datos del registro seleccionado.
     const data = new FormData();
-    data.append('id_usuario', id);
+    data.append('id_automovil', id);
     // Se llama a la función que elimina un registro. Se encuentra en el archivo components.js
-    confirmDelete(API_USUARIOS, data);
+    confirmDelete(API_AUTO, data);
 }
