@@ -21,7 +21,7 @@ Public_Page::headerTemplate('Citas');
                 </div>
                 <!--Imprimir comprobante-->
                 <div class="row center-align">
-                    <button type="submit" class="btn waves-effect blue tooltipped" data-tooltip="Imprimir comprobante"><i class="material-icons">local_printshop</i></button>
+                    <button type="submit" class="btn waves-effect green tooltipped" data-tooltip="Imprimir comprobante"><i class="material-icons">local_printshop</i></button>
                 </div>
             </div>
         </div>
