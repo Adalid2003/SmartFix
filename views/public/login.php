@@ -34,6 +34,7 @@ Public_Page::headerTemplate('Iniciar sesión');
             <button type="submit" class="btn waves-effect blue tooltipped" data-tooltip="Ingresar"><i class="material-icons">send</i></button>
         </div>
     </form>
+    <p class="center-align indigo-text">¿Aun no tienes una cuenta? <a href="../../views/public/registrarse.php">REGISTRATE AHORA</a></p>
 </div>
 <?php
 // Se imprime la plantilla del pie enviando el nombre del controlador para la página web.
