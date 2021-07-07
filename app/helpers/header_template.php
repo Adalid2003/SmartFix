@@ -65,7 +65,7 @@ class Public_Page
             }
         } else {
             // Se verifica si la página web actual es diferente a index.php (Iniciar sesión) y a register.php (Crear primer usuario) para direccionar a index.php, de lo contrario se muestra un menú vacío.
-            if ($filename != 'cita.php') {
+            if ($filename != 'prueba.php') {
                 print('<header>
                 <!--Inicio Navbar-->
                     <div class="navbar-fixed">

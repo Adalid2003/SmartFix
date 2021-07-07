@@ -1,14 +1,9 @@
 // Constante para establecer la ruta y parámetros de comunicación con la API.
-const API_AUTO = '../../app/api/dashboard/automoviles.php?action=';
-const ENDPOINT_MARCA = '../../app/api/dashboard/automoviles.php?action=readAll2';
-const ENDPOINT_MODELO = '../../app/api/dashboard/automoviles.php?action=readAll3';
-const ENDPOINT_CLASE = '../../app/api/dashboard/automoviles.php?action=readAll4';
-const ENDPOINT_CLIENTE = '../../app/api/dashboard/automoviles.php?action=readAll5';
-const ENDPOINT_DETALLE = '../../app/api/dashboard/automoviles.php?action=readAll6';
+const API_CLIENTES = '../../app/api/dashboard/clientes.php?action=';
 // Método manejador de eventos que se ejecuta cuando el documento ha cargado.
 document.addEventListener('DOMContentLoaded', function () {
     // Se llama a la función que obtiene los registros para llenar la tabla. Se encuentra en el archivo components.js
-    readRows(API_AUTO);
+    readRows(API_CLIENTES);
 });
 
 // Función para llenar la tabla con los datos de los registros. Se manda a llamar en la función readRows().
@@ -19,17 +14,13 @@ function fillTable(dataset) {
         // Se crean y concatenan las filas de la tabla con los datos de cada registro.
         content += `
             <tr>
-                <td>${row.marca}</td>
-                <td>${row.apellidos}</td>
-                <td>${row.email_u}</td>
-                <td>${row.tipo_usuario}</td>
-                <td>${row.alias_u}</td>
-                <td>${row.telefono_u}</td>
-                <td>${row.dui_u}</td>
-                <td><i class="material-icons">${icon}</i></td>
-                <td>${row.sueldo}</td>
-                <td>${row.especialidad}</td>
-                <td>${row.fecha_nacimiento}</td>
+                <td>${row.nombres_c}</td>
+                <td>${row.apellidos_c}</td>
+                <td>${row.dui_c}</td>
+                <td>${row.email_c}</td>
+                <td>${row.alias_c}</td>
+                <td>${row.telefono_c}</td>
+                <td>${row.fecha_nac}</td>
                 <td>
                     <a href="#" onclick="openUpdateDialog(${row.id_usuario})" class="btn waves-effect blue tooltipped" data-tooltip="Actualizar"><i class="material-icons">mode_edit</i></a>
                     <a href="#" onclick="openDeleteDialog(${row.id_usuario})" class="btn waves-effect red tooltipped" data-tooltip="Eliminar"><i class="material-icons">delete</i></a>
@@ -48,7 +39,7 @@ document.getElementById('search-form').addEventListener('submit', function (even
     // Se evita recargar la página web después de enviar el formulario.
     event.preventDefault();
     // Se llama a la función que realiza la búsqueda. Se encuentra en el archivo components.js
-    searchRows(API_USUARIOS, 'search-form');
+    searchRows(API_CLIENTES, 'search-form');
 });
 
 // Función para preparar el formulario al momento de insertar un registro.
@@ -59,13 +50,11 @@ function openCreateDialog() {
     let instance = M.Modal.getInstance(document.getElementById('save-modal'));
     instance.open();
     // Se asigna el título para la caja de dialogo (modal).
-    document.getElementById('modal-title').textContent = 'Insertar automovil';
+    document.getElementById('modal-title').textContent = 'Crear cliente';
     // Se habilitan los campos de alias y contraseña.
-    fillSelect(ENDPOINT_MARCA, 'marca', null);
-    fillSelect(ENDPOINT_MODELO, 'modelo', null);
-    fillSelect(ENDPOINT_CLASE, 'clase', null);
-    fillSelect(ENDPOINT_CLIENTE, 'cliente', null);
-    fillSelect(ENDPOINT_DETALLE, 'detalle', null);
+    document.getElementById('alias').disabled = false;
+    document.getElementById('confirmar_clave').disabled = false;
+    document.getElementById('clave_cliente').disabled = false;
 }
 
 // Función para preparar el formulario al momento de modificar un registro.
@@ -86,7 +75,7 @@ function openUpdateDialog(id) {
     const data = new FormData();
     data.append('id_usuario', id);
 
-    fetch(API_USUARIOS + 'readOne', {
+    fetch(API_CLIENTES + 'readOne', {
         method: 'post',
         body: data
     }).then(function (request) {
@@ -132,16 +121,16 @@ document.getElementById('save-form').addEventListener('submit', function (event)
     // Se define una variable para establecer la acción a realizar en la API.
     let action = '';
     // Se comprueba si el campo oculto del formulario esta seteado para actualizar, de lo contrario será para crear.
-    (document.getElementById('id_usuario').value) ? action = 'update' : action = 'create';
+    (document.getElementById('id_cliente').value) ? action = 'update' : action = 'create';
     // Se llama a la función para guardar el registro. Se encuentra en el archivo components.js
-    saveRow(API_AUTO, action, 'save-form', 'save-modal');
+    saveRow(API_CLIENTES, action, 'save-form', 'save-modal');
 });
 
 // Función para establecer el registro a eliminar y abrir una caja de dialogo de confirmación.
 function openDeleteDialog(id) {
     // Se define un objeto con los datos del registro seleccionado.
     const data = new FormData();
-    data.append('id_automovil', id);
+    data.append('id_cliente', id);
     // Se llama a la función que elimina un registro. Se encuentra en el archivo components.js
-    confirmDelete(API_AUTO, data);
+    confirmDelete(API_CLIENTES, data);
 }

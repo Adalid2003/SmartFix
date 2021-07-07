@@ -1,10 +1,7 @@
 // Constante para establecer la ruta y parámetros de comunicación con la API.
-const API_AUTO = '../../app/api/dashboard/automoviles.php?action=';
+const API_Detalle_rep = '../../app/api/dashboard/reparaciones.php?action=';
 const ENDPOINT_MARCA = '../../app/api/dashboard/automoviles.php?action=readAll2';
 const ENDPOINT_MODELO = '../../app/api/dashboard/automoviles.php?action=readAll3';
-const ENDPOINT_CLASE = '../../app/api/dashboard/automoviles.php?action=readAll4';
-const ENDPOINT_CLIENTE = '../../app/api/dashboard/automoviles.php?action=readAll5';
-const ENDPOINT_DETALLE = '../../app/api/dashboard/automoviles.php?action=readAll6';
 // Método manejador de eventos que se ejecuta cuando el documento ha cargado.
 document.addEventListener('DOMContentLoaded', function () {
     // Se llama a la función que obtiene los registros para llenar la tabla. Se encuentra en el archivo components.js
@@ -63,9 +60,6 @@ function openCreateDialog() {
     // Se habilitan los campos de alias y contraseña.
     fillSelect(ENDPOINT_MARCA, 'marca', null);
     fillSelect(ENDPOINT_MODELO, 'modelo', null);
-    fillSelect(ENDPOINT_CLASE, 'clase', null);
-    fillSelect(ENDPOINT_CLIENTE, 'cliente', null);
-    fillSelect(ENDPOINT_DETALLE, 'detalle', null);
 }
 
 // Función para preparar el formulario al momento de modificar un registro.
@@ -135,13 +129,14 @@ document.getElementById('save-form').addEventListener('submit', function (event)
     (document.getElementById('id_usuario').value) ? action = 'update' : action = 'create';
     // Se llama a la función para guardar el registro. Se encuentra en el archivo components.js
     saveRow(API_AUTO, action, 'save-form', 'save-modal');
+    fillSelect(ENDPOINT_USUARIOS, 'marca', null);
 });
 
 // Función para establecer el registro a eliminar y abrir una caja de dialogo de confirmación.
 function openDeleteDialog(id) {
     // Se define un objeto con los datos del registro seleccionado.
     const data = new FormData();
-    data.append('id_automovil', id);
+    data.append('id_usuario', id);
     // Se llama a la función que elimina un registro. Se encuentra en el archivo components.js
-    confirmDelete(API_AUTO, data);
+    confirmDelete(API_USUARIOS, data);
 }

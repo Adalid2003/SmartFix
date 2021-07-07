@@ -13,7 +13,7 @@ Public_Page::headerTemplate('Index');
             <div class="caption center-align">
                 <h1 class="grey-text text-lighten-3 s1">Tu taller ideal</h3>
                     <h5 class="white-text text-lighten-3">SmartFix es tu mejor opcion para arreglar tu vehiculo.</h5>
-                    <a href="hub_pasivo.php" class="btn btn-large white black-text waves-effect waves-grey">AGENDAR CITA</a>
+                    <a href="../../views/public/cita.php" class="btn btn-large white black-text waves-effect waves-grey">AGENDAR CITA</a>
             </div>
         </li>
         <li>
@@ -22,7 +22,7 @@ Public_Page::headerTemplate('Index');
             <div class="caption center-align">
                 <h1 class="grey-text text-lighten-3 s1">Tu taller ideal</h3>
                     <h5 class="white-text text-lighten-3">SmartFix es tu mejor opcion para arreglar tu vehiculo.</h5>
-                    <a href="hub_pasivo.php" class="btn btn-large white black-text waves-effect waves-grey">AGENDAR CITA</a>
+                    <a href="../../views/public/cita.php" class="btn btn-large white black-text waves-effect waves-grey">AGENDAR CITA</a>
             </div>
         </li>
 </section>

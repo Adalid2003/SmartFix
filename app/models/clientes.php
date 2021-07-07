@@ -180,7 +180,7 @@ class Clientes extends Validator
         $params = array($this->idc);
         $data = Database::getRow($sql, $params);
         // Se verifica si la contraseña coincide con el hash almacenado en la base de datos.
-        if (password_verify($password, $data['contrasena_c'])) {
+        if (password_verify($password, $data['contrasena'])) {
             return true;
         } else {
             return false;
@@ -211,9 +211,9 @@ class Clientes extends Validator
     {
         // Se transforma la contraseña a una cadena de texto de longitud fija mediante el algoritmo por defecto.
         $hash = password_hash($this->clavec, PASSWORD_DEFAULT);
-        $sql = 'INSERT INTO clientes(nombres_c, apellidos_c, dui_c, email_c, alias_c, contrasena, telefono_c, fecha_nac)
+        $sql = 'INSERT INTO clientes(nombres_c, apellidos_c, dui_c, email_c, alias_c,telefono_c, fecha_nac, contrasena)
                 VALUES(?, ?, ?, ?, ?, ?, ?, ?)';
-        $params = array($this->nombresc, $this->apellidosc, $this->duic, $this->emailc, $this->aliasc, $this->contrasenac, $this->telefonoc, $this->nacimientoc, $hash);
+        $params = array($this->nombresc, $this->apellidosc, $this->duic, $this->emailc, $this->aliasc, $this->telefonoc, $this->nacimientoc, $hash);
         return Database::executeRow($sql, $params);
     }
 
