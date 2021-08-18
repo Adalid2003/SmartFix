@@ -8,7 +8,7 @@ Public_Page::headerTemplate('Registrarse');
 <!-- Contenedor para mostrar el formulario de registro de clientes -->
 <div class="container">
     <!-- Título del contenido principal -->
-    <h4 class="center-align indigo-text">Regístrate en SmartFix</h4>
+    <h4 class="center-align indigo-text">Regístrate como cliente</h4>
     <!-- Formulario para crear cuenta -->
     <form method="post" id="register-form">
         <!-- Campo oculto para asignar el token del reCAPTCHA -->
@@ -36,8 +36,8 @@ Public_Page::headerTemplate('Registrarse');
             </div>
             <div class="input-field col s12">
                 <i class="material-icons prefix">face</i>
-                <input type="text" id="direccion_cliente" name="direccion_cliente" maxlength="200" class="validate" required/>
-                <label for="direccion_cliente">Alias</label>
+                <input type="text" id="alias" name="alias" maxlength="200" class="validate" required/>
+                <label for="alias">Alias</label>
             </div>
             
             <div class="input-field col s12 m6">

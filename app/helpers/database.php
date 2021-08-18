@@ -138,7 +138,7 @@ class Database
                 break;
             case '42703':
                 self::$error = 'Nombre de campo desconocido';
-                print_r($message);
+                //print_r($message);
                 break;
             case '23505':
                 self::$error = 'Dato duplicado, no se puede guardar';
@@ -148,10 +148,11 @@ class Database
                 break;
             case '23503':
                 self::$error = 'Registro ocupado, no se puede eliminar';
+                //print_r($message);
                 break;
             default:
                 self::$error = 'Ocurrió un problema en la base de datos';     
-                print_r($message);
+                //print_r($message);
         }
     }
 

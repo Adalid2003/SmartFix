@@ -1,9 +1,11 @@
 // Constante para establecer la ruta y parámetros de comunicación con la API.
-const API_CLIENTES = '../../app/api/dashboard/clientes.php?action=';
+const API_REP = '../../app/api/dashboard/reparaciones.php?action=';
+const ENDPOINT_CITA = '../../app/api/dashboard/reparaciones.php?action=readAll2';
+const ENDPOINT_ESTADO = '../../app/api/dashboard/reparaciones.php?action=readAll3';
 // Método manejador de eventos que se ejecuta cuando el documento ha cargado.
 document.addEventListener('DOMContentLoaded', function () {
     // Se llama a la función que obtiene los registros para llenar la tabla. Se encuentra en el archivo components.js
-    readRows(API_CLIENTES);
+    readRows(API_REP);
 });
 
 // Función para llenar la tabla con los datos de los registros. Se manda a llamar en la función readRows().
@@ -14,16 +16,15 @@ function fillTable(dataset) {
         // Se crean y concatenan las filas de la tabla con los datos de cada registro.
         content += `
             <tr>
-                <td>${row.nombres_c}</td>
-                <td>${row.apellidos_c}</td>
-                <td>${row.dui_c}</td>
-                <td>${row.email_c}</td>
-                <td>${row.alias_c}</td>
-                <td>${row.telefono_c}</td>
-                <td>${row.fecha_nac}</td>
+                <td>${row.fecha_cita}</td>
+                <td>${row.estado_reparacion}</td>
+                <td>${row.nombres_u}</td>
+                <td>${row.repuesto}</td>
+                <td>${row.precio_repuesto}</td>
+                <td>${row.mano_obra}</td>
                 <td>
-                    <a href="#" onclick="openUpdateDialog(${row.id_cliente})" class="btn waves-effect blue tooltipped" data-tooltip="Actualizar"><i class="material-icons">mode_edit</i></a>
-                    <a href="#" onclick="openDeleteDialog(${row.id_cliente})" class="btn waves-effect red tooltipped" data-tooltip="Eliminar"><i class="material-icons">delete</i></a>
+                    <a href="#" onclick="openUpdateDialog(${row.id_detalle_rep})" class="btn waves-effect blue tooltipped" data-tooltip="Actualizar"><i class="material-icons">mode_edit</i></a>
+                    <a href="#" onclick="openDeleteDialog(${row.id_detalle_rep})" class="btn waves-effect red tooltipped" data-tooltip="Eliminar"><i class="material-icons">delete</i></a>
                 </td>
             </tr>
         `;
@@ -39,7 +40,7 @@ document.getElementById('search-form').addEventListener('submit', function (even
     // Se evita recargar la página web después de enviar el formulario.
     event.preventDefault();
     // Se llama a la función que realiza la búsqueda. Se encuentra en el archivo components.js
-    searchRows(API_CLIENTES, 'search-form');
+    searchRows(API_REP, 'search-form');
 });
 
 // Función para preparar el formulario al momento de insertar un registro.
@@ -50,22 +51,11 @@ function openCreateDialog() {
     let instance = M.Modal.getInstance(document.getElementById('save-modal'));
     instance.open();
     // Se asigna el título para la caja de dialogo (modal).
-    document.getElementById('modal-title').textContent = 'Crear cliente';
+    document.getElementById('modal-title').textContent = 'Insertar reparación';
     // Se habilitan los campos de alias y contraseña.
-    document.getElementById('alias').disabled = false;
-    document.getElementById('confirmar_clave').disabled = false;
-    document.getElementById('clave_cliente').disabled = false;
-    let today = new Date();
-    // Se declara e inicializa una variable para guardar el día en formato de 2 dígitos.
-    let day = ('0' + today.getDate()).slice(-2);
-    // Se declara e inicializa una variable para guardar el mes en formato de 2 dígitos.
-    var month = ('0' + (today.getMonth() + 1)).slice(-2);
-    // Se declara e inicializa una variable para guardar el año con la mayoría de edad.
-    let year = today.getFullYear() - 18;
-    // Se declara e inicializa una variable para establecer el formato de la fecha.
-    let date = `${year}-${month}-${day}`;
-    // Se asigna la fecha como valor máximo en el campo del formulario.
-    document.getElementById('nacimiento_cliente').setAttribute('max', date);
+    fillSelect(ENDPOINT_CITA, 'cita', null);
+    fillSelect(ENDPOINT_ESTADO, 'estado', null);
+
 }
 
 // Función para preparar el formulario al momento de modificar un registro.
@@ -76,28 +66,14 @@ function openUpdateDialog(id) {
     let instance = M.Modal.getInstance(document.getElementById('save-modal'));
     instance.open();
     // Se asigna el título para la caja de dialogo (modal).
-    document.getElementById('modal-title').textContent = 'Actualizar cliente';
-    // Se deshabilitan los campos de alias y contraseña.
-    document.getElementById('alias').disabled = true;
-    document.getElementById('confirmar_clave').disabled = true;
-    document.getElementById('clave_cliente').disabled = true;
+    document.getElementById('modal-title').textContent = 'Actualizar reparación';
 
-    let today = new Date();
-    // Se declara e inicializa una variable para guardar el día en formato de 2 dígitos.
-    let day = ('0' + today.getDate()).slice(-2);
-    // Se declara e inicializa una variable para guardar el mes en formato de 2 dígitos.
-    var month = ('0' + (today.getMonth() + 1)).slice(-2);
-    // Se declara e inicializa una variable para guardar el año con la mayoría de edad.
-    let year = today.getFullYear() - 18;
-    // Se declara e inicializa una variable para establecer el formato de la fecha.
-    let date = `${year}-${month}-${day}`;
-    // Se asigna la fecha como valor máximo en el campo del formulario.
-    document.getElementById('nacimiento_cliente').setAttribute('max', date);
+
     // Se define un objeto con los datos del registro seleccionado.
     const data = new FormData();
-    data.append('id_cliente', id);
+    data.append('id_reparacion', id);
 
-    fetch(API_CLIENTES + 'readOne', {
+    fetch(API_REP + 'readOne', {
         method: 'post',
         body: data
     }).then(function (request) {
@@ -107,13 +83,12 @@ function openUpdateDialog(id) {
                 // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
                 if (response.status) {
                     // Se inicializan los campos del formulario con los datos del registro seleccionado.
-                    document.getElementById('id_cliente').value = response.dataset.id_cliente;
-                    document.getElementById('nombres_cliente').value = response.dataset.nombres_c;
-                    document.getElementById('apellidos_cliente').value = response.dataset.apellidos_c;
-                    document.getElementById('correo_cliente').value = response.dataset.email_c;
-                    document.getElementById('telefono_cliente').value = response.dataset.telefono_c;
-                    document.getElementById('dui_cliente').value = response.dataset.dui_c;
-                    document.getElementById('nacimiento_cliente').value = response.dataset.fecha_nac;
+                    document.getElementById('id_reparacion').value = response.dataset.id_detalle_rep;
+                    fillSelect(ENDPOINT_CITA, 'cita', response.dataset.id_cita);
+                    fillSelect(ENDPOINT_ESTADO, 'estado', response.dataset.id_estado_rep);
+                    document.getElementById('repuesto').value = response.dataset.repuesto;
+                    document.getElementById('precio_repuesto').value = response.dataset.precio_repuesto;
+                    document.getElementById('obra').value = response.dataset.mano_obra;
                     // Se actualizan los campos para que las etiquetas (labels) no queden sobre los datos.
                     M.updateTextFields();
                 } else {
@@ -135,16 +110,16 @@ document.getElementById('save-form').addEventListener('submit', function (event)
     // Se define una variable para establecer la acción a realizar en la API.
     let action = '';
     // Se comprueba si el campo oculto del formulario esta seteado para actualizar, de lo contrario será para crear.
-    (document.getElementById('id_cliente').value) ? action = 'update' : action = 'create';
+    (document.getElementById('id_reparacion').value) ? action = 'update' : action = 'create';
     // Se llama a la función para guardar el registro. Se encuentra en el archivo components.js
-    saveRow(API_CLIENTES, action, 'save-form', 'save-modal');
+    saveRow(API_REP, action, 'save-form', 'save-modal');
 });
 
 // Función para establecer el registro a eliminar y abrir una caja de dialogo de confirmación.
 function openDeleteDialog(id) {
     // Se define un objeto con los datos del registro seleccionado.
     const data = new FormData();
-    data.append('id_cliente', id);
+    data.append('id_reparacion', id);
     // Se llama a la función que elimina un registro. Se encuentra en el archivo components.js
-    confirmDelete(API_CLIENTES, data);
+    confirmDelete(API_REP, data);
 }

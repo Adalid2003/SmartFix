@@ -14,6 +14,7 @@ if (isset($_GET['action'])) {
     if (isset($_SESSION['id_usuario'])) {
         // Se compara la acción a realizar cuando un administrador ha iniciado sesión.
         switch ($_GET['action']) {
+            //Se ejecuta la accion readAll para leer los datos y llenar la tabla
             case 'readAll':
                 if ($result['dataset'] = $automoviles->readAll()) {
                     $result['status'] = 1;
@@ -25,6 +26,7 @@ if (isset($_GET['action'])) {
                     }
                 }
                 break;
+                //Se llama la consulta para llenar el combobox
             case 'readAll2':
                 if ($result['dataset'] = $automoviles->readAll2()) {
                     $result['status'] = 1;
@@ -36,15 +38,20 @@ if (isset($_GET['action'])) {
                     }
                 }
                 break;
+                //Se llama a la consulta para llenar el combobox
             case 'readAll3':
-                if ($result['dataset'] = $automoviles->readAll3()) {
-                    $result['status'] = 1;
-                } else {
-                    if (Database::getException()) {
-                        $result['exception'] = Database::getException();
+                if ($automoviles->setMarca($_GET['marca'])) {
+                    if ($result['dataset'] = $automoviles->readAll3()) {
+                        $result['status'] = 1;
                     } else {
-                        $result['exception'] = 'No hay automoviles ingresados aún';
+                        if (Database::getException()) {
+                            $result['exception'] = Database::getException();
+                        } else {
+                            $result['exception'] = 'No hay automoviles ingresados aún';
+                        }
                     }
+                }else{
+                    $result['exception'] = 'Marca incorrecta';
                 }
                 break;
             case 'readAll4':
@@ -80,10 +87,11 @@ if (isset($_GET['action'])) {
                     }
                 }
                 break;
+                //Se inicia la accion de buscar un registro
             case 'search':
-                $_POST = $proveedores->validateForm($_POST);
+                $_POST = $automoviles->validateForm($_POST);
                 if ($_POST['search'] != '') {
-                    if ($result['dataset'] = $proveedores->searchRows($_POST['search'])) {
+                    if ($result['dataset'] = $automoviles->searchRows($_POST['search'])) {
                         $result['status'] = 1;
                         $rows = count($result['dataset']);
                         if ($rows > 1) {
@@ -103,6 +111,7 @@ if (isset($_GET['action'])) {
                 }
                 break;
             case 'create':
+                //Se inicia la accion de crear un registro
                 //print_r($_POST);
                 $_POST = $automoviles->validateForm($_POST);
                 if (isset($_POST['marca'])) {
@@ -120,6 +129,7 @@ if (isset($_GET['action'])) {
                                                                 if ($automoviles->setCliente($_POST['cliente'])) {
                                                                     if ($automoviles->createRow()) {
                                                                         $result['status'] = 1;
+                                                                        $result['message'] = 'Automovil registrado correctamente';
                                                                     } else {
                                                                         $result['exception'] = Database::getException();
                                                                     }
@@ -163,9 +173,10 @@ if (isset($_GET['action'])) {
                     $result['exception'] = 'Seleccione una marca';
                 }
                 break;
+                //Se inicia la accion de leer un registro
             case 'readOne':
-                if ($proveedores->setId($_POST['id_automovil'])) {
-                    if ($result['dataset'] = $proveedores->readOne()) {
+                if ($automoviles->setId($_POST['id_automovil'])) {
+                    if ($result['dataset'] = $automoviles->readOne()) {
                         $result['status'] = 1;
                     } else {
                         if (Database::getException()) {
@@ -178,39 +189,82 @@ if (isset($_GET['action'])) {
                     $result['exception'] = 'El automovil es incorrecto';
                 }
                 break;
+                //Se inicia la accion de actualizar un registro
             case 'update':
-                $_POST = $proveedores->validateForm($_POST);
-                if ($proveedores->setId($_POST['id_proovedor'])) {
-
-                    if ($data = $proveedores->readOne()) {
-                        if ($proveedores->setNombre_proveedor($_POST['nombre_proveedor'])) {
-                            if ($proveedores->setTelefono_proveedor($_POST['telefono_proveedor'])) {
-                                if ($proveedores->setDireccion_proveedor($_POST['direccion_proveedor'])) {
-                                    if ($proveedores->updateRow()) {
-                                        $result['status'] = 1;
-                                        $result['message'] = 'Proveedor modificado correctamente';
+                $_POST = $automoviles->validateForm($_POST);
+                if ($automoviles->setId($_POST['id_automovil'])) {
+                    if ($data = $automoviles->readOne()) {
+                    if (isset($_POST['marca'])) {
+                        if ($automoviles->setMarca($_POST['marca'])) {
+                            if (isset($_POST['modelo'])) {
+                                if ($automoviles->setModelo($_POST['modelo'])) {
+                                    if ($automoviles->setColor($_POST['color'])) {
+                                        if ($automoviles->setMotor($_POST['motor'])) {
+                                            if (isset($_POST['clase'])) {
+                                                if ($automoviles->setClase($_POST['clase'])) {
+                                                    if (isset($_POST['detalle'])) {
+                                                        if ($automoviles->setDetalle($_POST['detalle'])) {
+                                                            if ($automoviles->setPlaca($_POST['placa'])) {
+                                                                if (isset($_POST['cliente'])) {
+                                                                    if ($automoviles->setCliente($_POST['cliente'])) {
+                                                                        if ($automoviles->updateRow()) {
+                                                                            $result['status'] = 1;
+                                                                            $result['message'] = 'Automovil actualizado correctamente';
+                                                                        } else {
+                                                                            $result['exception'] = Database::getException();
+                                                                        }
+                                                                    } else {
+                                                                        $result['exception'] = 'Cliente incorrecto';
+                                                                    }
+                                                                } else {
+                                                                    $result['exception'] = 'Seleccione un cliente';
+                                                                }
+                                                            } else {
+                                                                $result['exception'] = 'Placa incorrecta';
+                                                            }
+                                                        } else {
+                                                            $result['exception'] = 'Detalle incorrecto';
+                                                        }
+                                                    } else {
+                                                        $result['exception'] = 'Seleccione un detalle';
+                                                    }
+                                                } else {
+                                                    $result['exception'] = 'Clase incorrecta';
+                                                }
+                                            } else {
+                                                $result['exception'] = 'Seleccione una clase';
+                                            }
+                                        } else {
+                                            $result['exception'] = 'Motor incorrecto';
+                                        }
                                     } else {
-                                        $result['exception'] = Database::getException();
+                                        $result['exception'] = 'Color incorrecto';
                                     }
                                 } else {
-                                    $result['exception'] = 'La direccion del Proveedor es incorrecta';
+                                    $result['exception'] = 'Modelo incorrecto';
                                 }
                             } else {
-                                $result['exception'] = 'El telefono del Proveedor es incorrecto';
+                                $result['exception'] = 'Seleccione un modelo';
                             }
                         } else {
-                            $result['exception'] = 'El  Nombre del Proveedor es incorrecto';
+                            $result['exception'] = 'Marca incorrecta';
                         }
                     } else {
-                        $result['exception'] = 'El Proveedor no existe';
+                        $result['exception'] = 'Seleccione una marca';
                     }
+                }else{
+
                 }
-                break;
+            }else{
+
+            }
+                    break;
+            //Se inicia la accion de eliminar un registro
             case 'delete':
-                $_POST = $proveedores->validateForm($_POST);
-                if ($proveedores->setId($_POST['id_automovil'])) {
-                    if ($data = $proveedores->readOne()) {
-                        if ($proveedores->deleteRow()) {
+                $_POST = $automoviles->validateForm($_POST);
+                if ($automoviles->setId($_POST['id_automovil'])) {
+                    if ($data = $automoviles->readOne()) {
+                        if ($automoviles->deleteRow()) {
                             $result['status'] = 1;
                             $result['message'] = 'Automovil eliminado correctamente';
                         } else {

@@ -15,6 +15,7 @@ if (isset($_GET['action'])) {
     if (isset($_SESSION['id_usuario'])) {
         // Se compara la acción a realizar cuando un administrador ha iniciado sesión.
         switch ($_GET['action']) {
+            //Se ejecuta la accion para cerrar sesión
             case 'logOut':
                 if (session_destroy()) {
                     $result['status'] = 1;
@@ -23,6 +24,7 @@ if (isset($_GET['action'])) {
                     $result['exception'] = 'Ocurrió un problema al cerrar la sesión';
                 }
                 break;
+                //Se ejecuta la accion de leer el perfil del usuario
             case 'readProfile':
                 if ($result['dataset'] = $usuario->readProfile()) {
                     $result['status'] = 1;
@@ -34,6 +36,7 @@ if (isset($_GET['action'])) {
                     }
                 }
                 break;
+                //Se ejecuta la accion de actualizar el perfil
             case 'editProfile':
                 $_POST = $usuario->validateForm($_POST);
                 if ($usuario->setNombres($_POST['nombres_perfil'])) {
@@ -60,6 +63,7 @@ if (isset($_GET['action'])) {
                     $result['exception'] = 'Nombres incorrectos';
                 }
                 break;
+                //Se ejecuta la accion de cambiar contraseña
             case 'changePassword':
                 if ($usuario->setId($_SESSION['id_usuario'])) {
                     $_POST = $usuario->validateForm($_POST);
@@ -85,6 +89,7 @@ if (isset($_GET['action'])) {
                     $result['exception'] = 'Usuario incorrecto';
                 }
                 break;
+                //Se ejecuta la accion readAll para leer los datos y llenar la tabla
             case 'readAll':
                 if ($result['dataset'] = $usuario->readAll()) {
                     $result['status'] = 1;
@@ -96,6 +101,7 @@ if (isset($_GET['action'])) {
                     }
                 }
                 break;
+                //Se ejecuta la accion para llenar el combobox
             case 'readAll2':
                 if ($result['dataset'] = $usuario->readAll2()) {
                     $result['status'] = 1;
@@ -118,6 +124,7 @@ if (isset($_GET['action'])) {
                     }
                 }
                 break;
+                //Se ejecuta la accion de buscar un registro
             case 'search':
                 $_POST = $usuario->validateForm($_POST);
                 if ($_POST['search'] != '') {
@@ -409,6 +416,7 @@ if (isset($_GET['action'])) {
             case 'logIn':
                 $_POST = $usuario->validateForm($_POST);
                 if ($usuario->checkUser($_POST['alias'])) {
+                    if ($usuario->getEstado()) {
                     if ($usuario->checkPassword($_POST['clave'])) {
                         $result['status'] = 1;
                         $result['message'] = 'Autenticación correcta';
@@ -421,6 +429,9 @@ if (isset($_GET['action'])) {
                             $result['exception'] = 'Clave incorrecta';
                         }
                     }
+                } else{
+                    $result['exception'] = 'La cuenta ha sido desactivada';
+                }
                 } else {
                     if (Database::getException()) {
                         $result['exception'] = Database::getException();
@@ -428,6 +439,7 @@ if (isset($_GET['action'])) {
                         $result['exception'] = 'Alias incorrecto';
                     }
                 }
+            
                 break;
             default:
                 $result['exception'] = 'Acción no disponible fuera de la sesión';

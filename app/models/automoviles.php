@@ -15,7 +15,7 @@ class Automoviles extends Validator
     private $placa = null;
     private $cliente = null;
 
-     /*
+    /*
     *   Métodos para asignar valores a los atributos.
     */
     public function setId($value)
@@ -99,8 +99,8 @@ class Automoviles extends Validator
             return false;
         }
     }
-    
-    
+
+
     /*
     *   Métodos para obtener valores de los atributos.
     */
@@ -149,28 +149,29 @@ class Automoviles extends Validator
         return $this->cliente;
     }
 
-     /*
+    /*
     *   Métodos para realizar las operaciones SCRUD (search, create, read, update, delete).
     */
     public function searchRows($value)
     {
-        $sql = 'SELECT id_proveedor,nombre_proveedor,telefono_prov,direccion_prov
-                FROM proveedores
-                WHERE nombre_proveeedor ILIKE ? 
-                ORDER BY nombre_proveedor';
+        $sql = 'SELECT id_automovil,marca,modelo,color, numero_motor, clase_auto, repuesto, placa, nombres_c
+        FROM automovil INNER JOIN marca USING(id_marca) INNER JOIN modelo USING(id_modelo) INNER JOIN clase_automovil USING(id_clase_auto)
+         INNER JOIN detalle_reparacion USING(id_detalle_rep) INNER JOIN clientes USING(id_cliente) 
+                WHERE nombres_c ILIKE ? OR numero_motor ILIKE ? 
+                ORDER BY nombres_c';
         $params = array("%$value%", "%$value%");
         return Database::getRows($sql, $params);
     }
     public function createRow()
     {
-        $sql = 'INSERT INTO proveedores(nombre_proveedor, telefono_prov, direccion_prov)
-                VALUES(?, ?, ?)';
-        $params = array($this->Nombre_proveedor, $this->Telefono_proveedor, $this->Direccion_proveedor);
+        $sql = 'INSERT INTO automovil (id_marca, id_modelo, color, numero_motor, id_clase_auto, id_detalle_rep, placa, id_cliente)
+                VALUES(?, ?, ?, ?, ?, ? , ?, ?)';
+        $params = array($this->marca, $this->modelo, $this->color, $this->numeromotor, $this->clase, $this->detalle, $this->placa, $this->cliente);
         return Database::executeRow($sql, $params);
     }
     public function readAll()
     {
-        $sql = 'SELECT id_automovil,marca,modelo,color, numero_motor, clase_auto, repuesto, placa, nombres_c
+        $sql = 'SELECT id_automovil,marca.marca,modelo,color, numero_motor, clase_auto, repuesto, placa, nombres_c
                 FROM automovil INNER JOIN marca USING(id_marca) INNER JOIN modelo USING(id_modelo) INNER JOIN clase_automovil USING(id_clase_auto)
                  INNER JOIN detalle_reparacion USING(id_detalle_rep) INNER JOIN clientes USING(id_cliente)  
                 ORDER BY placa';
@@ -185,8 +186,8 @@ class Automoviles extends Validator
     }
     public function readAll3()
     {
-        $sql = 'SELECT id_modelo, modelo, anio from modelo';
-        $params = null;
+        $sql = 'SELECT id_modelo, modelo, anio from modelo WHERE marca = ?';
+        $params = array($this->marca);
         return Database::getRows($sql, $params);
     }
     public function readAll4()
@@ -197,39 +198,39 @@ class Automoviles extends Validator
     }
     public function readAll5()
     {
-        $sql = 'SELECT * FROM clientes';
+        $sql = 'SELECT * from clientes';
         $params = null;
         return Database::getRows($sql, $params);
     }
     public function readAll6()
     {
-        $sql = 'SELECT * FROM detalle_reparacion';
+        $sql = 'SELECT id_detalle_rep, repuesto FROM detalle_reparacion';
         $params = null;
         return Database::getRows($sql, $params);
     }
     public function readOne()
     {
-        $sql = 'SELECT nombre_proveedor, telefono_prov,direccion_prov
-                FROM proveedores
-                WHERE id_proveedor = ?';
+        $sql = 'SELECT id_automovil, id_marca, id_modelo, color, numero_motor, id_clase_auto, id_detalle_rep, placa, id_cliente
+                FROM automovil
+                WHERE id_automovil = ?';
         $params = array($this->id);
         return Database::getRow($sql, $params);
     }
     public function updateRow()
     {
-        
 
-        $sql = 'UPDATE proveedores
-                SET nombre_proveedor = ?, telefono_prov = ?, direccion_prov = ?
-                WHERE id_proveedor = ?';
-        $params = array($this->Nombre_proveedor, $this->Telefono_proveedor, $this->Direccion_proveedor);
+
+        $sql = 'UPDATE automovil
+                SET id_marca = ?, id_modelo = ?, color = ?, numero_motor = ?, id_clase_auto  = ?, id_detalle_rep = ?, placa = ?, id_cliente = ?
+                WHERE id_automovil = ?';
+        $params = array($this->marca, $this->modelo, $this->color, $this->numeromotor, $this->clase, $this->detalle, $this->placa, $this->cliente, $this->id);
         return Database::executeRow($sql, $params);
     }
 
     public function deleteRow()
     {
-        $sql = 'DELETE FROM proveedores
-                WHERE id_proveedores = ?';
+        $sql = 'DELETE FROM automovil
+                WHERE id_automovil = ?';
         $params = array($this->id);
         return Database::executeRow($sql, $params);
     }

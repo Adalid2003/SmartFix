@@ -1,112 +1,88 @@
 <?php
-include("../../app/helpers/private_header_template.php");
+// Se incluye la clase con las plantillas del documento.
+require_once('../../app/helpers/private_header_template.php');
+// Se imprime la plantilla del encabezado enviando el título de la página web.
+Dashboard_Page::headerTemplate('Mantenimiento Citas');
 ?>
-<!--Pagina citas-->
 <div class="row">
     <div class="col s12 14 offset-14">
         <div class="container">
             <div class="container center">
-                <h4>Citas</h4>
 
-
-                <div class="row">
-                    <div class="col s12">
-                        <div class="row">
-                            <div class="input-field col s12">
-                                <i class="material-icons prefix">find_replace</i>
-                                <input type="text" id="autocomplete-input" class="autocomplete">
-                                <label for="autocomplete-input">Buscar cita...</label>
+                <div class="row center-align">
+                    <form method="post" id="search-form">
+                        <div class="col s12">
+                            <div class="input-field col s4 m6 valing-wrapper">
+                                <i class="material-icons prefix ">search</i>
+                                <input type="text" id="search" name="search" required />
+                                <label for="search">Buscar cita...</label>
                             </div>
-                        </div>
-                    </div>
+                            <div class="input-field col s6 m4 right-align">
+                                <button type="submit" class="btn waves-effect  light-blue darken-4 waves-light btn-medium" data-tooltip="Buscar"><i class="material-icons"></i>Buscar</button>
+                            </div>
+                    </form>
                 </div>
             </div>
-            <!--Encabezado tablas-->
-            <table class="striped responsive-table">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Fecha de la Cita</th>
-                        <th>Nombre Cliente</th>
-                        <th>Estado de la Cita</th>
-                        <th>Acción</th>
-                    </tr>
-                </thead>
-                <!--Boton agregar-->
-                <tbody>
-                    <a id="scale-demo" href="#modal1" class="green btn-floating btn-large scale-transition modal-trigger">
-                        <i class="material-icons">add</i>
-                    </a>
-                    <!--Inicio modal-->
-                    <div id="modal1" class="modal">
-                        <div class="modal-content">
-                            <h4 class="center blue-grey-text">citas</h4>
-                            <div class="row">
-                                <div class="col s12 14 offset-14">
-                                    <div class="card">
-                                        <div class="card-action white white-text">
-                                            <div class="card-content"></div>
-                                            <div class="form-field">
-                                                <label for="subname" class="sr-only">Ingrese la fecha de la cita:</label>
-                                                <input type="text" id="lastname" class="form-control">
-                                            </div><br>
-                                            <div class="form-field">
-                                                <label for="usuario" class="sr-only">Nombre del cliente:</label>
-                                                <input type="text" id="usuario" class="form-control">
-                                            </div><br>
-                                            <div class="form-field col s12">
-                                                <label>Estado de la cita: </label><br>
-                                                <select class="browser-default"><br>
-                                                    <option value="" disabled selected>Escoga una opción</option><br>
-                                                    <option value="1">Nueva</option>
-                                                    <option value="2">Sin confirmar</option>
-                                                    <option value="3">Confirmada </option>
-                                                    <option value="4">No se presento</option>
-                                                    <option value="5">Reagendada</option>
-                                                    <option value="6">Cancelada</option>
-                                                </select>
-                                            </div><br>
-                                            <!--Botones Modal-->
-                                            <div class="form-field center-align">
-                                                <button class="btn-large blue-grey darken-4 modal-close">AGREGAR</button>
-                                            </div><br>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="modal-footer">
-                                    <a href="#!" class="modal-close waves-effect waves-green btn-flat">CANCELAR</a>
-                                </div>
-                            </div><br>
-                            <tr>
-                            <!--datos de tabla-->
-                                <td>1</td>
-                                <td>10/05/2021</td>
-                                <td>Juan Mejia</td>
-                                <td>Nueva</td>
-                                <td>
-                                    <a id="scale-demo" href="#modal1" class="blue btn-floating btn-large scale-transition modal-trigger">
-                                        <i class="material-icons">autorenew</i>
-                                    </a>
-                                    <a id="scale-demo" href="#modal2" class="red btn-floating btn-large scale-transition modal-trigger">
-                                        <i class="material-icons">close</i>
-                                    </a>
-                                </td>
-                            </tr>
+        </div>
+        <div class="input-field col s6 m4">
+            <a href="#" onclick="openCreateDialog()" class="btn waves-effect cyan darken-1 tooltipped" data-tooltip="Crear"><i class="material-icons">add</i></a>
+        </div>
+        <!--Encabezado tablas-->
+        <table class="responsive-table highlight">
+            <thead>
+                <tr>
+                    <th>Fecha</th>
+                    <th>Hora</th>
+                    <th>Estado</th>
+                    <th>Cliente</th>
+                    <th class="actions-column">Acción</th>
+                </tr>
+            </thead>
 
-                </tbody>
-            </table>
-        </div>
-         <!--Modal de eliminar-->
-        <div id="modal2" class="modal">
-            <div class="modal-content">
-                <h4>¿Desea eliminar la cita?</h4>
+            <tbody id="tbody-rows">
+            </tbody>
+        </table>
+        <tbody>
+            <!-- Componente Modal para mostrar una caja de dialogo -->
+            <div id="save-modal" class="modal">
+                <div class="modal-content">
+                    <!-- Título para la caja de dialogo -->
+                    <h4 id="modal-title" class="center-align"></h4>
+                    <!-- Formulario para crear o actualizar un registro -->
+                    <form method="post" id="save-form">
+                        <!-- Campo oculto para asignar el id del registro al momento de modificar -->
+                        <input class="hide" type="number" id="id_cita" name="id_cita" />
+                        <div class="row">
+                    <div class="input-field col s12 m6">
+                        <i class="material-icons prefix">date_range</i>
+                        <input type="date" id="fecha" name="fecha" class="validate" required />
+                        <label for="fecha">Seleccione la fecha de su cita</label>
+                    </div>
+                    <div class="input-field col s6">
+                        <select id="hora" name="hora" class="validate">
+                        </select>
+                        <label>Seleccione la hora de su cita</label>
+                    </div>
+                    <div class="input-field col s6">
+                        <select id="estado" name="estado" class="validate">
+                        </select>
+                        <label>Seleccione el estado de la cita</label>
+                    </div>
+                    <div class="input-field col s6">
+                        <select id="cliente" name="cliente" class="validate">
+                        </select>
+                        <label>Cliente</label>
+                    </div>
+                        </div>
+                        <div class="row center-align">
+                            <a href="#" class="btn waves-effect grey tooltipped modal-close" data-tooltip="Cancelar"><i class="material-icons">cancel</i></a>
+                            <button type="submit" class="btn waves-effect blue tooltipped" data-tooltip="Guardar"><i class="material-icons">save</i></button>
+                        </div>
+                    </form>
+                </div>
             </div>
-            <div class="modal-footer">
-                <a href="#!" class="modal-close waves-effect waves-green btn-flat green">ACEPTAR</a>
-                <a href="#!" class="modal-close waves-effect waves-green btn-flat red">CANCELAR</a>
-            </div>
-        </div>
     </div>
     <?php
-    include("../../app/helpers/footer_template.php");
+    // Se imprime la plantilla del pie enviando el nombre del controlador para la página web.
+    Dashboard_Page::footerTemplate('cita.js');
     ?>

@@ -8,13 +8,18 @@ Public_Page::headerTemplate('Citas');
 <div class="row">
     <!--Seleccionar fecha de cita-->
     <div class="col s12 14 offset-14">
-        <div class="card">
-            <div class="card-action white white-text">
-                <div class="card-content"></div>
-                <div class="form-field">
-                    <label for="fecha">Seleccione el dia que quiere agendar su cita</label>
-                    <input type="date" id="date">
-                </div><br>
+        <form method="post" id="save-form" enctype="multipart/form-data">
+            <div class="row">
+                <div class="input-field col s12 m6">
+                    <i class="material-icons prefix">date_range</i>
+                    <input type="date" id="fecha" name="fecha" class="validate" required />
+                    <label for="fecha">Seleccione la fecha de su cita</label>
+                </div>
+                <div class="input-field col s6">
+                    <select id="hora" name="hora" class="validate">
+                    </select>
+                    <label>Seleccione la hora de su cita</label>
+                </div>
                 <!--Boton agendar-->
                 <div class="row center-align">
                     <button type="submit" class="btn waves-effect blue tooltipped" data-tooltip="cita"><i class="material-icons">today</i></button>
@@ -24,8 +29,8 @@ Public_Page::headerTemplate('Citas');
                     <button type="submit" class="btn waves-effect green tooltipped" data-tooltip="Imprimir comprobante"><i class="material-icons">local_printshop</i></button>
                 </div>
             </div>
-        </div>
-        <?php
-        // Se imprime la plantilla del pie enviando el nombre del controlador para la página web.
-        Public_Page::footerTemplate('cita.js');
-        ?>
+    </div>
+    <?php
+    // Se imprime la plantilla del pie enviando el nombre del controlador para la página web.
+    Public_Page::footerTemplate('cita.js');
+    ?>

@@ -2,7 +2,7 @@
 // Se incluye la clase con las plantillas del documento.
 require_once('../../app/helpers/header_template.php');
 // Se imprime la plantilla del encabezado enviando el título de la página web.
-Public_Page::headerTemplate('Iniciar sesión');
+Public_Page::headerTemplate('Sobre nosotros');
 ?>
 <!--Comienzo seccion quienes somos-->
 <h4 class="center blue-grey-text">Sobre nosotros</h4>

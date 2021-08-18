@@ -161,13 +161,13 @@ class Clientes extends Validator
     *   Métodos para gestionar la cuenta del cliente.
     */
 
-    public function checkClient($alias)
+    public function checkClient($correo)
     {
-        $sql = 'SELECT id_cliente FROM clientes WHERE alias_c = ? or email_c = ?';
-        $params = array($alias);
+        $sql = 'SELECT id_cliente FROM clientes WHERE email_c = ?';
+        $params = array($correo);
         if ($data = Database::getRow($sql, $params)) {
             $this->idc = $data['id_cliente'];
-            $this->aliasc = $alias;
+            $this->emailc = $correo;
             return true;
         } else {
             return false;
@@ -237,9 +237,9 @@ class Clientes extends Validator
     public function updateRow()
     {
         $sql = 'UPDATE clientes 
-                SET nombres_c = ?, apellidos_c = ?, dui_c = ?, email_c = ?, alias_c = ?, contrasena = ?, telefono_c = ?, fecha_nac = ?
+                SET nombres_c = ?, apellidos_c = ?, dui_c = ?, email_c = ?, telefono_c = ?, fecha_nac = ?
                 WHERE id_cliente = ?';
-        $params = array($this->nombresc, $this->apellidosc, $this->duic, $this->emailc, $this->aliasc, $this->clavec, $this->telefonc, $this->nacimientoc, $this->idc);
+        $params = array($this->nombresc, $this->apellidosc, $this->duic, $this->emailc, $this->telefonoc, $this->nacimientoc, $this->idc);
         return Database::executeRow($sql, $params);
     }
 

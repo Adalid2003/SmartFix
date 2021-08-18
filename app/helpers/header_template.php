@@ -23,6 +23,7 @@ class Public_Page
             <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
             <!--Se informa al navegador que el sitio web está optimizado para dispositivos móviles-->
             <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+            <link rel="shotcut icon" href="../../resource/img/logo.jpg" type="image/x-icon">
         </head>
         
         <body>');
@@ -116,7 +117,7 @@ class Public_Page
             <script type="text/javascript" src="../../resource/js/sweetalert.min.js"></script>
             <script type="text/javascript" src="../../app/helpers/components.js"></script>
             <script type="text/javascript" src="../../app/controllers/dashboard/iniciar.js"></script>
-            <script type="text/javascript" src="../../app/controllers/dashboard/account.js"></script>
+            <script type="text/javascript" src="../../app/controllers/public/account.js"></script>
             <script type="text/javascript" src="../../app/controllers/public/' . $controller . '"></script>';
         } else {
             $scripts = '<script type="text/javascript" src="../../resource/js/materialize.min.js"></script>

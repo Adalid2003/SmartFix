@@ -57,7 +57,7 @@ Dashboard_Page::headerTemplate('Mantenimiento Automoviles');
                         <input class="hide" type="number" id="id_automovil" name="id_automovil" />
                         <div class="row">
                             <div class="input-field col s6">
-                                <select id="marca" name="marca">
+                                <select onchange="cargarModelos()" id="marca" name="marca">
                                 </select>
                                 <label>Marca del vehiculo</label>
                             </div>

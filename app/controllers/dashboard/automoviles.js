@@ -20,19 +20,16 @@ function fillTable(dataset) {
         content += `
             <tr>
                 <td>${row.marca}</td>
-                <td>${row.apellidos}</td>
-                <td>${row.email_u}</td>
-                <td>${row.tipo_usuario}</td>
-                <td>${row.alias_u}</td>
-                <td>${row.telefono_u}</td>
-                <td>${row.dui_u}</td>
-                <td><i class="material-icons">${icon}</i></td>
-                <td>${row.sueldo}</td>
-                <td>${row.especialidad}</td>
-                <td>${row.fecha_nacimiento}</td>
+                <td>${row.modelo}</td>
+                <td>${row.color}</td>
+                <td>${row.numero_motor}</td>
+                <td>${row.clase_auto}</td>
+                <td>${row.repuesto}</td>
+                <td>${row.placa}</td>
+                <td>${row.nombres_c}</td>
                 <td>
-                    <a href="#" onclick="openUpdateDialog(${row.id_usuario})" class="btn waves-effect blue tooltipped" data-tooltip="Actualizar"><i class="material-icons">mode_edit</i></a>
-                    <a href="#" onclick="openDeleteDialog(${row.id_usuario})" class="btn waves-effect red tooltipped" data-tooltip="Eliminar"><i class="material-icons">delete</i></a>
+                    <a href="#" onclick="openUpdateDialog(${row.id_automovil})" class="btn waves-effect blue tooltipped" data-tooltip="Actualizar"><i class="material-icons">mode_edit</i></a>
+                    <a href="#" onclick="openDeleteDialog(${row.id_automovil})" class="btn waves-effect red tooltipped" data-tooltip="Eliminar"><i class="material-icons">delete</i></a>
                 </td>
             </tr>
         `;
@@ -48,7 +45,7 @@ document.getElementById('search-form').addEventListener('submit', function (even
     // Se evita recargar la página web después de enviar el formulario.
     event.preventDefault();
     // Se llama a la función que realiza la búsqueda. Se encuentra en el archivo components.js
-    searchRows(API_USUARIOS, 'search-form');
+    searchRows(API_AUTO, 'search-form');
 });
 
 // Función para preparar el formulario al momento de insertar un registro.
@@ -62,7 +59,6 @@ function openCreateDialog() {
     document.getElementById('modal-title').textContent = 'Insertar automovil';
     // Se habilitan los campos de alias y contraseña.
     fillSelect(ENDPOINT_MARCA, 'marca', null);
-    fillSelect(ENDPOINT_MODELO, 'modelo', null);
     fillSelect(ENDPOINT_CLASE, 'clase', null);
     fillSelect(ENDPOINT_CLIENTE, 'cliente', null);
     fillSelect(ENDPOINT_DETALLE, 'detalle', null);
@@ -76,17 +72,14 @@ function openUpdateDialog(id) {
     let instance = M.Modal.getInstance(document.getElementById('save-modal'));
     instance.open();
     // Se asigna el título para la caja de dialogo (modal).
-    document.getElementById('modal-title').textContent = 'Actualizar usuario';
-    // Se deshabilitan los campos de alias y contraseña.
-    document.getElementById('alias').disabled = true;
-    document.getElementById('clave1').disabled = true;
-    document.getElementById('clave2').disabled = true;
+    document.getElementById('modal-title').textContent = 'Actualizar automovil';
+
 
     // Se define un objeto con los datos del registro seleccionado.
     const data = new FormData();
-    data.append('id_usuario', id);
+    data.append('id_automovil', id);
 
-    fetch(API_USUARIOS + 'readOne', {
+    fetch(API_AUTO + 'readOne', {
         method: 'post',
         body: data
     }).then(function (request) {
@@ -96,21 +89,15 @@ function openUpdateDialog(id) {
                 // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
                 if (response.status) {
                     // Se inicializan los campos del formulario con los datos del registro seleccionado.
-                    document.getElementById('id_usuario').value = response.dataset.id_usuario;
-                    document.getElementById('nombres').value = response.dataset.nombres_u;
-                    document.getElementById('apellidos').value = response.dataset.apellidos;
-                    document.getElementById('correo').value = response.dataset.email_u;
-                    fillSelect(ENDPOINT_USUARIOS, 'tipo_usuario', response.dataset.id_tipo_usuario);
-                    fillSelect(ENDPOINT_ESPECIALIDAD, 'especialidad', response.dataset.id_especialidad);
-                    document.getElementById('telefono').value = response.dataset.telefono_u;
-                    document.getElementById('dui_u').value = response.dataset.dui_u;
-                    document.getElementById('sueldo').value = response.dataset.sueldo;
-                    document.getElementById('fecha_nacimiento').value = response.dataset.fecha_nacimiento;
-                    if (response.dataset.estado_usuario) {
-                        document.getElementById('estado_usuario').checked = true;
-                    } else {
-                        document.getElementById('estado_usuario').checked = false;
-                    }
+                    document.getElementById('id_automovil').value = response.dataset.id_automovil;
+                    fillSelect(ENDPOINT_MARCA, 'marca', response.dataset.id_marca);
+                    fillSelect(ENDPOINT_MODELO, 'modelo', response.dataset.id_modelo);
+                    document.getElementById('color').value = response.dataset.color;
+                    document.getElementById('motor').value = response.dataset.numero_motor;
+                    fillSelect(ENDPOINT_CLASE, 'clase', response.dataset.id_clase_auto);
+                    fillSelect(ENDPOINT_DETALLE, 'detalle', response.dataset.id_detalle_rep);
+                    document.getElementById('placa').value = response.dataset.placa;
+                    fillSelect(ENDPOINT_CLIENTE, 'cliente', response.dataset.id_cliente);
                     // Se actualizan los campos para que las etiquetas (labels) no queden sobre los datos.
                     M.updateTextFields();
                 } else {
@@ -132,7 +119,7 @@ document.getElementById('save-form').addEventListener('submit', function (event)
     // Se define una variable para establecer la acción a realizar en la API.
     let action = '';
     // Se comprueba si el campo oculto del formulario esta seteado para actualizar, de lo contrario será para crear.
-    (document.getElementById('id_usuario').value) ? action = 'update' : action = 'create';
+    (document.getElementById('id_automovil').value) ? action = 'update' : action = 'create';
     // Se llama a la función para guardar el registro. Se encuentra en el archivo components.js
     saveRow(API_AUTO, action, 'save-form', 'save-modal');
 });
@@ -144,4 +131,12 @@ function openDeleteDialog(id) {
     data.append('id_automovil', id);
     // Se llama a la función que elimina un registro. Se encuentra en el archivo components.js
     confirmDelete(API_AUTO, data);
+}
+
+//Funcion para cargar los modelos de los automoviles a partir de su marca
+function cargarModelos()
+{
+    let value = document.getElementById('marca').value;
+    fillSelect(ENDPOINT_MODELO+'&marca='+value, 'modelo', null);
+
 }

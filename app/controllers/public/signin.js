@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // Se declara e inicializa una variable para establecer el formato de la fecha.
     let date = `${year}-${month}-${day}`;
     // Se asigna la fecha como valor máximo en el campo del formulario.
-    document.getElementById('fecha_nacimiento').setAttribute('max', date);
+    document.getElementById('nacimiento_cliente').setAttribute('max', date);
 });
 
 // Función para obtener un token del reCAPTCHA y asignarlo al formulario.
@@ -51,7 +51,7 @@ document.getElementById('register-form').addEventListener('submit', function (ev
                 } else {
                     // Se verifica si el token falló (ya sea por tiempo o por uso).
                     if (response.recaptcha) {
-                        sweetAlert(2, response.exception, 'index_publico.php');
+                        sweetAlert(2, response.exception, 'index.php');
                     } else {
                         sweetAlert(2, response.exception, null);
                         // Se genera un nuevo token.

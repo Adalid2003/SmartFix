@@ -62,13 +62,13 @@ if (isset($_GET['action'])) {
                     if ($captcha['success']) {
                         if ($cliente->setNombres($_POST['nombres_cliente'])) {
                             if ($cliente->setApellidos($_POST['apellidos_cliente'])) {
-                                if ($cliente->setCorreo($_POST['correo_cliente'])) {
-                                    if ($cliente->setDireccion($_POST['direccion_cliente'])) {
+                                if ($cliente->setEmail($_POST['correo_cliente'])) {
+                                    if ($cliente->setAlias($_POST['alias'])) {
                                         if ($cliente->setDUI($_POST['dui_cliente'])) {
-                                            if ($cliente->setNacimiento($_POST['nacimiento_cliente'])) {
-                                                if ($cliente->setTelefono($_POST['telefono_cliente'])) {
+                                            if ($cliente->setTelefono($_POST['telefono_cliente'])) {
+                                                if ($cliente->setNacimineto($_POST['nacimiento_cliente'])) {
                                                     if ($_POST['clave_cliente'] == $_POST['confirmar_clave']) {
-                                                        if ($cliente->setClave($_POST['clave_cliente'])) {
+                                                        if ($cliente->setPassword($_POST['clave_cliente'])) {
                                                             if ($cliente->createRow()) {
                                                                 $result['status'] = 1;
                                                                 $result['message'] = 'Cliente registrado correctamente';
@@ -82,52 +82,42 @@ if (isset($_GET['action'])) {
                                                         $result['exception'] = 'Claves diferentes';
                                                     }
                                                 } else {
-                                                    $result['exception'] = 'Teléfono incorrecto';
+                                                    $result['exception'] = 'Fecha de nacimiento incorrecta';
                                                 }
                                             } else {
-                                                $result['exception'] = 'Fecha de nacimiento incorrecta';
+                                                $result['exception'] = 'Teléfono incorrecto';
                                             }
                                         } else {
                                             $result['exception'] = 'DUI incorrecto';
                                         }
                                     } else {
-                                        $result['exception'] = 'Dirección incorrecta';
+                                        $result['exception'] = 'Correo incorrecto';
                                     }
                                 } else {
-                                    $result['exception'] = 'Correo incorrecto';
+                                    $result['exception'] = 'Apellidos incorrectos';
                                 }
                             } else {
-                                $result['exception'] = 'Apellidos incorrectos';
+                                $result['exception'] = 'Nombres incorrectos';
                             }
                         } else {
-                            $result['exception'] = 'Nombres incorrectos';
                         }
-                    } else {
-                        $result['recaptcha'] = 1;
-                        $result['exception'] = 'No eres un humano';
                     }
-                } else {
-                    $result['exception'] = 'Ocurrió un problema al cargar el reCAPTCHA';
                 }
                 break;
             case 'logIn':
                 $_POST = $cliente->validateForm($_POST);
-                if ($cliente->checkUser($_POST['usuario'])) {
-                    if ($cliente->getEstado()) {
-                        if ($cliente->checkPassword($_POST['clave'])) {
-                            $_SESSION['id_cliente'] = $cliente->getId();
-                            $_SESSION['correo_cliente'] = $cliente->getCorreo();
-                            $result['status'] = 1;
-                            $result['message'] = 'Autenticación correcta';
-                        } else {
-                            if (Database::getException()) {
-                                $result['exception'] = Database::getException();
-                            } else {
-                                $result['exception'] = 'Clave incorrecta';
-                            }
-                        }
+                if ($cliente->checkClient($_POST['usuario'])) {
+                    if ($cliente->checkPassword($_POST['clave'])) {
+                        $_SESSION['id_cliente'] = $cliente->getId();
+                        $_SESSION['correo_cliente'] = $cliente->getCorreo();
+                        $result['status'] = 1;
+                        $result['message'] = 'Autenticación correcta';
                     } else {
-                        $result['exception'] = 'La cuenta ha sido desactivada';
+                        if (Database::getException()) {
+                            $result['exception'] = Database::getException();
+                        } else {
+                            $result['exception'] = 'Clave incorrecta';
+                        }
                     }
                 } else {
                     if (Database::getException()) {
