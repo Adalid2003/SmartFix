@@ -234,4 +234,14 @@ class Automoviles extends Validator
         $params = array($this->id);
         return Database::executeRow($sql, $params);
     }
+
+    public function readAutomovilRpt()
+    {
+        $sql = 'SELECT id_automovil,marca.marca,modelo,color, numero_motor, clase_auto, repuesto, placa, nombres_c
+        FROM automovil INNER JOIN marca USING(id_marca) INNER JOIN modelo USING(id_modelo) INNER JOIN clase_automovil USING(id_clase_auto)
+         INNER JOIN detalle_reparacion USING(id_detalle_rep) INNER JOIN clientes USING(id_cliente)  
+        ORDER BY marca';
+        $params = null;
+        return Database::getRows($sql, $params);
+    }
 }

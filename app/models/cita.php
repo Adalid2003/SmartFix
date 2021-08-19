@@ -122,7 +122,7 @@ class Cita extends Validator
     {
         $sql = 'SELECT id_cita,fecha_cita,nombres_c,estado_cita, hora
                 FROM cita INNER JOIN clientes USING(id_cliente) INNER JOIN estado_cita USING(id_estado_cita) INNER JOIN hora_cita USING(id_hora)
-                ORDER BY fecha_cita';
+                ORDER BY fecha_cita desc';
         $params = null;
         return Database::getRows($sql, $params);
     }
