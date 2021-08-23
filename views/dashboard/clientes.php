@@ -126,15 +126,11 @@ Dashboard_Page::headerTemplate('Mantenimiento Clientes');
     <div id="grafica-modal" class="modal">
         <div class="modal-content">
             <!-- Título para la caja de dialogo -->
-            <h4 id="modal-title" class="center-align"></h4>
-            <!-- Formulario para crear o actualizar un registro -->
-            <form method="post" id="save-form">
-                <div class="row">
-                    <div class="col s12 m6">
-                        <!-- Se muestra una gráfica de barra con la cantidad de productos por categoría -->
-                        <canvas id="chart1"></canvas>
-                    </div>
+            <h4 id="modal-title" class="center-align">Gráfica de cliente</h4>
+            <div class="row">
+                <div class="col s12" id="contenedor">
                 </div>
+            </div>
         </div>
     </div>
 
