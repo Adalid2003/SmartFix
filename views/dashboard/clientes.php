@@ -27,6 +27,8 @@ Dashboard_Page::headerTemplate('Mantenimiento Clientes');
         </div>
         <div class="input-field col s6 m4">
             <a href="#" onclick="openCreateDialog()" class="btn waves-effect cyan darken-1 tooltipped" data-tooltip="Crear"><i class="material-icons">add</i></a>
+            <a href="#" class="btn waves-effect cyan darken-1 tooltipped" data-tooltip="Reporte de clientes"><i class="material-icons">assignment</i></a>
+
         </div>
         <!--Encabezado tablas-->
         <table class="responsive-table highlight">
@@ -77,12 +79,20 @@ Dashboard_Page::headerTemplate('Mantenimiento Clientes');
                                 <input type="email" id="correo_cliente" name="correo_cliente" maxlength="100" class="validate" required />
                                 <label for="correo_cliente">Correo electrónico</label>
                             </div>
-                            <div class="input-field col s12">
+                            <div class="input-field col s12 m6">
                                 <i class="material-icons prefix">face</i>
                                 <input type="text" id="alias" name="alias" maxlength="200" class="validate" required />
                                 <label for="alias">Alias</label>
                             </div>
-
+                            <div class="input-field col s12 m6">
+                                <i class="material-icons prefix">perm_identity</i>
+                                <select id="cb_genero" name="cb_genero">
+                                    <option value="" disabled selected>Seleccionar...</option>
+                                    <option value="M">Masculino</option>
+                                    <option value="F">Femenino</option>
+                                </select>
+                                <label>Género</label>
+                            </div>
                             <div class="input-field col s12 m6">
                                 <i class="material-icons prefix">security</i>
                                 <input type="password" id="clave_cliente" name="clave_cliente" class="validate" required />

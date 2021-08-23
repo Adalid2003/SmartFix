@@ -14,6 +14,7 @@ class Clientes extends Validator
     private $clavec = null;
     private $telefonoc = null;
     private $nacimientoc = null;
+    private $genero = null;
 
     /*
     *   Métodos para validar y asignar valores de los atributos.
@@ -72,6 +73,16 @@ class Clientes extends Validator
     {
         if ($this->validateAlphanumeric($value, 1, 50)) {
             $this->aliasc = $value;
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function setGenero($value)
+    {
+        if ($this->validateAlphanumeric($value, 1, 2)) {
+            $this->genero = $value;
             return true;
         } else {
             return false;
@@ -140,6 +151,11 @@ class Clientes extends Validator
     public function getAlias()
     {
         return $this->aliasc;
+    }
+
+    public function getGenero()
+    {
+        return $this->genero;
     }
 
     public function getClave()
@@ -211,15 +227,15 @@ class Clientes extends Validator
     {
         // Se transforma la contraseña a una cadena de texto de longitud fija mediante el algoritmo por defecto.
         $hash = password_hash($this->clavec, PASSWORD_DEFAULT);
-        $sql = 'INSERT INTO clientes(nombres_c, apellidos_c, dui_c, email_c, alias_c,telefono_c, fecha_nac, contrasena)
-                VALUES(?, ?, ?, ?, ?, ?, ?, ?)';
-        $params = array($this->nombresc, $this->apellidosc, $this->duic, $this->emailc, $this->aliasc, $this->telefonoc, $this->nacimientoc, $hash);
+        $sql = 'INSERT INTO clientes(nombres_c, apellidos_c, dui_c, email_c, alias_c,telefono_c, fecha_nac, contrasena, genero)
+                VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)';
+        $params = array($this->nombresc, $this->apellidosc, $this->duic, $this->emailc, $this->aliasc, $this->telefonoc, $this->nacimientoc, $hash, $this->genero);
         return Database::executeRow($sql, $params);
     }
 
     public function readAll()
     {
-        $sql = 'SELECT id_cliente, nombres_c, apellidos_c, dui_c, email_c, alias_c, contrasena, telefono_c, fecha_nac
+        $sql = 'SELECT id_cliente, nombres_c, apellidos_c, dui_c, email_c, alias_c, contrasena, telefono_c, fecha_nac, genero
         FROM clientes';
         $params = null;
         return Database::getRows($sql, $params);
@@ -227,7 +243,7 @@ class Clientes extends Validator
 
     public function readOne()
     {
-        $sql = 'SELECT id_cliente, nombres_c, apellidos_c, dui_c, email_c, alias_c, contrasena, telefono_c, fecha_nac
+        $sql = 'SELECT id_cliente, nombres_c, apellidos_c, dui_c, email_c, alias_c, contrasena, telefono_c, fecha_nac, genero
                 FROM clientes
                 WHERE id_cliente = ?';
         $params = array($this->idc);
@@ -237,9 +253,9 @@ class Clientes extends Validator
     public function updateRow()
     {
         $sql = 'UPDATE clientes 
-                SET nombres_c = ?, apellidos_c = ?, dui_c = ?, email_c = ?, telefono_c = ?, fecha_nac = ?
+                SET nombres_c = ?, apellidos_c = ?, dui_c = ?, email_c = ?, telefono_c = ?, fecha_nac = ?, genero = ?
                 WHERE id_cliente = ?';
-        $params = array($this->nombresc, $this->apellidosc, $this->duic, $this->emailc, $this->telefonoc, $this->nacimientoc, $this->idc);
+        $params = array($this->nombresc, $this->apellidosc, $this->duic, $this->emailc, $this->telefonoc, $this->nacimientoc, $this->genero, $this->idc);
         return Database::executeRow($sql, $params);
     }
 
