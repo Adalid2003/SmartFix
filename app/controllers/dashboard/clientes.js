@@ -151,7 +151,7 @@ function openDeleteDialog(id) {
     confirmDelete(API_CLIENTES, data);
 }
 
-function openGraficaCita(id){
+function openGraficaCita(id) {
     // Se abre la caja de dialogo (modal) que contiene el formulario.
     var modal = document.getElementById('grafica-modal');
     var instance = M.Modal.init(modal);
@@ -166,21 +166,24 @@ function openGraficaCita(id){
         // Se verifica si la petición es correcta, de lo contrario se muestra un mensaje indicando el problema.
         if (request.ok) {
             request.json().then(function (response) {
+                document.getElementById('contenedor').innerHTML = '<canvas id="chart1"></canvas>';
                 // Se comprueba si la respuesta es satisfactoria, de lo contrario se remueve la etiqueta canvas de la gráfica.
                 if (response.status) {
                     // Se declaran los arreglos para guardar los datos por gráficar.
-                    let clientes = [];
-                    let cantidad = [];
+                    let meses = [];
+                    let cantidades = [];
+                    let nombres_meses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
                     // Se recorre el conjunto de registros devuelto por la API (dataset) fila por fila a través del objeto row.
                     response.dataset.map(function (row) {
                         // Se asignan los datos a los arreglos.
-                        clientes.push(row.nombres_c);
-                        cantidad.push(row.cantidad);
+                        meses.push(nombres_meses[row.mes - 1]);
+                        cantidades.push(row.cantidad);
                     });
                     // Se llama a la función que genera y muestra una gráfica de barras. Se encuentra en el archivo components.js
-                    barGraph('chart1', clientes, cantidad, 'Cantidad de citas', 'Cantidad de citas del cliente',row.nombres_c);
+                    barGraph('chart1', meses, cantidades, 'Cantidad de citas', 'Cantidad de citas del cliente');
                 } else {
                     document.getElementById('chart1').remove();
+                    document.getElementById('contenedor').textContent = 'No hay datos para mostrar';
                 }
             });
         } else {

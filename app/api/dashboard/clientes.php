@@ -167,14 +167,18 @@ if (isset($_GET['action'])) {
                 }
                 break;
             case 'cantidadCitasCliente':
-                if ($result['dataset'] = $cliente->cantidadCitasCliente()) {
-                    $result['status'] = 1;
-                } else {
-                    if (Database::getException()) {
-                        $result['exception'] = Database::getException();
+                if ($cliente->setId($_POST['id_cliente'])) {
+                    if ($result['dataset'] = $cliente->cantidadCitasCliente()) {
+                        $result['status'] = 1;
                     } else {
-                        $result['exception'] = 'No hay datos disponibles';
+                        if (Database::getException()) {
+                            $result['exception'] = Database::getException();
+                        } else {
+                            $result['exception'] = 'No hay datos disponibles';
+                        }
                     }
+                }else{
+                    $result['exception'] = 'Cliente incorrecto';
                 }
                 break;
         }
