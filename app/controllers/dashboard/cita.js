@@ -21,6 +21,7 @@ function fillTable(dataset) {
                 <td>${row.hora}</td>
                 <td>${row.estado_cita}</td>
                 <td>${row.nombres_c}</td>
+                <td>${row.razon}</td>
                 <td>
                     <a href="#" onclick="openUpdateDialog(${row.id_cita})" class="btn waves-effect blue tooltipped" data-tooltip="Actualizar"><i class="material-icons">mode_edit</i></a>
                     <a href="#" onclick="openDeleteDialog(${row.id_cita})" class="btn waves-effect red tooltipped" data-tooltip="Eliminar"><i class="material-icons">delete</i></a>
@@ -87,6 +88,7 @@ function openUpdateDialog(id) {
                     fillSelect(ENDPOINT_HORA, 'hora', response.dataset.id_hora);
                     fillSelect(ENDPOINT_ESTADO, 'estado', response.dataset.id_estado_cita);
                     fillSelect(ENDPOINT_CLIENTE, 'cliente', response.dataset.id_cliente);
+                    document.getElementById('razon').value = response.dataset.razon;
                     // Se actualizan los campos para que las etiquetas (labels) no queden sobre los datos.
                     M.updateTextFields();
                 } else {
@@ -121,3 +123,5 @@ function openDeleteDialog(id) {
     // Se llama a la función que elimina un registro. Se encuentra en el archivo components.js
     confirmDelete(API_CITA, data);
 }
+
+

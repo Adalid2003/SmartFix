@@ -35,6 +35,7 @@ Dashboard_Page::headerTemplate('Mantenimiento Citas');
                     <th>Hora</th>
                     <th>Estado</th>
                     <th>Cliente</th>
+                    <th>Razón de la cita</th>
                     <th class="actions-column">Acción</th>
                 </tr>
             </thead>
@@ -53,26 +54,31 @@ Dashboard_Page::headerTemplate('Mantenimiento Citas');
                         <!-- Campo oculto para asignar el id del registro al momento de modificar -->
                         <input class="hide" type="number" id="id_cita" name="id_cita" />
                         <div class="row">
-                    <div class="input-field col s12 m6">
-                        <i class="material-icons prefix">date_range</i>
-                        <input type="date" id="fecha" name="fecha" class="validate" required />
-                        <label for="fecha">Seleccione la fecha de su cita</label>
-                    </div>
-                    <div class="input-field col s6">
-                        <select id="hora" name="hora" class="validate">
-                        </select>
-                        <label>Seleccione la hora de su cita</label>
-                    </div>
-                    <div class="input-field col s6">
-                        <select id="estado" name="estado" class="validate">
-                        </select>
-                        <label>Seleccione el estado de la cita</label>
-                    </div>
-                    <div class="input-field col s6">
-                        <select id="cliente" name="cliente" class="validate">
-                        </select>
-                        <label>Cliente</label>
-                    </div>
+                            <div class="input-field col s12 m6">
+                                <i class="material-icons prefix">date_range</i>
+                                <input type="date" id="fecha" name="fecha" class="validate" required />
+                                <label for="fecha">Seleccione la fecha de su cita</label>
+                            </div>
+                            <div class="input-field col s6">
+                                <select id="hora" name="hora" class="validate">
+                                </select>
+                                <label>Seleccione la hora de su cita</label>
+                            </div>
+                            <div class="input-field col s6">
+                                <select id="estado" name="estado" class="validate">
+                                </select>
+                                <label>Seleccione el estado de la cita</label>
+                            </div>
+                            <div class="input-field col s6">
+                                <select id="cliente" name="cliente" class="validate">
+                                </select>
+                                <label>Cliente</label>
+                            </div>
+                            <div class="input-field col s12 m6">
+                                <i class="material-icons prefix">report</i>
+                                <input type="text" id="razon" name="razon" maxlength="100" class="validate" required />
+                                <label for="razon">Razón de la cita</label>
+                            </div>
                         </div>
                         <div class="row center-align">
                             <a href="#" class="btn waves-effect grey tooltipped modal-close" data-tooltip="Cancelar"><i class="material-icons">cancel</i></a>

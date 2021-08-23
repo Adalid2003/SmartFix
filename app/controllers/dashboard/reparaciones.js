@@ -2,6 +2,7 @@
 const API_REP = '../../app/api/dashboard/reparaciones.php?action=';
 const ENDPOINT_CITA = '../../app/api/dashboard/reparaciones.php?action=readAll2';
 const ENDPOINT_ESTADO = '../../app/api/dashboard/reparaciones.php?action=readAll3';
+const ENDPOINT_AUTO = '../../app/api/dashboard/reparaciones.php?action=readAll4';
 // Método manejador de eventos que se ejecuta cuando el documento ha cargado.
 document.addEventListener('DOMContentLoaded', function () {
     // Se llama a la función que obtiene los registros para llenar la tabla. Se encuentra en el archivo components.js
@@ -53,9 +54,8 @@ function openCreateDialog() {
     // Se asigna el título para la caja de dialogo (modal).
     document.getElementById('modal-title').textContent = 'Insertar reparación';
     // Se habilitan los campos de alias y contraseña.
-    fillSelect(ENDPOINT_CITA, 'cita', null);
+    fillSelect(ENDPOINT_CITA, 'auto', null);
     fillSelect(ENDPOINT_ESTADO, 'estado', null);
-
 }
 
 // Función para preparar el formulario al momento de modificar un registro.
@@ -122,4 +122,12 @@ function openDeleteDialog(id) {
     data.append('id_reparacion', id);
     // Se llama a la función que elimina un registro. Se encuentra en el archivo components.js
     confirmDelete(API_REP, data);
+}
+
+//Funcion para cargar los modelos de los automoviles a partir de su marca
+function cargarAuto()
+{
+    let value = document.getElementById('auto').value;
+    fillSelect(ENDPOINT_AUTO+'&cliente='+value, 'auto', null);
+
 }

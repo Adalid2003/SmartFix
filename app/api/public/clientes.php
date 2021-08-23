@@ -66,24 +66,33 @@ if (isset($_GET['action'])) {
                                     if ($cliente->setAlias($_POST['alias'])) {
                                         if ($cliente->setDUI($_POST['dui_cliente'])) {
                                             if ($cliente->setTelefono($_POST['telefono_cliente'])) {
-                                                if ($cliente->setNacimineto($_POST['nacimiento_cliente'])) {
-                                                    if ($_POST['clave_cliente'] == $_POST['confirmar_clave']) {
-                                                        if ($cliente->setPassword($_POST['clave_cliente'])) {
-                                                            if ($cliente->createRow()) {
-                                                                $result['status'] = 1;
-                                                                $result['message'] = 'Cliente registrado correctamente';
+                                                if (isset($_POST['cb_genero'])) {
+                                                    if ($cliente->setGenero($_POST['cb_genero'])) {
+                                                        if ($cliente->setNacimineto($_POST['nacimiento_cliente'])) {
+                                                            if ($_POST['clave_cliente'] == $_POST['confirmar_clave']) {
+                                                                if ($cliente->setPassword($_POST['clave_cliente'])) {
+                                                                    if ($cliente->createRow()) {
+                                                                        $result['status'] = 1;
+                                                                        $result['message'] = 'Cliente registrado correctamente';
+                                                                    } else {
+                                                                        $result['exception'] = Database::getException();
+                                                                    }
+                                                                } else {
+                                                                    $result['exception'] = $cliente->getPasswordError();
+                                                                }
                                                             } else {
-                                                                $result['exception'] = Database::getException();
+                                                                $result['exception'] = 'Claves diferentes';
                                                             }
                                                         } else {
-                                                            $result['exception'] = $cliente->getPasswordError();
+                                                            $result['exception'] = 'Fecha de nacimiento incorrecta';
                                                         }
                                                     } else {
-                                                        $result['exception'] = 'Claves diferentes';
+                                                        $result['exception'] = 'dato invalido';
                                                     }
                                                 } else {
-                                                    $result['exception'] = 'Fecha de nacimiento incorrecta';
+                                                    $result['exception'] = 'Por favor seleccione un género.';
                                                 }
+                                                
                                             } else {
                                                 $result['exception'] = 'Teléfono incorrecto';
                                             }

@@ -277,6 +277,17 @@ if (isset($_GET['action'])) {
                     $result['exception'] = 'Automovil incorrecto';
                 }
                 break;
+                case 'cantidadAutoCliente':
+                    if ($result['dataset'] = $automoviles->clientesConMasAutomovil()) {
+                        $result['status'] = 1;
+                    } else {
+                        if (Database::getException()) {
+                            $result['exception'] = Database::getException();
+                        } else {
+                            $result['exception'] = 'No hay datos disponibles';
+                        }
+                    }
+                    break;
             default:
                 $result['exception'] = 'Acción no disponible dentro de la sesión';
         }

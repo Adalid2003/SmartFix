@@ -1,5 +1,6 @@
 // Constante para establecer la ruta y parámetros de comunicación con la API.
 const API_PRODUCTOS = '../../app/api/dashboard/productos.php?action=';
+const API_AUTO = '../../app/api/dashboard/automoviles.php?action=';
 
 // Método manejador de eventos que se ejecuta cuando el documento ha cargado.
 document.addEventListener('DOMContentLoaded', function () {
@@ -20,13 +21,13 @@ document.addEventListener('DOMContentLoaded', function () {
     // Se muestra el saludo en la página web.
     document.getElementById('greeting').textContent = greeting;
     // Se llaman a la funciones que muestran las gráficas en la página web.
-    graficaBarrasCategorias();
-    graficaPastelCategorias();
+    graficaBarrasAuto();
+    //graficaPastelCategorias();
 });
 
 // Función para mostrar la cantidad de productos por categoría en una gráfica de barras.
-function graficaBarrasCategorias() {
-    fetch(API_PRODUCTOS + 'cantidadProductosCategoria', {
+function graficaBarrasAuto() {
+    fetch(API_AUTO + 'cantidadAutoCliente', {
         method: 'get'
     }).then(function (request) {
         // Se verifica si la petición es correcta, de lo contrario se muestra un mensaje indicando el problema.
@@ -35,16 +36,16 @@ function graficaBarrasCategorias() {
                 // Se comprueba si la respuesta es satisfactoria, de lo contrario se remueve la etiqueta canvas de la gráfica.
                 if (response.status) {
                     // Se declaran los arreglos para guardar los datos por gráficar.
-                    let categorias = [];
+                    let clientes = [];
                     let cantidad = [];
                     // Se recorre el conjunto de registros devuelto por la API (dataset) fila por fila a través del objeto row.
                     response.dataset.map(function (row) {
                         // Se asignan los datos a los arreglos.
-                        categorias.push(row.nombre_categoria);
+                        clientes.push(row.nombres_c);
                         cantidad.push(row.cantidad);
                     });
                     // Se llama a la función que genera y muestra una gráfica de barras. Se encuentra en el archivo components.js
-                    barGraph('chart1', categorias, cantidad, 'Cantidad de productos', 'Cantidad de productos por categoría');
+                    barGraph('chart1', clientes, cantidad, 'Cantidad de automoviles', 'Top 10 de clientes con mas automoviles');
                 } else {
                     document.getElementById('chart1').remove();
                     console.log(response.exception);
@@ -58,36 +59,3 @@ function graficaBarrasCategorias() {
     });
 }
 
-// Función para mostrar el porcentaje de productos por categoría en una gráfica de pastel.
-function graficaPastelCategorias() {
-    fetch(API_PRODUCTOS + 'cantidadProductosCategoria', {
-        method: 'get'
-    }).then(function (request) {
-        // Se verifica si la petición es correcta, de lo contrario se muestra un mensaje indicando el problema.
-        if (request.ok) {
-            request.json().then(function (response) {
-                // Se comprueba si la respuesta es satisfactoria, de lo contrario se remueve la etiqueta canvas de la gráfica.
-                if (response.status) {
-                    // Se declaran los arreglos para guardar los datos por gráficar.
-                    let categorias = [];
-                    let cantidad = [];
-                    // Se recorre el conjunto de registros devuelto por la API (dataset) fila por fila a través del objeto row.
-                    response.dataset.map(function (row) {
-                        // Se asignan los datos a los arreglos.
-                        categorias.push(row.nombre_categoria);
-                        cantidad.push(row.cantidad);
-                    });
-                    // Se llama a la función que genera y muestra una gráfica de pastel en porcentajes. Se encuentra en el archivo components.js
-                    pieGraph('chart2', categorias, cantidad, 'Porcentaje de productos por categoría');
-                } else {
-                    document.getElementById('chart2').remove();
-                    console.log(response.exception);
-                }
-            });
-        } else {
-            console.log(request.status + ' ' + request.statusText);
-        }
-    }).catch(function (error) {
-        console.log(error);
-    });
-}

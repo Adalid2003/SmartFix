@@ -27,6 +27,7 @@ function fillTable(dataset) {
                 <td>${row.repuesto}</td>
                 <td>${row.placa}</td>
                 <td>${row.nombres_c}</td>
+                <td>${row.apellidos_c}</td>
                 <td>
                     <a href="#" onclick="openUpdateDialog(${row.id_automovil})" class="btn waves-effect blue tooltipped" data-tooltip="Actualizar"><i class="material-icons">mode_edit</i></a>
                     <a href="#" onclick="openDeleteDialog(${row.id_automovil})" class="btn waves-effect red tooltipped" data-tooltip="Eliminar"><i class="material-icons">delete</i></a>

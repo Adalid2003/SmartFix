@@ -15,7 +15,7 @@ if (isset($_GET['action'])) {
     if (isset($_SESSION['id_usuario'])) {
         // Se compara la acción a realizar cuando un administrador ha iniciado sesión.
         switch ($_GET['action']) {
-            //Se ejecuta la accion readAll para leer los datos y llenar la tabla
+                //Se ejecuta la accion readAll para leer los datos y llenar la tabla
             case 'readAll':
                 if ($result['dataset'] = $cliente->readAll()) {
                     $result['status'] = 1;
@@ -34,44 +34,53 @@ if (isset($_GET['action'])) {
                     if ($cliente->setApellidos($_POST['apellidos_cliente'])) {
                         if ($cliente->setEmail($_POST['correo_cliente'])) {
                             if ($cliente->setAlias($_POST['alias'])) {
-                            if ($cliente->setDUI($_POST['dui_cliente'])) {
-                                if ($cliente->setTelefono($_POST['telefono_cliente'])) {
-                                        if ($cliente->setNacimineto($_POST['nacimiento_cliente'])) {
-                                                if ($_POST['clave_cliente'] == $_POST['confirmar_clave']) {
-                                                    if ($cliente->setPassword($_POST['clave_cliente'])) {
-                                                        if ($cliente->createRow()) {
-                                                            $result['status'] = 1;
-                                                            $result['message'] = 'Cliente creado correctamente';
+                                if ($cliente->setDUI($_POST['dui_cliente'])) {
+                                    if ($cliente->setTelefono($_POST['telefono_cliente'])) {
+                                        if (isset($_POST['cb_genero'])) {
+                                            if ($cliente->setGenero($_POST['cb_genero'])) {
+                                                if ($cliente->setNacimineto($_POST['nacimiento_cliente'])) {
+                                                    if ($_POST['clave_cliente'] == $_POST['confirmar_clave']) {
+                                                        if ($cliente->setPassword($_POST['clave_cliente'])) {
+                                                            if ($cliente->createRow()) {
+                                                                $result['status'] = 1;
+                                                                $result['message'] = 'Cliente creado correctamente';
+                                                            } else {
+                                                                $result['exception'] = Database::getException();
+                                                            }
                                                         } else {
-                                                            $result['exception'] = Database::getException();
+                                                            $result['exception'] = $cliente->getPasswordError();
                                                         }
                                                     } else {
-                                                        $result['exception'] = $cliente->getPasswordError();
+                                                        $result['exception'] = 'Claves diferentes';
                                                     }
                                                 } else {
-                                                    $result['exception'] = 'Claves diferentes';
+                                                    $result['exception'] = 'Fecha de nacimiento incorrecta';
                                                 }
+                                            } else {
+                                                $result['exception'] = 'Valor incorrecto.';
+                                            }
+                                            
                                         } else {
-                                                 $result['exception'] = 'Fecha de nacimiento incorrecta';
+                                            $result['exception'] = 'Por favor seleccione un género.';
                                         }
-                                     } else {
-                                    $result['exception'] = 'Teléfono incorrecto';
+                                        
+                                    } else {
+                                        $result['exception'] = 'Teléfono incorrecto';
+                                    }
+                                } else {
+                                    $result['exception'] = 'DUI incorrecto';
                                 }
                             } else {
-                                $result['exception'] = 'DUI incorrecto';
+                                $result['exception'] = 'Correo incorrecto';
                             }
                         } else {
-                            $result['exception'] = 'Correo incorrecto';
+                            $result['exception'] = 'Apellidos incorrectos';
                         }
                     } else {
-                        $result['exception'] = 'Apellidos incorrectos';
+                        $result['exception'] = 'Nombres incorrectos';
                     }
                 } else {
-                    $result['exception'] = 'Nombres incorrectos';
                 }
-            }else{
-
-            }
                 break;
             case 'search':
                 $_POST = $cliente->validateForm($_POST);
@@ -118,38 +127,47 @@ if (isset($_GET['action'])) {
                             if ($cliente->setApellidos($_POST['apellidos_cliente'])) {
                                 if ($cliente->setEmail($_POST['correo_cliente'])) {
                                     if ($cliente->setDUI($_POST['dui_cliente'])) {
-                                        if ($cliente->setTelefono($_POST['telefono_cliente'])) {
-                                                if ($cliente->setNacimineto($_POST['nacimiento_cliente'])) {
-                                                                if ($cliente->updateRow()) {
-                                                                    $result['status'] = 1;
-                                                                    $result['message'] = 'Cliente actualizado correctamente';
-                                                                } else {
-                                                                    $result['exception'] = Database::getException();
-                                                                }
-                                                            } else {
-                                                                $result['exception'] = $cliente->getPasswordError();
-                                                            }
+                                        if (isset($_POST['cb_genero'])) {
+                                            if ($cliente->setGenero($_POST['cb_genero'])) {
+                                                if ($cliente->setTelefono($_POST['telefono_cliente'])) {
+                                                    if ($cliente->setNacimineto($_POST['nacimiento_cliente'])) {
+                                                        if ($cliente->updateRow()) {
+                                                            $result['status'] = 1;
+                                                            $result['message'] = 'Cliente actualizado correctamente';
                                                         } else {
-                                                            $result['exception'] = 'Claves diferentes';
+                                                            $result['exception'] = Database::getException();
                                                         }
+                                                    } else {
+                                                        $result['exception'] = $cliente->getPasswordError();
+                                                    }
                                                 } else {
-                                                         $result['exception'] = 'Fecha de nacimiento incorrecta';
+                                                    $result['exception'] = 'Claves diferentes';
                                                 }
-                                             } else {
-                                            $result['exception'] = 'Teléfono incorrecto';
+                                            } else {
+                                                $result['exception'] = 'Valor incorrecto';
+                                            }
+                                        } else {
+                                            $result['exception'] = 'Por favor seleccione un género.';
                                         }
+                                        
                                     } else {
-                                        $result['exception'] = 'DUI incorrecto';
+                                        $result['exception'] = 'Fecha de nacimiento incorrecta';
                                     }
                                 } else {
-                                    $result['exception'] = 'Correo incorrecto';
+                                    $result['exception'] = 'Teléfono incorrecto';
                                 }
                             } else {
-                                $result['exception'] = 'Apellidos incorrectos';
+                                $result['exception'] = 'DUI incorrecto';
                             }
                         } else {
-                            $result['exception'] = 'Nombres incorrectos';
+                            $result['exception'] = 'Correo incorrecto';
                         }
+                    } else {
+                        $result['exception'] = 'Apellidos incorrectos';
+                    }
+                } else {
+                    $result['exception'] = 'Nombres incorrectos';
+                }
                 break;
             case 'delete':
                 if ($cliente->setId($_POST['id_cliente'])) {
@@ -165,6 +183,17 @@ if (isset($_GET['action'])) {
                     }
                 } else {
                     $result['exception'] = 'Cliente incorrecto';
+                }
+                break;
+            case 'cantidadCitasCliente':
+                if ($result['dataset'] = $cliente->cantidadCitasCliente()) {
+                    $result['status'] = 1;
+                } else {
+                    if (Database::getException()) {
+                        $result['exception'] = Database::getException();
+                    } else {
+                        $result['exception'] = 'No hay datos disponibles';
+                    }
                 }
                 break;
         }

@@ -171,7 +171,7 @@ class Automoviles extends Validator
     }
     public function readAll()
     {
-        $sql = 'SELECT id_automovil,marca.marca,modelo,color, numero_motor, clase_auto, repuesto, placa, nombres_c
+        $sql = 'SELECT automovil.id_automovil,marca.marca,modelo,color, numero_motor, clase_auto, repuesto, placa, nombres_c, apellidos_c
                 FROM automovil INNER JOIN marca USING(id_marca) INNER JOIN modelo USING(id_modelo) INNER JOIN clase_automovil USING(id_clase_auto)
                  INNER JOIN detalle_reparacion USING(id_detalle_rep) INNER JOIN clientes USING(id_cliente)  
                 ORDER BY placa';
@@ -239,8 +239,16 @@ class Automoviles extends Validator
     {
         $sql = 'SELECT id_automovil,marca.marca,modelo,color, numero_motor, clase_auto, repuesto, placa, nombres_c
         FROM automovil INNER JOIN marca USING(id_marca) INNER JOIN modelo USING(id_modelo) INNER JOIN clase_automovil USING(id_clase_auto)
-         INNER JOIN detalle_reparacion USING(id_detalle_rep) INNER JOIN clientes USING(id_cliente)  
+         INNER JOIN detalle_reparacion USING(id_detalle_rep) INNER JOIN clientes USING(id_cliente)
+         WHERE id_automovil = ?
         ORDER BY marca';
+        $params = array($this->id);
+        return Database::getRows($sql, $params);
+    }
+
+    public function clientesConMasAutomovil()
+    {
+        $sql = 'SELECT nombres_c, count(id_automovil) cantidad from automovil INNER JOIN clientes USING(id_cliente) group by nombres_c order by nombres_c desc limit 10';
         $params = null;
         return Database::getRows($sql, $params);
     }

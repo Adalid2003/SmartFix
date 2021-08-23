@@ -27,6 +27,8 @@ Dashboard_Page::headerTemplate('Mantenimiento Clientes');
         </div>
         <div class="input-field col s6 m4">
             <a href="#" onclick="openCreateDialog()" class="btn waves-effect cyan darken-1 tooltipped" data-tooltip="Crear"><i class="material-icons">add</i></a>
+            <a href="#" class="btn waves-effect cyan darken-1 tooltipped" data-tooltip="Reporte de clientes"><i class="material-icons">assignment</i></a>
+
         </div>
         <!--Encabezado tablas-->
         <table class="responsive-table highlight">
@@ -77,12 +79,20 @@ Dashboard_Page::headerTemplate('Mantenimiento Clientes');
                                 <input type="email" id="correo_cliente" name="correo_cliente" maxlength="100" class="validate" required />
                                 <label for="correo_cliente">Correo electrónico</label>
                             </div>
-                            <div class="input-field col s12">
+                            <div class="input-field col s12 m6">
                                 <i class="material-icons prefix">face</i>
                                 <input type="text" id="alias" name="alias" maxlength="200" class="validate" required />
                                 <label for="alias">Alias</label>
                             </div>
-
+                            <div class="input-field col s12 m6">
+                                <i class="material-icons prefix">perm_identity</i>
+                                <select id="cb_genero" name="cb_genero">
+                                    <option value="" disabled selected>Seleccionar...</option>
+                                    <option value="M">Masculino</option>
+                                    <option value="F">Femenino</option>
+                                </select>
+                                <label>Género</label>
+                            </div>
                             <div class="input-field col s12 m6">
                                 <i class="material-icons prefix">security</i>
                                 <input type="password" id="clave_cliente" name="clave_cliente" class="validate" required />
@@ -112,6 +122,25 @@ Dashboard_Page::headerTemplate('Mantenimiento Clientes');
                 </div>
             </div>
     </div>
+
+    <div id="grafica-modal" class="modal">
+        <div class="modal-content">
+            <!-- Título para la caja de dialogo -->
+            <h4 id="modal-title" class="center-align"></h4>
+            <!-- Formulario para crear o actualizar un registro -->
+            <form method="post" id="save-form">
+                <div class="row">
+                    <div class="col s12 m6">
+                        <!-- Se muestra una gráfica de barra con la cantidad de productos por categoría -->
+                        <canvas id="chart1"></canvas>
+                    </div>
+                </div>
+        </div>
+    </div>
+
+    <!-- Importación del archivo para generar gráficas en tiempo real. Para más información https://www.chartjs.org/ -->
+    <script type="text/javascript" src="../../resource/js/chart.js"></script>
+
     <?php
     // Se imprime la plantilla del pie enviando el nombre del controlador para la página web.
     Dashboard_Page::footerTemplate('clientes.js');

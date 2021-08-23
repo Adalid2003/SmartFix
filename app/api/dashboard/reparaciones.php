@@ -48,6 +48,17 @@ if (isset($_GET['action'])) {
                     }
                 }
                 break;
+                case 'readAll4':
+                    if ($result['dataset'] = $reparacion->readAll4()) {
+                        $result['status'] = 1;
+                    } else {
+                        if (Database::getException()) {
+                            $result['exception'] = Database::getException();
+                        } else {
+                            $result['exception'] = 'No hay automoviles ingresados aún';
+                        }
+                    }
+                    break;
             case 'search':
                 $_POST = $reparacion->validateForm($_POST);
                 if ($_POST['search'] != '') {
@@ -73,8 +84,8 @@ if (isset($_GET['action'])) {
             case 'create':
                 //print_r($_POST);
                 $_POST = $reparacion->validateForm($_POST);
-                    if (isset($_POST['cita'])) {
-                        if ($reparacion->setCita($_POST['cita'])) {
+                    if (isset($_POST['auto'])) {
+                        if ($reparacion->setCita($_POST['auto'])) {
                             if (isset($_POST['estado'])) {
                                 if ($reparacion->setEstado($_POST['estado'])) {
                                         if ($reparacion->setRepuesto($_POST['repuesto'])) {

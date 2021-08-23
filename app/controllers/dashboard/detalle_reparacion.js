@@ -2,6 +2,7 @@
 const API_Detalle_rep = '../../app/api/dashboard/reparaciones.php?action=';
 const ENDPOINT_MARCA = '../../app/api/dashboard/automoviles.php?action=readAll2';
 const ENDPOINT_MODELO = '../../app/api/dashboard/automoviles.php?action=readAll3';
+const ENDPOINT_CLIENTE = '../../app/api/dashboard/reparaciones.php?action=readAll4';
 // Método manejador de eventos que se ejecuta cuando el documento ha cargado.
 document.addEventListener('DOMContentLoaded', function () {
     // Se llama a la función que obtiene los registros para llenar la tabla. Se encuentra en el archivo components.js
@@ -139,4 +140,12 @@ function openDeleteDialog(id) {
     data.append('id_usuario', id);
     // Se llama a la función que elimina un registro. Se encuentra en el archivo components.js
     confirmDelete(API_USUARIOS, data);
+}
+
+//Funcion para cargar los modelos de los automoviles a partir de su marca
+function cargarCliente()
+{
+    let value = document.getElementById('cliente').value;
+    fillSelect(ENDPOINT_CLIENTE+'&='+value, 'cliente', null);
+
 }
