@@ -116,8 +116,11 @@ function openUpdateDialog(id) {
                     document.getElementById('telefono_cliente').value = response.dataset.telefono_c;
                     document.getElementById('dui_cliente').value = response.dataset.dui_c;
                     document.getElementById('nacimiento_cliente').value = response.dataset.fecha_nac;
+                    document.getElementById('cb_genero').value = response.dataset.genero;
                     // Se actualizan los campos para que las etiquetas (labels) no queden sobre los datos.
                     M.updateTextFields();
+                    // Se inicializa el componente Select del formulario para que muestre las opciones.
+                    M.FormSelect.init(document.querySelectorAll('select'));
                 } else {
                     sweetAlert(2, response.exception, null);
                 }
