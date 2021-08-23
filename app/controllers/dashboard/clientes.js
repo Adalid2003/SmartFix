@@ -26,6 +26,7 @@ function fillTable(dataset) {
                     <a href="#" onclick="openDeleteDialog(${row.id_cliente})" class="btn waves-effect red tooltipped" data-tooltip="Eliminar"><i class="material-icons">delete</i></a>
                     <a href="../../app/reports/dashboard/cita_cliente.php?id=${row.id_cliente}" target="_blank" class="btn waves-effect amber tooltipped" data-tooltip="Reporte de citas por cliente"><i class="material-icons">assignment</i></a>
                     <a href="#" onclick="openGraficaCita(${row.id_cliente})" class="btn waves-effect green darken-1 tooltipped" data-tooltip="Grafica de cantidad de citas por cliente"><i class="material-icons">poll</i></a>
+                    <a href="../../app/reports/dashboard/repuestos_cliente.php?id=${row.id_cliente}" target="_blank" class="btn waves-effect purple tooltipped" data-tooltip="Reporte de repuestos de citas por cliente"><i class="material-icons">assignment</i></a>
                 </td>
             </tr>
         `;
