@@ -345,4 +345,14 @@ class Usuarios extends Validator
         $params = array($this->id);
         return Database::executeRow($sql, $params);
     }
+
+    public function readUsuariosRpt($especialidad)
+    {
+        $sql = 'SELECT nombres_u, apellidos, alias_u, especialidad
+        FROM usuarios INNER JOIN especialidad USING(id_especialidad)
+        WHERE id_especialidad = ?
+        ORDER BY especialidad';
+        $params = array($especialidad);
+        return Database::getRows($sql, $params);
+    }
 }
