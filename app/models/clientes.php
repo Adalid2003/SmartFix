@@ -250,41 +250,20 @@ class Clientes extends Validator
         $params = array($this->idc);
         return Database::executeRow($sql, $params);
     }
+
+    public function rptCitasCliente()
+    {
+        $sql = 'SELECT id_cita,fecha_cita,nombres_c, apellidos_c,estado_cita, hora, razon
+        FROM cita INNER JOIN clientes USING(id_cliente) INNER JOIN estado_cita USING(id_estado_cita) INNER JOIN hora_cita USING(id_hora)
+        WHERE id_cliente = ?';
+        $params = array($this->idc);
+        return Database::getRows($sql, $params);
+    }
+
+    public function cantidadCitasCliente()
+    {
+        $sql = 'SELECT EXTRACT(MONTH FROM fecha_cita::date) as mes, count(id_cita) cantidad from cita where id_cliente = ? group by fecha_cita limit 6';
+        $params = array($this->idc);
+        return Database::getRows($sql, $params);
+    }
 }
-
-
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-   
-
-   
-
-    
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-

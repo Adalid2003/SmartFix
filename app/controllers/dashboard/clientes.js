@@ -24,6 +24,8 @@ function fillTable(dataset) {
                 <td>
                     <a href="#" onclick="openUpdateDialog(${row.id_cliente})" class="btn waves-effect blue tooltipped" data-tooltip="Actualizar"><i class="material-icons">mode_edit</i></a>
                     <a href="#" onclick="openDeleteDialog(${row.id_cliente})" class="btn waves-effect red tooltipped" data-tooltip="Eliminar"><i class="material-icons">delete</i></a>
+                    <a href="../../app/reports/dashboard/cita_cliente.php?id=${row.id_cliente}" target="_blank" class="btn waves-effect amber tooltipped" data-tooltip="Reporte de citas por cliente"><i class="material-icons">assignment</i></a>
+                    <a href="#" onclick="openGraficaCita(${row.id_cliente})" class="btn waves-effect green darken-1 tooltipped" data-tooltip="Grafica de cantidad de citas por cliente"><i class="material-icons">poll</i></a>
                 </td>
             </tr>
         `;
@@ -147,4 +149,44 @@ function openDeleteDialog(id) {
     data.append('id_cliente', id);
     // Se llama a la función que elimina un registro. Se encuentra en el archivo components.js
     confirmDelete(API_CLIENTES, data);
+}
+
+function openGraficaCita(id){
+    // Se abre la caja de dialogo (modal) que contiene el formulario.
+    var modal = document.getElementById('grafica-modal');
+    var instance = M.Modal.init(modal);
+    instance.open();
+    // Se define un objeto con los datos del registro seleccionado.
+    const data = new FormData();
+    data.append('id_cliente', id);
+    fetch(API_CLIENTES + 'cantidadCitasCliente', {
+        method: 'post',
+        body: data
+    }).then(function (request) {
+        // Se verifica si la petición es correcta, de lo contrario se muestra un mensaje indicando el problema.
+        if (request.ok) {
+            request.json().then(function (response) {
+                // Se comprueba si la respuesta es satisfactoria, de lo contrario se remueve la etiqueta canvas de la gráfica.
+                if (response.status) {
+                    // Se declaran los arreglos para guardar los datos por gráficar.
+                    let clientes = [];
+                    let cantidad = [];
+                    // Se recorre el conjunto de registros devuelto por la API (dataset) fila por fila a través del objeto row.
+                    response.dataset.map(function (row) {
+                        // Se asignan los datos a los arreglos.
+                        clientes.push(row.nombres_c);
+                        cantidad.push(row.cantidad);
+                    });
+                    // Se llama a la función que genera y muestra una gráfica de barras. Se encuentra en el archivo components.js
+                    barGraph('chart1', clientes, cantidad, 'Cantidad de citas', 'Cantidad de citas del cliente',row.nombres_c);
+                } else {
+                    document.getElementById('chart1').remove();
+                }
+            });
+        } else {
+            console.log(request.status + ' ' + request.statusText);
+        }
+    }).catch(function (error) {
+        console.log(error);
+    });
 }

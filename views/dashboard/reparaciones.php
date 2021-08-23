@@ -56,9 +56,9 @@ Dashboard_Page::headerTemplate('Mantenimiento Reparaciones');
                         <input class="hide" type="number" id="id_reparacion" name="id_reparacion" />
                         <div class="row">
                             <div class="input-field col s6">
-                                <select id="cita" name="cita" class="validate">
+                                <select id="auto" name="auto" class="validate">
                                 </select>
-                                <label>Seleccione la cita programada</label>
+                                <label>Seleccione las placas del automovil</label>
                             </div>
                             <div class="input-field col s6">
                                 <select id="estado" name="estado" class="validate">

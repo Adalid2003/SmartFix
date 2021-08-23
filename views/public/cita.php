@@ -20,14 +20,15 @@ Public_Page::headerTemplate('Citas');
                     </select>
                     <label>Seleccione la hora de su cita</label>
                 </div>
-                <!--Boton agendar-->
-                <div class="row center-align">
-                    <button type="submit" class="btn waves-effect blue tooltipped" data-tooltip="cita"><i class="material-icons">today</i></button>
+                <div class="input-field col s12 m6">
+                    <i class="material-icons prefix">report</i>
+                    <input type="text" id="razon" name="razon" maxlength="100" class="validate" required />
+                    <label for="razon">Razón de la cita</label>
                 </div>
-                <!--Imprimir comprobante-->
-                <div class="row center-align">
-                    <button type="submit" class="btn waves-effect green tooltipped" data-tooltip="Imprimir comprobante"><i class="material-icons">local_printshop</i></button>
-                </div>
+            </div>
+            <!--Boton agendar-->
+            <div class="row center-align">
+                <button type="submit" class="btn waves-effect blue tooltipped" data-tooltip="cita"><i class="material-icons">today</i></button>
             </div>
     </div>
     <?php

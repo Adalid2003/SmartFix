@@ -112,6 +112,25 @@ Dashboard_Page::headerTemplate('Mantenimiento Clientes');
                 </div>
             </div>
     </div>
+
+    <div id="grafica-modal" class="modal">
+        <div class="modal-content">
+            <!-- Título para la caja de dialogo -->
+            <h4 id="modal-title" class="center-align"></h4>
+            <!-- Formulario para crear o actualizar un registro -->
+            <form method="post" id="save-form">
+                <div class="row">
+                    <div class="col s12 m6">
+                        <!-- Se muestra una gráfica de barra con la cantidad de productos por categoría -->
+                        <canvas id="chart1"></canvas>
+                    </div>
+                </div>
+        </div>
+    </div>
+
+    <!-- Importación del archivo para generar gráficas en tiempo real. Para más información https://www.chartjs.org/ -->
+    <script type="text/javascript" src="../../resource/js/chart.js"></script>
+
     <?php
     // Se imprime la plantilla del pie enviando el nombre del controlador para la página web.
     Dashboard_Page::footerTemplate('clientes.js');

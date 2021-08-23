@@ -57,26 +57,28 @@ if (isset($_GET['action'])) {
                     if (isset($_POST['hora'])) {
                         if ($citas->setHora($_POST['hora'])) {
                             if ($citas->setEstado(1)) {
-                                if ($citas->createRow()) {
-                                    $result['status'] = 1;
-                                    $result['message'] = 'Cita programada correctamente';
+                                if ($citas->setRazon($_POST['razon'])) {
+                                    if ($citas->createRow()) {
+                                        $result['status'] = 1;
+                                        $result['message'] = 'Cita programada correctamente';
+                                    } else {
+                                        $result['exception'] = Database::getException();
+                                    }
                                 } else {
-                                    $result['exception'] = Database::getException();
+                                    $result['exception'] = 'Estado incorrecto';
                                 }
                             } else {
-                                $result['exception'] = 'Estado incorrecto';
+                                $result['exception'] = 'Hora incorrecta';
                             }
                         } else {
-                            $result['exception'] = 'Hora incorrecta';
+                            $result['exception'] = 'Seleccione una hora';
                         }
                     } else {
-                        $result['exception'] = 'Seleccione una hora';
+                        $result['exception'] = 'Fecha incorrecta';
                     }
-                } else {
-                    $result['exception'] = 'Fecha incorrecta';
+                    break;
+                    $result['exception'] = 'Acción no disponible fuera de la sesión';
                 }
-                break;
-                $result['exception'] = 'Acción no disponible fuera de la sesión';
         }
     } else {
         // Se compara la acción a realizar cuando un cliente no ha iniciado sesión.

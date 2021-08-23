@@ -6,11 +6,12 @@ class Reparacion extends Validator
 {
     // Declaración de atributos (propiedades).
     private $id = null;
-    private $cita = null;
+    private $auto = null;
     private $repuesto = null;
     private $estado = null;
     private $precio = null;
     private $obra = null;
+    private $cliente = null;
 
     /*
     *   Métodos para asignar valores a los atributos.
@@ -27,7 +28,7 @@ class Reparacion extends Validator
     public function setCita($value)
     {
         if ($this->validateNaturalNumber($value)) {
-            $this->cita = $value;
+            $this->auto = $value;
             return true;
         } else {
             return false;
@@ -74,6 +75,16 @@ class Reparacion extends Validator
             return false;
         }
     }
+
+    public function setCliente($value)
+    {
+        if ($this->validateNaturalNumber($value)) {
+            $this->cliente = $value;
+            return true;
+        } else {
+            return false;
+        }
+    }
     
 
 
@@ -85,9 +96,9 @@ class Reparacion extends Validator
         return $this->id;
     }
 
-    public function getCita()
+    public function getAuto()
     {
-        return $this->cita;
+        return $this->auto;
     }
 
     public function getRepuesto()
@@ -110,6 +121,11 @@ class Reparacion extends Validator
         return $this->obra;
     }  
 
+    public function getCliente()
+    {
+        return $this->cliente;
+    }  
+
     /*
     *   Métodos para realizar las operaciones SCRUD (search, create, read, update, delete).
     */
@@ -124,22 +140,25 @@ class Reparacion extends Validator
     }
     public function createRow()
     {
-        $sql = 'INSERT INTO detalle_reparacion (id_cita, id_estado_rep, id_usuario, repuesto, precio_repuesto, mano_obra)
+        $sql = 'INSERT INTO detalle_reparacion (id_automovil, id_estado_rep, id_usuario, repuesto, precio_repuesto, mano_obra)
                 VALUES(?, ?, ?, ?, ?, ?)';
-        $params = array($this->cita, $this-> estado, $_SESSION['id_usuario'], $this->repuesto, $this->precio, $this->obra);
+        $params = array($this->auto, $this-> estado, $_SESSION['id_usuario'], $this->repuesto, $this->precio, $this->obra);
         return Database::executeRow($sql, $params);
     }
     public function readAll()
     {
-        $sql = 'SELECT id_detalle_rep, fecha_cita, estado_reparacion, nombres_u, repuesto, precio_repuesto, mano_obra
-                FROM detalle_reparacion INNER JOIN cita USING(id_cita) INNER JOIN estado_reparacion USING(id_estado_rep) INNER JOIN usuarios USING(id_usuario)
-                ORDER BY estado_reparacion';
+        $sql = 'SELECT detalle_reparacion.id_detalle_rep,placa, estado_reparacion, nombres_u, repuesto, precio_repuesto, mano_obra
+        FROM detalle_reparacion INNER JOIN estado_reparacion USING(id_estado_rep) INNER JOIN usuarios USING(id_usuario) INNER JOIN automovil USING(id_automovil)  
+        ORDER BY estado_reparacion';
         $params = null;
         return Database::getRows($sql, $params);
     }
     public function readAll2()
     {
-        $sql = 'SELECT * FROM cita';
+        $sql = 'SELECT automovil.id_automovil, placa
+        FROM automovil INNER JOIN marca USING(id_marca) INNER JOIN modelo USING(id_modelo) INNER JOIN clase_automovil USING(id_clase_auto)
+         INNER JOIN detalle_reparacion USING(id_detalle_rep) INNER JOIN clientes USING(id_cliente)  
+        ORDER BY placa';
         $params = null;
         return Database::getRows($sql, $params);
     }
@@ -149,6 +168,15 @@ class Reparacion extends Validator
         $params = null;
         return Database::getRows($sql, $params);
     }
+
+    public function readAll4()
+    {
+        $sql = 'SELECT id_automovil, id_marca, id_modelo, color, numero_motor, id_clase_auto, id_detalle_rep, placa, id_cliente from automovil where id_cliente = ?';
+        $params = array($this->cliente);
+        return Database::getRows($sql, $params);
+    }
+
+
     public function readOne()
     {
         $sql = 'SELECT id_detalle_rep, id_cita, id_estado_rep, id_usuario, repuesto, precio_repuesto, mano_obra

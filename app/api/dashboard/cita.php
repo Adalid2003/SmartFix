@@ -14,7 +14,7 @@ if (isset($_GET['action'])) {
     if (isset($_SESSION['id_usuario'])) {
         // Se compara la acción a realizar cuando un administrador ha iniciado sesión.
         switch ($_GET['action']) {
-            //Se ejecuta la accion readAll para leer los datos y llenar la tabla
+                //Se ejecuta la accion readAll para leer los datos y llenar la tabla
             case 'readAll':
                 if ($result['dataset'] = $citas->readAll()) {
                     $result['status'] = 1;
@@ -94,29 +94,31 @@ if (isset($_GET['action'])) {
                                 if ($citas->setEstado($_POST['estado'])) {
                                     if (isset($_POST['cliente'])) {
                                         if ($citas->setCliente($_POST['cliente'])) {
-                                            if ($citas->createRowP()) {
-                                                $result['status'] = 1;
-                                                $result['message'] = 'Cita programada correctamente';
+                                            if ($citas->setRazon($_POST['razon'])) {
+                                                if ($citas->createRowP()) {
+                                                    $result['status'] = 1;
+                                                    $result['message'] = 'Cita programada correctamente';
+                                                } else {
+                                                    $result['exception'] = Database::getException();
+                                                }
                                             } else {
-                                                $result['exception'] = Database::getException();
+                                                $result['exception'] = 'Estado incorrecto';
                                             }
                                         } else {
-                                            $result['exception'] = 'Estado incorrecto';
+                                            $result['exception'] = 'Hora incorrecta';
                                         }
                                     } else {
-                                        $result['exception'] = 'Hora incorrecta';
+                                        $result['exception'] = 'Seleccione una hora';
                                     }
                                 } else {
-                                    $result['exception'] = 'Seleccione una hora';
+                                    $result['exception'] = 'Fecha incorrecta';
                                 }
                             } else {
-                                $result['exception'] = 'Fecha incorrecta';
                             }
                         } else {
                         }
                     } else {
                     }
-                } else {
                 }
                 break;
             case 'readOne':
@@ -145,23 +147,26 @@ if (isset($_GET['action'])) {
                                         if ($citas->setEstado($_POST['estado'])) {
                                             if (isset($_POST['cliente'])) {
                                                 if ($citas->setCliente($_POST['cliente'])) {
-                                                    if ($citas->updateRow()) {
-                                                        $result['status'] = 1;
-                                                        $result['message'] = 'Cita actualizada correctamente';
+                                                    if ($citas->setRazon($_POST['razon'])) {
+                                                        if ($citas->updateRow()) {
+                                                            $result['status'] = 1;
+                                                            $result['message'] = 'Cita actualizada correctamente';
+                                                        } else {
+                                                            $result['exception'] = Database::getException();
+                                                        }
                                                     } else {
-                                                        $result['exception'] = Database::getException();
+                                                        $result['exception'] = 'Estado incorrecto';
                                                     }
                                                 } else {
-                                                    $result['exception'] = 'Estado incorrecto';
+                                                    $result['exception'] = 'Hora incorrecta';
                                                 }
                                             } else {
-                                                $result['exception'] = 'Hora incorrecta';
+                                                $result['exception'] = 'Seleccione una hora';
                                             }
                                         } else {
-                                            $result['exception'] = 'Seleccione una hora';
+                                            $result['exception'] = 'Fecha incorrecta';
                                         }
                                     } else {
-                                        $result['exception'] = 'Fecha incorrecta';
                                     }
                                 } else {
                                 }
@@ -169,11 +174,8 @@ if (isset($_GET['action'])) {
                             }
                         } else {
                         }
-                    }else{
-
+                    } else {
                     }
-                }else{
-
                 }
                 break;
             case 'delete':

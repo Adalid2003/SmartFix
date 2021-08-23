@@ -23,7 +23,7 @@ Dashboard_Page::headerTemplate('Bienvenido');
 </div>
 
 <!-- Importación del archivo para generar gráficas en tiempo real. Para más información https://www.chartjs.org/ -->
-<script type="text/javascript" src="../../resources/js/chart.js"></script>
+<script type="text/javascript" src="../../resource/js/chart.js"></script>
 
 <?php
 // Se imprime la plantilla del pie enviando el nombre del controlador para la página web.

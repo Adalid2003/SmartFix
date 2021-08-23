@@ -10,6 +10,7 @@ class Cita extends Validator
     private $hora = null;
     private $estado = null;
     private $cliente = null;
+    private $razon = null;
 
     /*
     *   Métodos para asignar valores a los atributos.
@@ -62,6 +63,15 @@ class Cita extends Validator
         }
     }
     
+    public function setRazon($value)
+    {
+        if ($this->validateAlphabetic($value, 1, 50)) {
+            $this->razon = $value;
+            return true;
+        } else {
+            return false;
+        }
+    }
 
 
     /*
@@ -90,7 +100,12 @@ class Cita extends Validator
     public function getCliente()
     {
         return $this->cliente;
-    }    
+    }
+    
+    public function getRazon()
+    {
+        return $this->razon;
+    }  
 
     /*
     *   Métodos para realizar las operaciones SCRUD (search, create, read, update, delete).
@@ -106,21 +121,21 @@ class Cita extends Validator
     }
     public function createRow()
     {
-        $sql = 'INSERT INTO cita (fecha_cita, id_cliente, id_estado_cita, id_hora)
-                VALUES(?, ?, ?, ?)';
-        $params = array($this->fecha, $_SESSION['id_cliente'], $this->estado, $this->hora);
+        $sql = 'INSERT INTO cita (fecha_cita, id_cliente, id_estado_cita, id_hora, razon)
+                VALUES(?, ?, ?, ?, ?)';
+        $params = array($this->fecha, $_SESSION['id_cliente'], $this->estado, $this->hora, $this->razon);
         return Database::executeRow($sql, $params);
     }
     public function createRowP()
     {
-        $sql = 'INSERT INTO cita (fecha_cita, id_cliente, id_estado_cita, id_hora)
-                VALUES(?, ?, ?, ?)';
-        $params = array($this->fecha, $this->cliente, $this->estado, $this->hora);
+        $sql = 'INSERT INTO cita (fecha_cita, id_cliente, id_estado_cita, id_hora, razon)
+                VALUES(?, ?, ?, ?, ?)';
+        $params = array($this->fecha, $this->cliente, $this->estado, $this->hora, $this->razon);
         return Database::executeRow($sql, $params);
     }
     public function readAll()
     {
-        $sql = 'SELECT id_cita,fecha_cita,nombres_c,estado_cita, hora
+        $sql = 'SELECT id_cita,fecha_cita,nombres_c,estado_cita, hora, razon
                 FROM cita INNER JOIN clientes USING(id_cliente) INNER JOIN estado_cita USING(id_estado_cita) INNER JOIN hora_cita USING(id_hora)
                 ORDER BY fecha_cita desc';
         $params = null;
@@ -155,7 +170,7 @@ class Cita extends Validator
     }
     public function readOne()
     {
-        $sql = 'SELECT id_cita, fecha_cita, id_cliente, id_estado_cita, id_hora
+        $sql = 'SELECT id_cita, fecha_cita, id_cliente, id_estado_cita, id_hora, razon
                 FROM cita
                 WHERE id_cita = ?';
         $params = array($this->id);
@@ -166,9 +181,9 @@ class Cita extends Validator
 
 
         $sql = 'UPDATE cita
-                SET fecha_cita = ?, id_hora = ?, id_estado_cita = ?, id_cliente = ?
+                SET fecha_cita = ?, id_hora = ?, id_estado_cita = ?, id_cliente = ?, razon = ?
                 WHERE id_cita = ?';
-        $params = array($this->fecha, $this->hora, $this->estado, $this->cliente, $this->id);
+        $params = array($this->fecha, $this->hora, $this->estado, $this->cliente, $this->razon, $this->id);
         return Database::executeRow($sql, $params);
     }
 

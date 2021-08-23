@@ -39,6 +39,7 @@ Dashboard_Page::headerTemplate('Mantenimiento Automoviles');
                     <th>Detalle</th>
                     <th>Placa</th>
                     <th>Cliente</th>
+                    <th>Apellido</th>
                     <th class="actions-column">Acción</th>
                 </tr>
             </thead>
