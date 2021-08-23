@@ -14,6 +14,18 @@ if (isset($_GET['action'])) {
     if (isset($_SESSION['id_usuario'])) {
         // Se compara la acción a realizar cuando un administrador ha iniciado sesión.
         switch ($_GET['action']) {
+            //Caso para obtener el top 5 de los clientes mas frecuentes
+            case 'top5Clients':
+                if ($result['dataset'] = $citas->top5Clients()) {
+                    $result['status'] = 1;
+                } else {
+                    if (Database::getException()) {
+                        $result['exception'] = Database::getException();
+                    } else {
+                        $result['exception'] = 'No hay citas.';
+                    }
+                }
+                break;
                 //Se ejecuta la accion readAll para leer los datos y llenar la tabla
             case 'readAll':
                 if ($result['dataset'] = $citas->readAll()) {

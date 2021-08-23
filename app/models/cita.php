@@ -110,6 +110,18 @@ class Cita extends Validator
     /*
     *   Métodos para realizar las operaciones SCRUD (search, create, read, update, delete).
     */
+
+    //Top 5 clientes mas frecuentes
+    public function top5Clients()
+    {
+        $sql = 'SELECT COUNT(id_cita) as citas, CONCAT(nombres_c,\' \',apellidos_c) as cliente FROM cita
+                INNER JOIN clientes USING (id_cliente)
+                GROUP BY cliente
+                ORDER BY citas DESC
+                LIMIT 5';
+        $params = null;
+        return Database::getRows($sql, $params);
+    }
     public function searchRows($value)
     {
         $sql = 'SELECT id_cita,fecha_cita,nombres_c,estado_cita, hora

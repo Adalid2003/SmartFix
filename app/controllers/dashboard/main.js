@@ -1,6 +1,8 @@
 // Constante para establecer la ruta y parámetros de comunicación con la API.
 const API_PRODUCTOS = '../../app/api/dashboard/productos.php?action=';
 const API_AUTO = '../../app/api/dashboard/automoviles.php?action=';
+const API_CITA = '../../app/api/dashboard/cita.php?action=';
+
 
 // Método manejador de eventos que se ejecuta cuando el documento ha cargado.
 document.addEventListener('DOMContentLoaded', function () {
@@ -22,7 +24,7 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('greeting').textContent = greeting;
     // Se llaman a la funciones que muestran las gráficas en la página web.
     graficaBarrasAuto();
-    //graficaPastelCategorias();
+    graficaPastelCitas();
 });
 
 // Función para mostrar la cantidad de productos por categoría en una gráfica de barras.
@@ -48,6 +50,41 @@ function graficaBarrasAuto() {
                     barGraph('chart1', clientes, cantidad, 'Cantidad de automoviles', 'Top 10 de clientes con mas automoviles');
                 } else {
                     document.getElementById('chart1').remove();
+                    console.log(response.exception);
+                }
+            });
+        } else {
+            console.log(request.status + ' ' + request.statusText);
+        }
+    }).catch(function (error) {
+        console.log(error);
+    });
+}
+
+// Función para mostrar una grafica de pastel del top 5 de clientes mas frecuentes
+function graficaPastelCitas() {
+    fetch(API_CITA + 'top5Clients', {
+        method: 'get'
+    }).then(function (request) {
+        // Se verifica si la petición es correcta, de lo contrario se muestra un mensaje indicando el problema.
+        if (request.ok) {
+            request.json().then(function (response) {
+                // Se comprueba si la respuesta es satisfactoria, de lo contrario se remueve la etiqueta canvas de la gráfica.
+                if (response.status) {
+                    // Se declaran los arreglos para guardar los datos por gráficar.
+                    let citas = [];
+                    let cliente = [];
+                    // Se recorre el conjunto de registros devuelto por la API (dataset) fila por fila a través del objeto row.
+                    response.dataset.map(function (row) {
+                        // Se asignan los datos a los arreglos.
+                        citas.push(row.citas);
+                        cliente.push(row.cliente);
+                    });
+                    console.log(citas); 
+                    // Se llama a la función que genera y muestra una gráfica de barras. Se encuentra en el archivo components.js
+                    pieGraph1('citasGrafica', cliente, citas, 'Top 5 clientes más frecuentes');
+                } else {
+                    document.getElementById('citasGrafica').remove();
                     console.log(response.exception);
                 }
             });

@@ -16,9 +16,8 @@ Dashboard_Page::headerTemplate('Bienvenido');
         <!-- Se muestra una gráfica de barra con la cantidad de productos por categoría -->
         <canvas id="chart1"></canvas>
     </div>
-    <div class="col s12 m6">
-        <!-- Se muestra una gráfica de pastel con el porcentaje de productos por categoría -->
-        <canvas id="chart2"></canvas>
+    <div class="col s12 m6" style="width: 800px;">
+        <canvas id="citasGrafica"></canvas>
     </div>
 </div>
 
