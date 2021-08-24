@@ -6,7 +6,7 @@ include("../../app/helpers/private_header_template.php");
     <div class="col s12 14 offset-14">
         <div class="container">
             <div class="container center">
-                <h4>Facturacion</h4>
+                <h4>Facturación</h4>
 
 
                 <div class="row">
@@ -27,7 +27,7 @@ include("../../app/helpers/private_header_template.php");
                     <tr>
                         <th>ID</th>
                         <th>Cliente</th>
-                        <th>Detalle Reparacion</th>
+                        <th>Detalle Reparación</th>
                         <th>Total a pagar ($)</th>
                         <th>Acción</th>
                     </tr>
@@ -40,7 +40,7 @@ include("../../app/helpers/private_header_template.php");
                     <!--Inicio modal-->
                     <div id="modal1" class="modal">
                         <div class="modal-content">
-                            <h4 class="center blue-grey-text">Facturacion</h4>
+                            <h4 class="center blue-grey-text">Facturación</h4>
                             <div class="row">
                                 <div class="col s12 14 offset-14">
                                     <div class="card">
@@ -51,7 +51,7 @@ include("../../app/helpers/private_header_template.php");
                                                 <input type="text" id="nombre" class="form-control">
                                             </div><br>
                                             <div class="form-field">
-                                                <label for="subname" class="sr-only">Ingrese el detalle de la reparacion:</label>
+                                                <label for="subname" class="sr-only">Ingrese el detalle de la reparación:</label>
                                                 <input type="text" id="lastname" class="form-control">
                                             </div><br>
                                             <div class="form-field">

@@ -34,7 +34,7 @@ Dashboard_Page::headerTemplate('Mantenimiento automoviles');
                     <th>Marca</th>
                     <th>Modelo</th>
                     <th>Color</th>
-                    <th>Numero motor</th>
+                    <th>Número motor</th>
                     <th>Clase</th>
                     <th>Placa</th>
                     <th>Cliente</th>

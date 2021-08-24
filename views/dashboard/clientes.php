@@ -37,7 +37,7 @@ Dashboard_Page::headerTemplate('Mantenimiento clientes');
                     <th>Nombres</th>
                     <th>Apellidos</th>
                     <th>DUI</th>
-                    <th>Correo electronico</th>
+                    <th>Correo electrónico</th>
                     <th>Alias</th>
                     <th>Teléfono</th>
                     <th>Fecha de nacimiento</th>
