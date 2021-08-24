@@ -50,7 +50,7 @@ class Dashboard_Page
                  
                      <nav class="blue-grey darken-4">
                          <div class="nav-wrapper">
-                             <a href= "../../views/dashboard/dashboard.php" class="brand-logo center"><img src="../../resource/img/logo.jpg" alt="" weight="100px" height="65px"></a>
+                             <a href= "../../views/dashboard/main.php" class="brand-logo center"><img src="../../resource/img/logo.jpg" alt="" weight="100px" height="65px"></a>
                              <a href="#" data-target="mobile-sidenav" class="sidenav-trigger"><i class="material-icons">menu</i></a>
                                  <ul id="nav-mobile" class="right hide-on-med-and-down">
                                      <li><a href="#"><i class="material-icons left">verified_user</i>Usuario: <b>' . $_SESSION['alias_u'] . '</b></a></li>

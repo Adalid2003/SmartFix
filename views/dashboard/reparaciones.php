@@ -31,7 +31,7 @@ Dashboard_Page::headerTemplate('Mantenimiento Reparaciones');
         <table class="responsive-table highlight">
             <thead>
                 <tr>
-                    <th>Cita</th>
+                    <th>Automovil(placas)</th>
                     <th>Estado reparación</th>
                     <th>Usuario</th>
                     <th>Repuesto</th>

@@ -36,7 +36,6 @@ Dashboard_Page::headerTemplate('Mantenimiento Automoviles');
                     <th>Color</th>
                     <th>Numero motor</th>
                     <th>Clase</th>
-                    <th>Detalle</th>
                     <th>Placa</th>
                     <th>Cliente</th>
                     <th>Apellido</th>
@@ -82,11 +81,6 @@ Dashboard_Page::headerTemplate('Mantenimiento Automoviles');
                                 <select id="clase" name="clase">
                                 </select>
                                 <label>Clase del vehiculo</label>
-                            </div>
-                            <div class="input-field col s6">
-                                <select id="detalle" name="detalle">
-                                </select>
-                                <label>Detalle de reparacion</label>
                             </div>
                             <div class="input-field col s12 m6">
                                 <i class="material-icons prefix">broken_image</i>

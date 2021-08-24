@@ -157,7 +157,7 @@ class Reparacion extends Validator
     {
         $sql = 'SELECT automovil.id_automovil, placa
         FROM automovil INNER JOIN marca USING(id_marca) INNER JOIN modelo USING(id_modelo) INNER JOIN clase_automovil USING(id_clase_auto)
-         INNER JOIN detalle_reparacion USING(id_detalle_rep) INNER JOIN clientes USING(id_cliente)  
+        INNER JOIN clientes USING(id_cliente)  
         ORDER BY placa';
         $params = null;
         return Database::getRows($sql, $params);

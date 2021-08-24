@@ -13,7 +13,7 @@ Dashboard_Page::headerTemplate('Bienvenido');
 <!-- Se muestran las gráficas de acuerdo con algunos datos disponibles en la base de datos -->
 <div class="row">
     <div class="col s12 m6">
-        <!-- Se muestra una gráfica de barra con la cantidad de productos por categoría -->
+        <!-- Se muestra una gráfica de barra con top 10 de clientes con mas automoviles -->
         <canvas id="chart1"></canvas>
     </div>
     <div class="col s12 m6" style="width: 800px;">

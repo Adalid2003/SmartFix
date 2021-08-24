@@ -16,7 +16,7 @@ class Database
     {
         // Credenciales para establecer la conexión con la base de datos.
         $server = 'localhost';
-        $database = 'SmartFix31';
+        $database = 'SmartFix21';
         $username = 'postgres';
         $password = 'rojo09';
 
