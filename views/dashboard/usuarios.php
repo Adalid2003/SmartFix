@@ -41,7 +41,7 @@ Dashboard_Page::headerTemplate('Mantenimiento Usuarios');
                     <th>Estado</th>
                     <th>Sueldo</th>
                     <th>Especialidad</th>
-                    <th>Fecha de nacimiento</th>
+                    <!--th>Fecha de nacimiento</th-->
                     <th class="actions-column">Acción</th>
                 </tr>
             </thead>

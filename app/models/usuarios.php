@@ -355,4 +355,13 @@ class Usuarios extends Validator
         $params = array($especialidad);
         return Database::getRows($sql, $params);
     }
+
+    public function readDetalleUserRpt()
+    {
+        $sql = 'SELECT nombres_u, apellidos, email_u, tipo_usuario, alias_u, telefono_u, dui_u, sueldo, especialidad, fecha_nacimiento
+        FROM usuarios INNER JOIN especialidad USING(id_especialidad) INNER JOIN tipo_usuario USING(id_tipo_usuario)
+        WHERE id_usuario = ?';
+        $params = array($this->id);
+        return Database::getRows($sql, $params);
+    }
 }

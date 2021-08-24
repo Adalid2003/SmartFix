@@ -28,10 +28,13 @@ function fillTable(dataset) {
                 <td><i class="material-icons">${icon}</i></td>
                 <td>${row.sueldo}</td>
                 <td>${row.especialidad}</td>
-                <td>${row.fecha_nacimiento}</td>
+                <!--td>${row.fecha_nacimiento}</td-->
                 <td>
                     <a href="#" onclick="openUpdateDialog(${row.id_usuario})" class="btn waves-effect blue tooltipped" data-tooltip="Actualizar"><i class="material-icons">mode_edit</i></a>
+                    <p>
                     <a href="#" onclick="openDeleteDialog(${row.id_usuario})" class="btn waves-effect red tooltipped" data-tooltip="Eliminar"><i class="material-icons">delete</i></a>
+                    <p>
+                    <a href="../../app/reports/dashboard/detalle_usuarios.php" target="_blank" class="btn waves-effect green accent-4 tooltipped" data-tooltip="Reporte datos del usuario"><i class="material-icons">assignment</i></a>
                 </td>
             </tr>
         `;
@@ -115,7 +118,7 @@ function openUpdateDialog(id) {
                     document.getElementById('telefono').value = response.dataset.telefono_u;
                     document.getElementById('dui_u').value = response.dataset.dui_u;
                     document.getElementById('sueldo').value = response.dataset.sueldo;
-                    document.getElementById('fecha_nacimiento').value = response.dataset.fecha_nacimiento;
+                    //document.getElementById('fecha_nacimiento').value = response.dataset.fecha_nacimiento;
                     if (response.dataset.estado_usuario) {
                         document.getElementById('estado_usuario').checked = true;
                     } else {
