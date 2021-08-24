@@ -2,7 +2,7 @@
 // Se incluye la clase con las plantillas del documento.
 require_once('../../app/helpers/private_header_template.php');
 // Se imprime la plantilla del encabezado enviando el título de la página web.
-Dashboard_Page::headerTemplate('Mantenimiento Citas');
+Dashboard_Page::headerTemplate('Mantenimiento citas');
 ?>
 <div class="row">
     <div class="col s12 14 offset-14">
