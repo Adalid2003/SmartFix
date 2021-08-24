@@ -10,7 +10,6 @@ $pdf->startReport('Listado de usuarios por especialidad');
 
 // Se instancia el módelo Categorías para obtener los datos.
 $usuarios = new Usuarios;
-
 // Se verifica si existen registros (categorías) para mostrar, de lo contrario se imprime un mensaje.
 if ($dataEspecialidad = $usuarios->readAllEsp()) {
     foreach ($dataEspecialidad as $rowEspecialidad) {
@@ -25,15 +24,16 @@ if ($dataEspecialidad = $usuarios->readAllEsp()) {
             $pdf->Cell(62, 10, utf8_decode('Nombres'), 1, 0,'C', 1);
             $pdf->Cell(62, 10, utf8_decode('Apellidos'), 1, 0, 'C', 1 );
             $pdf->Cell(62, 10, utf8_decode('Alias'), 1, 1, 'C', 1);
+            $pdf->SetFillColor(255, 255, 0);
 
              // Se verifica si existen registros (productos) para mostrar, de lo contrario se imprime un mensaje.
         if ($dataUsuarios = $usuarios->readUsuariosRpt($rowEspecialidad['id_especialidad'])) {
             // Se establece la fuente para los datos de los productos.
             $pdf->SetFont('Times', '', 11);
-
             // Se recorren los registros ($dataProductos) fila por fila ($rowProducto).
             foreach ($dataUsuarios as $rowUsuarios) {
                 // Se imprimen las celdas con los datos de los productos.
+                
                 $pdf->Cell(62, 10, utf8_decode($rowUsuarios['nombres_u']), 1, 0);
                 $pdf->Cell(62, 10, utf8_decode($rowUsuarios['apellidos']), 1, 0);
                 $pdf->Cell(62, 10, utf8_decode($rowUsuarios['alias_u']), 1, 1);
