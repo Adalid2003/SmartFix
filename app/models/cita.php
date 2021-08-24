@@ -11,6 +11,8 @@ class Cita extends Validator
     private $estado = null;
     private $cliente = null;
     private $razon = null;
+    private $mes = null;
+
 
     /*
     *   Métodos para asignar valores a los atributos.
@@ -73,6 +75,16 @@ class Cita extends Validator
         }
     }
 
+    public function setMes($value)
+    {
+        if ($this->validateAlphanumeric($value, 1, 50)) {
+            $this->mes = $value;
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 
     /*
     *   Métodos para obtener valores de los atributos.
@@ -107,6 +119,11 @@ class Cita extends Validator
         return $this->razon;
     }  
 
+    public function getMes()
+    {
+        return $this->mes;
+    }  
+
     /*
     *   Métodos para realizar las operaciones SCRUD (search, create, read, update, delete).
     */
@@ -122,6 +139,30 @@ class Cita extends Validator
         $params = null;
         return Database::getRows($sql, $params);
     }
+
+    //Meses con su cantidad de citas
+    public function mesesCitas()
+    {
+        $sql = 'SELECT DISTINCT(SUBSTRING(fecha_cita, 6, 2)) as mes, COUNT(id_cita) as citas 
+                FROM cita 
+                GROUP BY mes 
+                ORDER BY mes DESC';
+        $params = null;
+        return Database::getRows($sql, $params);
+    }
+
+    //Porcentaje de estados de cita por mes
+    public function citaMes()
+    {
+        $sql = 'SELECT estado_cita, (COUNT (id_cita) * 100) / (SELECT COUNT(id_cita) FROM cita WHERE SUBSTRING(fecha_cita,6,2) = ?) as porcentaje
+                FROM cita
+                INNER JOIN estado_cita USING (id_estado_cita)
+                WHERE SUBSTRING(fecha_cita,6,2) = ?
+                GROUP BY estado_cita';
+        $params = array($this->mes, $this->mes);
+        return Database::getRows($sql, $params);
+    }
+
     public function searchRows($value)
     {
         $sql = 'SELECT id_cita,fecha_cita,nombres_c,estado_cita, hora
