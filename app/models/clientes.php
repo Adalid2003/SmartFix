@@ -177,6 +177,28 @@ class Clientes extends Validator
     *   Métodos para gestionar la cuenta del cliente.
     */
 
+    //Consulta para saber los repuestos de las citas de un cliente
+    public function clientsReplacements()
+    {
+        $sql = 'SELECT CONCAT (nombres_c,\' \',apellidos_c) as cliente, repuesto, CONCAT(nombres_u,\' \',apellidos) as empleado FROM facturacion
+                INNER JOIN clientes USING (id_cliente)
+                INNER JOIN detalle_reparacion USING (id_detalle_rep)
+                INNER JOIN usuarios USING (id_usuario)
+                WHERE facturacion.id_cliente = ?';
+        $params = array($this->idc);
+        return Database::getRows($sql, $params);
+    }
+
+    //Consulta para saber los clientes por genero
+    public function clientsByGender()
+    {
+        $sql = 'SELECT CONCAT(nombres_c,\' \',apellidos_c) as cliente, dui_c, alias_c, telefono_c 
+                FROM clientes 
+                WHERE genero = ?';
+        $params = array($this->genero);
+        return Database::getRows($sql, $params);
+    }
+
     public function checkClient($correo)
     {
         $sql = 'SELECT id_cliente FROM clientes WHERE email_c = ?';

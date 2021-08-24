@@ -16,9 +16,38 @@ Dashboard_Page::headerTemplate('Bienvenido');
         <!-- Se muestra una gráfica de barra con la cantidad de productos por categoría -->
         <canvas id="chart1"></canvas>
     </div>
-    <div class="col s12 m6">
-        <!-- Se muestra una gráfica de pastel con el porcentaje de productos por categoría -->
-        <canvas id="chart2"></canvas>
+    <div class="col s12 m6" style="width: 800px;">
+        <canvas id="citasGrafica"></canvas>
+    </div>
+</div>
+<div class="row">
+    <div class="col s12 m6" id="graficaparam">
+        <p style="text-align: center;">Porcentaje de citas por estado del mes</p>
+        <a id="btn_seleccionarmes" href="#seleccionarMes" class="btn modal-trigger waves-effect blue tooltipped" data-tooltip="Seleccionar mes"><i class="material-icons">visibility</i></a>
+        <div id="citasPorcentajediv" style="width: 800px;">
+            <canvas id="citasPorcentaje"></canvas>
+        </div>
+    </div>
+</div>
+
+<div id="seleccionarMes" class="modal">
+    <div class="modal-content">
+        <h4>Seleccionar mes</h4>
+        <!--Encabezado tablas-->
+        <table class="responsive-table highlight">
+            <thead>
+                <tr>
+                    <th>Mes</th>
+                    <th>Citas</th>
+                    <th class="actions-column">Acción</th>
+                </tr>
+            </thead>
+            <tbody id="tbody-rows">
+            </tbody>
+        </table>
+    </div>
+    <div class="modal-footer">
+        <a href="#!" class="modal-close waves-effect waves-green btn-flat">Cerrar</a>
     </div>
 </div>
 

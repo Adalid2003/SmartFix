@@ -27,7 +27,7 @@ Dashboard_Page::headerTemplate('Mantenimiento Clientes');
         </div>
         <div class="input-field col s6 m4">
             <a href="#" onclick="openCreateDialog()" class="btn waves-effect cyan darken-1 tooltipped" data-tooltip="Crear"><i class="material-icons">add</i></a>
-            <a href="#" class="btn waves-effect cyan darken-1 tooltipped" data-tooltip="Reporte de clientes"><i class="material-icons">assignment</i></a>
+            <a href="../../app/reports/dashboard/clientes.php" target="_blank" class="btn waves-effect cyan darken-1 tooltipped" data-tooltip="Reporte de clientes"><i class="material-icons">assignment</i></a>
 
         </div>
         <!--Encabezado tablas-->
