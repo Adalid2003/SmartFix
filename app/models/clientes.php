@@ -304,4 +304,9 @@ class Clientes extends Validator
         $params = array($this->idc);
         return Database::getRows($sql, $params);
     }
+
+    /*public function generosClientes()
+    {
+        $sql = ''
+    }*/
 }
