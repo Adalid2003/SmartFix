@@ -2,7 +2,7 @@
 // Se incluye la clase con las plantillas del documento.
 require_once('../../app/helpers/private_header_template.php');
 // Se imprime la plantilla del encabezado enviando el título de la página web.
-Dashboard_Page::headerTemplate('Mantenimiento Clientes');
+Dashboard_Page::headerTemplate('Mantenimiento clientes');
 ?>
 <!--Pagina clientes-->
 <div class="row">
@@ -37,9 +37,9 @@ Dashboard_Page::headerTemplate('Mantenimiento Clientes');
                     <th>Nombres</th>
                     <th>Apellidos</th>
                     <th>DUI</th>
-                    <th>Correo electronico</th>
+                    <th>Correo electrónico</th>
                     <th>Alias</th>
-                    <th>Telefono</th>
+                    <th>Teléfono</th>
                     <th>Fecha de nacimiento</th>
                     <th class="actions-column">Acción</th>
                 </tr>

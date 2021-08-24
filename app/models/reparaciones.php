@@ -157,7 +157,7 @@ class Reparacion extends Validator
     {
         $sql = 'SELECT automovil.id_automovil, placa
         FROM automovil INNER JOIN marca USING(id_marca) INNER JOIN modelo USING(id_modelo) INNER JOIN clase_automovil USING(id_clase_auto)
-         INNER JOIN detalle_reparacion USING(id_detalle_rep) INNER JOIN clientes USING(id_cliente)  
+        INNER JOIN clientes USING(id_cliente)  
         ORDER BY placa';
         $params = null;
         return Database::getRows($sql, $params);
@@ -179,7 +179,7 @@ class Reparacion extends Validator
 
     public function readOne()
     {
-        $sql = 'SELECT id_detalle_rep, id_cita, id_estado_rep, id_usuario, repuesto, precio_repuesto, mano_obra
+        $sql = 'SELECT id_detalle_rep, id_automovil, id_estado_rep, id_usuario, repuesto, precio_repuesto, mano_obra
                 FROM detalle_reparacion
                 WHERE id_detalle_rep = ?';
         $params = array($this->id);
@@ -202,5 +202,14 @@ class Reparacion extends Validator
                 WHERE id_detalle_rep = ?';
         $params = array($this->id);
         return Database::executeRow($sql, $params);
+    }
+
+    public function factura()
+    {
+        $sql = 'SELECT detalle_reparacion.id_detalle_rep, placa,repuesto, precio_repuesto, mano_obra, estado_reparacion, SUM(precio_repuesto+mano_obra) suma from detalle_reparacion INNER JOIN automovil USING(id_automovil) INNER JOIN estado_reparacion USING(id_estado_rep)
+        where detalle_reparacion.id_detalle_rep = ?
+        group by placa,repuesto, precio_repuesto, mano_obra, detalle_reparacion.id_detalle_rep, estado_reparacion';
+        $params = array($this->id);
+        return Database::getRows($sql, $params);
     }
 }

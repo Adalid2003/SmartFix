@@ -2,7 +2,7 @@
 // Se incluye la clase con las plantillas del documento.
 require_once('../../app/helpers/private_header_template.php');
 // Se imprime la plantilla del encabezado enviando el título de la página web.
-Dashboard_Page::headerTemplate('Mantenimiento Automoviles');
+Dashboard_Page::headerTemplate('Mantenimiento automoviles');
 ?>
 <div class="row">
     <div class="col s12 14 offset-14">
@@ -34,9 +34,8 @@ Dashboard_Page::headerTemplate('Mantenimiento Automoviles');
                     <th>Marca</th>
                     <th>Modelo</th>
                     <th>Color</th>
-                    <th>Numero motor</th>
+                    <th>Número motor</th>
                     <th>Clase</th>
-                    <th>Detalle</th>
                     <th>Placa</th>
                     <th>Cliente</th>
                     <th>Apellido</th>
@@ -82,11 +81,6 @@ Dashboard_Page::headerTemplate('Mantenimiento Automoviles');
                                 <select id="clase" name="clase">
                                 </select>
                                 <label>Clase del vehiculo</label>
-                            </div>
-                            <div class="input-field col s6">
-                                <select id="detalle" name="detalle">
-                                </select>
-                                <label>Detalle de reparacion</label>
                             </div>
                             <div class="input-field col s12 m6">
                                 <i class="material-icons prefix">broken_image</i>

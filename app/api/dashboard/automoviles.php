@@ -14,7 +14,7 @@ if (isset($_GET['action'])) {
     if (isset($_SESSION['id_usuario'])) {
         // Se compara la acción a realizar cuando un administrador ha iniciado sesión.
         switch ($_GET['action']) {
-            //Se ejecuta la accion readAll para leer los datos y llenar la tabla
+                //Se ejecuta la accion readAll para leer los datos y llenar la tabla
             case 'readAll':
                 if ($result['dataset'] = $automoviles->readAll()) {
                     $result['status'] = 1;
@@ -50,7 +50,7 @@ if (isset($_GET['action'])) {
                             $result['exception'] = 'No hay automoviles ingresados aún';
                         }
                     }
-                }else{
+                } else {
                     $result['exception'] = 'Marca incorrecta';
                 }
                 break;
@@ -122,31 +122,23 @@ if (isset($_GET['action'])) {
                                     if ($automoviles->setMotor($_POST['motor'])) {
                                         if (isset($_POST['clase'])) {
                                             if ($automoviles->setClase($_POST['clase'])) {
-                                                if (isset($_POST['detalle'])) {
-                                                    if ($automoviles->setDetalle($_POST['detalle'])) {
-                                                        if ($automoviles->setPlaca($_POST['placa'])) {
-                                                            if (isset($_POST['cliente'])) {
-                                                                if ($automoviles->setCliente($_POST['cliente'])) {
-                                                                    if ($automoviles->createRow()) {
-                                                                        $result['status'] = 1;
-                                                                        $result['message'] = 'Automovil registrado correctamente';
-                                                                    } else {
-                                                                        $result['exception'] = Database::getException();
-                                                                    }
-                                                                } else {
-                                                                    $result['exception'] = 'Cliente incorrecto';
-                                                                }
+                                                if ($automoviles->setPlaca($_POST['placa'])) {
+                                                    if (isset($_POST['cliente'])) {
+                                                        if ($automoviles->setCliente($_POST['cliente'])) {
+                                                            if ($automoviles->createRow()) {
+                                                                $result['status'] = 1;
+                                                                $result['message'] = 'Automovil registrado correctamente';
                                                             } else {
-                                                                $result['exception'] = 'Seleccione un cliente';
+                                                                $result['exception'] = Database::getException();
                                                             }
                                                         } else {
-                                                            $result['exception'] = 'Placa incorrecta';
+                                                            $result['exception'] = 'Cliente incorrecto';
                                                         }
                                                     } else {
-                                                        $result['exception'] = 'Detalle incorrecto';
+                                                        $result['exception'] = 'Seleccione un cliente';
                                                     }
                                                 } else {
-                                                    $result['exception'] = 'Seleccione un detalle';
+                                                    $result['exception'] = 'Placa incorrecta';
                                                 }
                                             } else {
                                                 $result['exception'] = 'Clase incorrecta';
@@ -194,72 +186,62 @@ if (isset($_GET['action'])) {
                 $_POST = $automoviles->validateForm($_POST);
                 if ($automoviles->setId($_POST['id_automovil'])) {
                     if ($data = $automoviles->readOne()) {
-                    if (isset($_POST['marca'])) {
-                        if ($automoviles->setMarca($_POST['marca'])) {
-                            if (isset($_POST['modelo'])) {
-                                if ($automoviles->setModelo($_POST['modelo'])) {
-                                    if ($automoviles->setColor($_POST['color'])) {
-                                        if ($automoviles->setMotor($_POST['motor'])) {
-                                            if (isset($_POST['clase'])) {
-                                                if ($automoviles->setClase($_POST['clase'])) {
-                                                    if (isset($_POST['detalle'])) {
-                                                        if ($automoviles->setDetalle($_POST['detalle'])) {
-                                                            if ($automoviles->setPlaca($_POST['placa'])) {
-                                                                if (isset($_POST['cliente'])) {
-                                                                    if ($automoviles->setCliente($_POST['cliente'])) {
-                                                                        if ($automoviles->updateRow()) {
-                                                                            $result['status'] = 1;
-                                                                            $result['message'] = 'Automovil actualizado correctamente';
-                                                                        } else {
-                                                                            $result['exception'] = Database::getException();
-                                                                        }
+                        if (isset($_POST['marca'])) {
+                            if ($automoviles->setMarca($_POST['marca'])) {
+                                if (isset($_POST['modelo'])) {
+                                    if ($automoviles->setModelo($_POST['modelo'])) {
+                                        if ($automoviles->setColor($_POST['color'])) {
+                                            if ($automoviles->setMotor($_POST['motor'])) {
+                                                if (isset($_POST['clase'])) {
+                                                    if ($automoviles->setClase($_POST['clase'])) {
+                                                        if ($automoviles->setPlaca($_POST['placa'])) {
+                                                            if (isset($_POST['cliente'])) {
+                                                                if ($automoviles->setCliente($_POST['cliente'])) {
+                                                                    if ($automoviles->updateRow()) {
+                                                                        $result['status'] = 1;
+                                                                        $result['message'] = 'Automovil actualizado correctamente';
                                                                     } else {
-                                                                        $result['exception'] = 'Cliente incorrecto';
+                                                                        $result['exception'] = Database::getException();
                                                                     }
                                                                 } else {
-                                                                    $result['exception'] = 'Seleccione un cliente';
+                                                                    $result['exception'] = 'Cliente incorrecto';
                                                                 }
                                                             } else {
-                                                                $result['exception'] = 'Placa incorrecta';
+                                                                $result['exception'] = 'Seleccione un cliente';
                                                             }
                                                         } else {
-                                                            $result['exception'] = 'Detalle incorrecto';
+                                                            $result['exception'] = 'Placa incorrecta';
                                                         }
                                                     } else {
-                                                        $result['exception'] = 'Seleccione un detalle';
+                                                        $result['exception'] = 'Clase incorrecta';
                                                     }
                                                 } else {
-                                                    $result['exception'] = 'Clase incorrecta';
+                                                    $result['exception'] = 'Seleccione una clase';
                                                 }
                                             } else {
-                                                $result['exception'] = 'Seleccione una clase';
+                                                $result['exception'] = 'Motor incorrecto';
                                             }
                                         } else {
-                                            $result['exception'] = 'Motor incorrecto';
+                                            $result['exception'] = 'Color incorrecto';
                                         }
                                     } else {
-                                        $result['exception'] = 'Color incorrecto';
+                                        $result['exception'] = 'Modelo incorrecto';
                                     }
                                 } else {
-                                    $result['exception'] = 'Modelo incorrecto';
+                                    $result['exception'] = 'Seleccione un modelo';
                                 }
                             } else {
-                                $result['exception'] = 'Seleccione un modelo';
+                                $result['exception'] = 'Marca incorrecta';
                             }
                         } else {
-                            $result['exception'] = 'Marca incorrecta';
+                            $result['exception'] = 'Seleccione una marca';
                         }
                     } else {
-                        $result['exception'] = 'Seleccione una marca';
                     }
-                }else{
-
+                } else {
                 }
-            }else{
-
-            }
-                    break;
-            //Se inicia la accion de eliminar un registro
+                break;
+                //Se inicia la accion de eliminar un registro
             case 'delete':
                 $_POST = $automoviles->validateForm($_POST);
                 if ($automoviles->setId($_POST['id_automovil'])) {
@@ -277,17 +259,17 @@ if (isset($_GET['action'])) {
                     $result['exception'] = 'Automovil incorrecto';
                 }
                 break;
-                case 'cantidadAutoCliente':
-                    if ($result['dataset'] = $automoviles->clientesConMasAutomovil()) {
-                        $result['status'] = 1;
+            case 'cantidadAutoCliente':
+                if ($result['dataset'] = $automoviles->clientesConMasAutomovil()) {
+                    $result['status'] = 1;
+                } else {
+                    if (Database::getException()) {
+                        $result['exception'] = Database::getException();
                     } else {
-                        if (Database::getException()) {
-                            $result['exception'] = Database::getException();
-                        } else {
-                            $result['exception'] = 'No hay datos disponibles';
-                        }
+                        $result['exception'] = 'No hay datos disponibles';
                     }
-                    break;
+                }
+                break;
             default:
                 $result['exception'] = 'Acción no disponible dentro de la sesión';
         }

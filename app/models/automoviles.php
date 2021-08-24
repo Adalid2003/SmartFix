@@ -164,16 +164,16 @@ class Automoviles extends Validator
     }
     public function createRow()
     {
-        $sql = 'INSERT INTO automovil (id_marca, id_modelo, color, numero_motor, id_clase_auto, id_detalle_rep, placa, id_cliente)
-                VALUES(?, ?, ?, ?, ?, ? , ?, ?)';
-        $params = array($this->marca, $this->modelo, $this->color, $this->numeromotor, $this->clase, $this->detalle, $this->placa, $this->cliente);
+        $sql = 'INSERT INTO automovil (id_marca, id_modelo, color, numero_motor, id_clase_auto, placa, id_cliente)
+                VALUES(?, ?, ?, ?, ?, ? , ?)';
+        $params = array($this->marca, $this->modelo, $this->color, $this->numeromotor, $this->clase, $this->placa, $this->cliente);
         return Database::executeRow($sql, $params);
     }
     public function readAll()
     {
-        $sql = 'SELECT automovil.id_automovil,marca.marca,modelo,color, numero_motor, clase_auto, repuesto, placa, nombres_c, apellidos_c
+        $sql = 'SELECT automovil.id_automovil,marca.marca,modelo,color, numero_motor, clase_auto, placa, nombres_c, apellidos_c
                 FROM automovil INNER JOIN marca USING(id_marca) INNER JOIN modelo USING(id_modelo) INNER JOIN clase_automovil USING(id_clase_auto)
-                 INNER JOIN detalle_reparacion USING(id_detalle_rep) INNER JOIN clientes USING(id_cliente)  
+                 INNER JOIN clientes USING(id_cliente)  
                 ORDER BY placa';
         $params = null;
         return Database::getRows($sql, $params);
@@ -210,7 +210,7 @@ class Automoviles extends Validator
     }
     public function readOne()
     {
-        $sql = 'SELECT id_automovil, id_marca, id_modelo, color, numero_motor, id_clase_auto, id_detalle_rep, placa, id_cliente
+        $sql = 'SELECT id_automovil, id_marca, id_modelo, color, numero_motor, id_clase_auto, placa, id_cliente
                 FROM automovil
                 WHERE id_automovil = ?';
         $params = array($this->id);
@@ -221,9 +221,9 @@ class Automoviles extends Validator
 
 
         $sql = 'UPDATE automovil
-                SET id_marca = ?, id_modelo = ?, color = ?, numero_motor = ?, id_clase_auto  = ?, id_detalle_rep = ?, placa = ?, id_cliente = ?
+                SET id_marca = ?, id_modelo = ?, color = ?, numero_motor = ?, id_clase_auto  = ?, placa = ?, id_cliente = ?
                 WHERE id_automovil = ?';
-        $params = array($this->marca, $this->modelo, $this->color, $this->numeromotor, $this->clase, $this->detalle, $this->placa, $this->cliente, $this->id);
+        $params = array($this->marca, $this->modelo, $this->color, $this->numeromotor, $this->clase, $this->placa, $this->cliente, $this->id);
         return Database::executeRow($sql, $params);
     }
 
@@ -237,9 +237,9 @@ class Automoviles extends Validator
 
     public function readAutomovilRpt()
     {
-        $sql = 'SELECT id_automovil,marca.marca,modelo,color, numero_motor, clase_auto, repuesto, placa, nombres_c
+        $sql = 'SELECT id_automovil,marca.marca,modelo,color, numero_motor, clase_auto, placa, nombres_c
         FROM automovil INNER JOIN marca USING(id_marca) INNER JOIN modelo USING(id_modelo) INNER JOIN clase_automovil USING(id_clase_auto)
-         INNER JOIN detalle_reparacion USING(id_detalle_rep) INNER JOIN clientes USING(id_cliente)
+        INNER JOIN clientes USING(id_cliente)
          WHERE id_automovil = ?
         ORDER BY marca';
         $params = array($this->id);

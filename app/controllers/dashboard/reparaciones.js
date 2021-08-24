@@ -17,7 +17,7 @@ function fillTable(dataset) {
         // Se crean y concatenan las filas de la tabla con los datos de cada registro.
         content += `
             <tr>
-                <td>${row.fecha_cita}</td>
+                <td>${row.placa}</td>
                 <td>${row.estado_reparacion}</td>
                 <td>${row.nombres_u}</td>
                 <td>${row.repuesto}</td>
@@ -26,6 +26,7 @@ function fillTable(dataset) {
                 <td>
                     <a href="#" onclick="openUpdateDialog(${row.id_detalle_rep})" class="btn waves-effect blue tooltipped" data-tooltip="Actualizar"><i class="material-icons">mode_edit</i></a>
                     <a href="#" onclick="openDeleteDialog(${row.id_detalle_rep})" class="btn waves-effect red tooltipped" data-tooltip="Eliminar"><i class="material-icons">delete</i></a>
+                    <a href="../../app/reports/dashboard/factura.php?id=${row.id_detalle_rep}" target="_blank" class="btn waves-effect amber tooltipped" data-tooltip="Factura"><i class="material-icons">receipt</i></a>
                 </td>
             </tr>
         `;

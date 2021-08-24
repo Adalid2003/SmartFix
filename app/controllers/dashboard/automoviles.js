@@ -24,7 +24,6 @@ function fillTable(dataset) {
                 <td>${row.color}</td>
                 <td>${row.numero_motor}</td>
                 <td>${row.clase_auto}</td>
-                <td>${row.repuesto}</td>
                 <td>${row.placa}</td>
                 <td>${row.nombres_c}</td>
                 <td>${row.apellidos_c}</td>
