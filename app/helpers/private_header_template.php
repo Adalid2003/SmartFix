@@ -80,6 +80,7 @@ class Dashboard_Page
                          <li><a href="../../views/dashboard/usuarios.php"><i class="material-icons">person</i>Usuarios</a></li>
                          <li><a href="../../views/dashboard/automovil.php"><i class="material-icons">directions_car</i>Automoviles</a></li>
                          <li><a href="../../views/dashboard/marcas.php"><i class="material-icons">widgets</i>Marcas Automoviles</a></li>
+                         <li><a href="../../views/dashboard/modelo.php"><i class="material-icons">book</i>Modelos Automoviles</a></li>
                          <li><a href="../../views/dashboard/citas.php"><i class="material-icons">date_range</i>Citas</a></li>
                          <li><a href="../../views/dashboard/reparaciones.php"><i class="material-icons">build</i>Reparaciones</a></li>
                          <li><a href="../../views/dashboard/clientes.php"><i class="material-icons">contacts</i>Clientes</a></li>

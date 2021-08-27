@@ -92,7 +92,7 @@ if(isset($_GET['action'])){
                         if ($marca->setMarca($_POST['marca'])){
                             if ($marca->updateRow()) {
                                 $result['status'] = 1;
-                                $result['message'] = 'Marca registrada correctamente';
+                                $result['message'] = 'Marca actualizada correctamente';
                             } else {
                                 $result['exception'] = Database::getException();
                             }

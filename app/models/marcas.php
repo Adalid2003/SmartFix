@@ -23,7 +23,7 @@ class Marcas extends Validator
 
     public function setMarca($value)
     {
-        if ($this->validateAlphabetic($value, 1, 50)) {
+        if ($this->validateAlphanumeric($value, 1, 50)) {
             $this->marca = $value;
             return true;
         } else {
