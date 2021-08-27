@@ -76,10 +76,11 @@ function openUpdateDialog(id) {
                 // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
                 if (response.status) {
                     // Se inicializan los campos del formulario con los datos del registro seleccionado.
+                    fillSelect(ENDPOINT_MARCA, 'marca', response.dataset.marca);
                     document.getElementById('id_modelo').value = response.dataset.id_modelo;
                     document.getElementById('modelo').value = response.dataset.modelo;
                     document.getElementById('anio').value = response.dataset.anio;
-                    fillSelect(ENDPOINT_MODELO, 'marca', response.dataset.marca);
+                    
                     // Se actualizan los campos para que las etiquetas (labels) no queden sobre los datos.
                     M.updateTextFields();
                 } else {
