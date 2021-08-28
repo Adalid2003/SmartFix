@@ -195,6 +195,36 @@ if (isset($_GET['action'])) {
                     $result['exception'] = 'Reparacion incorrecta';
                 }
                 break;
+            // Caso para cargar las marcas y la cantidad de sus autos reparados
+            case 'marcaAutoReparaciones':
+                if ($result['dataset'] = $reparacion->marcaAutoReparaciones()) {
+                    $result['status'] = 1;
+                } else {
+                    if (Database::getException()) {
+                        $result['exception'] = Database::getException();
+                    } else {
+                        $result['exception'] = Database::getException();
+                    }
+                }
+                break;
+            // Caso para obtener la cantidad de modelos reparados por marca
+            case 'modelosPorMarca':
+                if ($reparacion->setMarca($_POST['id_marca'])) {
+                    if ($result['dataset'] = $reparacion->modelosPorMarca()) {
+                        $result['status'] = 1;
+                    } else {
+                        if (Database::getException()) {
+                            $result['exception'] = Database::getException();
+                        } else {
+                            $result['exception'] = Database::getException();
+                        }
+                    }
+                } else {
+                    $result['exception'] = 'Id invalido.';
+                }
+                break;
+            
+
             default:
                 $result['exception'] = 'Acción no disponible dentro de la sesión';
         }

@@ -2,11 +2,13 @@
 const API_PRODUCTOS = '../../app/api/dashboard/productos.php?action=';
 const API_AUTO = '../../app/api/dashboard/automoviles.php?action=';
 const API_CITA = '../../app/api/dashboard/cita.php?action=';
+const API_REPARACIONES = '../../app/api/dashboard/reparaciones.php?action=';
 
 
 // Método manejador de eventos que se ejecuta cuando el documento ha cargado.
 document.addEventListener('DOMContentLoaded', function () {
     readRows();
+    readRows2();
     // Se declara e inicializa un objeto con la fecha y hora actual.
     let today = new Date();
     // Se declara e inicializa una variable con el número de horas transcurridas en el día.
@@ -26,9 +28,45 @@ document.addEventListener('DOMContentLoaded', function () {
     // Se llaman a la funciones que muestran las gráficas en la página web.
     graficaBarrasAuto();
     graficaPastelCitas();
+    graficaDonaAutomovil();
+    graficaBarraAutos(2);
     // Se inicializa el componente Tooltip asignado a los enlaces para que funcionen las sugerencias textuales.
     M.Tooltip.init(document.querySelectorAll('.tooltipped'));
 });
+
+// Función para mostrar el top 5 de marcas con mas automoviles en una grafica de dona.
+function graficaDonaAutomovil() {
+    fetch(API_AUTO + 'top5Auto', {
+        method: 'get'
+    }).then(function (request) {
+        // Se verifica si la petición es correcta, de lo contrario se muestra un mensaje indicando el problema.
+        if (request.ok) {
+            request.json().then(function (response) {
+                // Se comprueba si la respuesta es satisfactoria, de lo contrario se remueve la etiqueta canvas de la gráfica.
+                if (response.status) {
+                    // Se declaran los arreglos para guardar los datos por gráficar.
+                    let marca = [];
+                    let cantidad = [];
+                    // Se recorre el conjunto de registros devuelto por la API (dataset) fila por fila a través del objeto row.
+                    response.dataset.map(function (row) {
+                        // Se asignan los datos a los arreglos.
+                        marca.push(row.marca);
+                        cantidad.push(row.cantidad);
+                    });
+                    // Se llama a la función que genera y muestra una gráfica de barras. Se encuentra en el archivo components.js
+                    doughnutGraph('marcasAutomoviles', marca, cantidad, 'Top 5 marcas con más automoviles.')
+                } else {
+                    document.getElementById('marcasAutomoviles').remove();
+                    console.log(response.exception);
+                }
+            });
+        } else {
+            console.log(request.status + ' ' + request.statusText);
+        }
+    }).catch(function (error) {
+        console.log(error);
+    });
+}
 
 // Función para mostrar la cantidad de productos por categoría en una gráfica de barras.
 function graficaBarrasAuto() {
@@ -89,7 +127,6 @@ function graficaPastelCitas() {
                         citas.push(row.citas);
                         cliente.push(row.cliente);
                     });
-                    console.log(citas); 
                     // Se llama a la función que genera y muestra una gráfica de barras. Se encuentra en el archivo components.js
                     pieGraph1('citasGrafica', cliente, citas, 'Top 5 clientes más frecuentes');
                 } else {
@@ -151,6 +188,103 @@ function graficaDonaEstadoCita(mes, texto){
     }).catch(function (error) {
         console.log(error);
     });
+}
+
+//Funcion que genera un grafico de barras para ver la cantidad de autos reparados por marca
+function graficaBarraAutos(marca){
+    // Se define un objeto con los datos del registro seleccionado.
+    const data = new FormData(); 
+    data.append('id_marca', marca);
+
+    fetch(API_REPARACIONES + 'modelosPorMarca', {
+        method: 'post',
+        body: data
+    }).then(function (request) {
+        // Se verifica si la petición es correcta, de lo contrario se muestra un mensaje indicando el problema.
+        if (request.ok) {
+            request.json().then(function (response) {
+                // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
+                if (response.status) {
+                    let marca = [];
+                    let modelo = [];
+                    let cantidad = [];
+
+                    // Se recorre el conjunto de registros devuelto por la API (dataset) fila por fila a través del objeto row.
+                    response.dataset.map(function (row) {
+                        // Se asignan los datos a los arreglos.
+                        marca.push(row.marca);
+                        modelo.push(row.modelo);
+                        cantidad.push(row.cantidad);
+                    });
+
+                    //Destruimos el grafico
+                    document.getElementById('contenedorMarcaAutomoviles').removeChild(document.getElementById('marcaAutomovilesGraph'));
+                    //Creamos el canvas
+                    var graph = document.createElement('canvas');
+                    //Seteamos el mismo
+                    graph.id = 'marcaAutomovilesGraph';
+                    //Agregamos el canvas
+                    document.getElementById('contenedorMarcaAutomoviles').appendChild(graph);
+                    //Mandamos los datos al metodo
+                    barGraph('marcaAutomovilesGraph', modelo, cantidad, 'Cantidad de automoviles: ', marca[0]);
+                } else {
+                    sweetAlert(4, response.exception, null);
+                }
+            });
+        } else {
+            document.getElementById('graficaparam').className = 'hide';
+            console.log(response.exception);
+        }
+    }).catch(function (error) {
+        console.log(error);
+    });
+}
+//carga los datos para la tabla
+function readRows2() {
+    fetch(API_REPARACIONES + 'marcaAutoReparaciones', {
+        method: 'get'
+    }).then(function (request) {
+        // Se verifica si la petición es correcta, de lo contrario se muestra un mensaje indicando el problema.
+        if (request.ok) {
+            request.json().then(function (response) {
+                let data = [];
+                // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
+                if (response.status) {
+                    data = response.dataset;
+                } else {
+                    sweetAlert(4, response.exception, null);
+                }
+                // Se envían los datos a la función del controlador para que llene la tabla en la vista.
+                fillTable2(data);
+            });
+        } else {
+            document.getElementById('graficaparam').className = 'hide';
+            console.log(response.exception);
+        }
+    }).catch(function (error) {
+        console.log(error);
+    });
+}
+
+function fillTable2(dataset){
+    let content = '';
+    // Se recorre el conjunto de registros (dataset) fila por fila a través del objeto row.
+    dataset.map(function (row) {
+        // Se crean y concatenan las filas de la tabla con los datos de cada registro.
+        content += `
+            <tr>
+                <td>${row.marca}</td>
+                <td>${row.count}</td>
+                <td>
+                    <a href="#" onclick="graficaBarraAutos(${row.id_marca})" class="btn modal-close waves-effect blue tooltipped" data-tooltip="Ver grafica"><i class="material-icons">visibility</i></a>
+                </td>
+            </tr>
+        `;
+    });
+    // Se agregan las filas al cuerpo de la tabla mediante su id para mostrar los registros.
+    document.getElementById('tbody-rows2').innerHTML = content;
+    // Se inicializa el componente Tooltip asignado a los enlaces para que funcionen las sugerencias textuales.
+    M.Tooltip.init(document.querySelectorAll('.tooltipped'));
 }
 
 //carga los datos para la tabla

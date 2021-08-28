@@ -12,12 +12,24 @@ Dashboard_Page::headerTemplate('Bienvenido');
 
 <!-- Se muestran las gráficas de acuerdo con algunos datos disponibles en la base de datos -->
 <div class="row">
-    <div class="col s12 m6">
+    <div class="col s12 m6" style="width: 600px;">
         <!-- Se muestra una gráfica de barra con top 10 de clientes con mas automoviles -->
         <canvas id="chart1"></canvas>
     </div>
-    <div class="col s12 m6" style="width: 800px;">
+    <div class="col s12 m6" style="width: 600px;">
         <canvas id="citasGrafica"></canvas>
+    </div>
+</div>
+<div class="row">
+    <div class="col s12 m6" style="width: 600px;">
+        <canvas id="marcasAutomoviles"></canvas>
+    </div>
+    <div class="col s12 m6">
+        <h6 style="text-align: center;">Automoviles mas reparados por marcas.<h6>
+        <a id="btn_seleccionarmarca" href="#seleccionarMarca" class="btn modal-trigger waves-effect blue tooltipped" data-tooltip="Seleccionar marca"><i class="material-icons">visibility</i></a>
+        <div id="contenedorMarcaAutomoviles" style="width: 600px;">
+            <canvas id="marcaAutomovilesGraph"></canvas>
+        </div>
     </div>
 </div>
 <div class="row">
@@ -43,6 +55,27 @@ Dashboard_Page::headerTemplate('Bienvenido');
                 </tr>
             </thead>
             <tbody id="tbody-rows">
+            </tbody>
+        </table>
+    </div>
+    <div class="modal-footer">
+        <a href="#!" class="modal-close waves-effect waves-green btn-flat">Cerrar</a>
+    </div>
+</div>
+
+<div id="seleccionarMarca" class="modal">
+    <div class="modal-content">
+        <h4>Seleccionar marca</h4>
+        <!--Encabezado tablas-->
+        <table class="responsive-table highlight">
+            <thead>
+                <tr>
+                    <th>Marca</th>
+                    <th>Reparaciones</th>
+                    <th class="actions-column">Acción</th>
+                </tr>
+            </thead>
+            <tbody id="tbody-rows2">
             </tbody>
         </table>
     </div>

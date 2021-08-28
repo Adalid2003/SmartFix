@@ -270,9 +270,22 @@ if (isset($_GET['action'])) {
                     }
                 }
                 break;
+            // Caso para obtener el top 5 de marcas con mas automoviles
+            case 'top5Auto':
+                if ($result['dataset'] = $automoviles->top5Auto()) {
+                    $result['status'] = 1;
+                } else {
+                    if (Database::getException()) {
+                        $result['exception'] = Database::getException();
+                    } else {
+                        $result['exception'] = 'No hay datos.';
+                    }
+                }
+                break;
             default:
                 $result['exception'] = 'Acción no disponible dentro de la sesión';
         }
+
         // Se indica el tipo de contenido a mostrar y su respectivo conjunto de caracteres.
         header('content-type: application/json; charset=utf-8');
         // Se imprime el resultado en formato JSON y se retorna al controlador.

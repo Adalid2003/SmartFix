@@ -149,6 +149,18 @@ class Automoviles extends Validator
         return $this->cliente;
     }
 
+    //  Metodo para obtener el top 5 de marcas con mas automoviles
+    public function top5Auto()
+    {
+        $sql = 'SELECT marca, COUNT(id_automovil) as cantidad FROM automovil
+                INNER JOIN marca USING (id_marca)
+                GROUP BY marca
+                ORDER BY cantidad DESC
+                LIMIT 5';
+        $params = null;
+        return Database::getRows($sql, $params);
+    }
+
     /*
     *   Métodos para realizar las operaciones SCRUD (search, create, read, update, delete).
     */

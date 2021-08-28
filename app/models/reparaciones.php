@@ -12,6 +12,7 @@ class Reparacion extends Validator
     private $precio = null;
     private $obra = null;
     private $cliente = null;
+    private $marca = null;
 
     /*
     *   Métodos para asignar valores a los atributos.
@@ -25,6 +26,17 @@ class Reparacion extends Validator
             return false;
         }
     }
+
+    public function setMarca($value)
+    {
+        if ($this->validateNaturalNumber($value)) {
+            $this->marca = $value;
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public function setCita($value)
     {
         if ($this->validateNaturalNumber($value)) {
@@ -101,6 +113,11 @@ class Reparacion extends Validator
         return $this->auto;
     }
 
+    public function getMarca()
+    {
+        return $this->marca;
+    }
+
     public function getRepuesto()
     {
         return $this->repuesto;
@@ -129,6 +146,32 @@ class Reparacion extends Validator
     /*
     *   Métodos para realizar las operaciones SCRUD (search, create, read, update, delete).
     */
+
+    // Metodo para cargar las marcas y la cantidad de sus autos reparados
+    public function marcaAutoReparaciones()
+    {
+        $sql = 'SELECT marca.id_marca, marca.marca, count(id_detalle_rep)FROM detalle_reparacion
+                INNER JOIN automovil USING (id_automovil)
+                INNER JOIN marca USING (id_marca)
+                GROUP BY marca.id_marca, marca.marca';
+        $params = null;
+        return Database::getRows($sql, $params);
+    }
+
+    // Metodo para obtener la cantidad de modelos reparados por marca
+    public function modelosPorMarca() 
+    {
+        $sql = 'SELECT marca.marca, modelo, COUNT(id_detalle_rep) as cantidad FROM detalle_reparacion
+                INNER JOIN automovil USING (id_automovil)
+                INNER JOIN marca USING (id_marca)
+                INNER JOIN modelo USING (id_modelo)
+                WHERE marca.id_marca = ?
+                GROUP BY modelo, marca.marca
+                ORDER BY cantidad DESC
+                LIMIT 5';
+        $params = array($this->marca);
+        return Database::getRows($sql, $params);
+    }
     public function searchRows($value)
     {
         $sql = 'SELECT id_detalle_rep, fecha_cita, estado_reparacion, nombres_u, repuesto, precio_repuesto, mano_obra
