@@ -15,7 +15,7 @@ Public_Page::headerTemplate('Citas');
                     <input type="date" id="fecha" name="fecha" class="validate" required />
                     <label for="fecha">Seleccione la fecha de su cita</label>
                 </div>
-                <div class="input-field col s6">
+                <div class="input-field col s12 m6">
                     <select id="hora" name="hora" class="validate">
                     </select>
                     <label>Seleccione la hora de su cita</label>

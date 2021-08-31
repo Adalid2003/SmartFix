@@ -78,9 +78,9 @@ class Modelos extends Validator
     */
     public function searchRows($value)
     {
-        $sql = 'SELECT id_modelo,modelo,anio,marca
-                FROM modelo INNER JOIN marca USING(id_marca)
-                WHERE modelo ILIKE ? OR marca ILIKE ? 
+        $sql = 'SELECT id_modelo, modelo, anio, marca.marca
+                FROM modelo INNER JOIN marca ON marca.id_marca = modelo.marca
+                WHERE modelo ILIKE ? OR marca.marca ILIKE ? 
                 ORDER BY marca';
         $params = array("%$value%");
         return Database::getRows($sql, $params);
@@ -93,7 +93,7 @@ class Modelos extends Validator
         if ($data = Database::getRow($sql, $params)){
             $sql = 'INSERT INTO modelo (id_modelo, modelo, anio, marca)
                 VALUES(?, ?, ?, ?)';
-                $params = array($data['mas'], $this->modelo, $this->anio, this->marca);
+                $params = array($data['mas'], $this->modelo, $this->anio, $this->marca);
                 return Database::executeRow($sql, $params);
         } else {
             return false;
@@ -103,19 +103,19 @@ class Modelos extends Validator
 
     public function readAll()
     {
-        $sql = 'SELECT id_modelo, modelo, anio, marca
-        FROM modelo
+        $sql = 'SELECT id_modelo, modelo, anio, marca.marca
+        FROM modelo INNER JOIN marca ON marca.id_marca = modelo.marca
         ORDER BY marca';
         $params = null;
         return Database::getRows($sql, $params);
     }
 
-    public function readAllMar()
+    /*public function readAllMar()
     {
         $sql = 'SELECT id_marca, marca from marca';
         $params = null;
         return Database::getRows($sql, $params);
-    }
+    }*/
 
 
     public function readOne()
