@@ -27,7 +27,7 @@ if (isset($_GET['action'])){
                 break;
 
                 //Se llama la consulta para llenar el combobox
-            case 'readAllMar':
+            /*case 'readAllMar':
                 if ($result['dataset'] = $modelo->readAll2()) {
                     $result['status'] = 1;
                 } else {
@@ -37,7 +37,7 @@ if (isset($_GET['action'])){
                         $result['exception'] = 'No hay marcas ingresadas aún';
                     }
                 }
-                break;
+                break;*/
                 
                  //Se inicia la accion de buscar un registro
             case 'search':
@@ -69,8 +69,8 @@ if (isset($_GET['action'])){
                     if (isset($_POST['modelo'])){
                         if ($modelo->setModelo($_POST['modelo'])){
                             if (isset($_POST['anio'])){
-                                if ($modelo->setAnio($$_POST['anio'])){
-                                    if (issets($_POST['marca'])){
+                                if ($modelo->setAnio($_POST['anio'])){
+                                    if (isset($_POST['marca'])){
                                         if ($modelo->setMarca($_POST['marca'])) {
                                             if ($modelo->createRow()) {
                                                 $result['status'] = 1;
@@ -120,8 +120,8 @@ if (isset($_GET['action'])){
                     if (isset($_POST['modelo'])){
                         if ($modelo->setModelo($_POST['modelo'])){
                             if (isset($_POST['anio'])){
-                                if ($modelo->setAnio($$_POST['anio'])){
-                                    if (issets($_POST['marca'])){
+                                if ($modelo->setAnio($_POST['anio'])){
+                                    if (isset($_POST['marca'])){
                                         if ($modelo->setMarca($_POST['marca'])) {
                                             if ($modelo->updateRow()) {
                                                 $result['status'] = 1;

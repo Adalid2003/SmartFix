@@ -1,6 +1,6 @@
 // Constante para establecer la ruta y parámetros de comunicación con la API.
 const API_MODELOS = '../../app/api/dashboard/modelos.php?action=';
-const ENDPOINT_MARCA = '../../app/api/dashboard/modelos.php?action=readAllMar';
+const ENDPOINT_MARCA = '../../app/api/dashboard/marcas.php?action=readAll';
 // Método manejador de eventos que se ejecuta cuando el documento ha cargado.
 document.addEventListener('DOMContentLoaded', function () {
     // Se llama a la función que obtiene los registros para llenar la tabla. Se encuentra en el archivo components.js
@@ -76,11 +76,11 @@ function openUpdateDialog(id) {
                 // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
                 if (response.status) {
                     // Se inicializan los campos del formulario con los datos del registro seleccionado.
-                    fillSelect(ENDPOINT_MARCA, 'marca', response.dataset.marca);
+                    
                     document.getElementById('id_modelo').value = response.dataset.id_modelo;
                     document.getElementById('modelo').value = response.dataset.modelo;
                     document.getElementById('anio').value = response.dataset.anio;
-                    
+                    fillSelect(ENDPOINT_MARCA, 'marca', response.dataset.marca);
                     // Se actualizan los campos para que las etiquetas (labels) no queden sobre los datos.
                     M.updateTextFields();
                 } else {
@@ -115,6 +115,7 @@ function openDeleteDialog(id) {
     // Se llama a la función que elimina un registro. Se encuentra en el archivo components.js
     confirmDelete(API_MODELOS, data);
 }
+
 
 //Funcion para cargar los modelos de los automoviles a partir de su marca
 /*function cargarModelos()
