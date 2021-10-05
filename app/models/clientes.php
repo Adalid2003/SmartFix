@@ -305,6 +305,79 @@ class Clientes extends Validator
         return Database::getRows($sql, $params);
     }
 
+    public function verificarEstado(){
+        if ($this->estado == 1) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function verificarIntentos(){
+        $sql = 'SELECT intentos
+        FROM clientes
+        WHERE id_cliente = ?';
+        $params = array($this->id);
+        return Database::getRow($sql, $params);
+    }
+
+    public function actualizarIntentos($intentos)
+    {
+        $sql = 'UPDATE clientes 
+                SET intentos = ?
+                WHERE id_cliente = ?';
+        $params = array($intentos, $this->id);
+        return Database::executeRow($sql, $params);
+    }
+
+    public function actualizarEstado($estado)
+    {
+        $sql = 'UPDATE clientes
+                SET estado_cliente = ?
+                WHERE id_cliente = ?';
+        $params = array($estado, $this->id);
+        return Database::executeRow($sql, $params);
+    }
+
+    public function accionCliente($observacion)
+    {
+        $sql = 'INSERT INTO bitacora(id_cliente,fecha,hora,observacion) 
+                VALUES(?,current_date,current_time,?)';
+        $params = array($this->id, $observacion);
+        return Database::executeRow($sql, $params);
+    }
+
+    public function verificar90dias(){
+        $sql = 'SELECT fecha_clave FROM clientes 
+                WHERE id_cliente = ? AND fecha_clave > (SELECT current_date - 90)';
+        $params = array($this->id);
+        return Database::getRow($sql, $params);
+    }
+
+    public function changePasswordOut()
+    {
+        $hash = password_hash($this->clavec, PASSWORD_DEFAULT);
+        $sql = 'UPDATE clientes SET contrasena = ? WHERE id_cliente = ?';
+        $params = array($hash, $_SESSION['id_cliente_tmp']);
+        return Database::executeRow($sql, $params);
+    }
+
+    public function actualizarFecha()
+    {
+        $sql = 'UPDATE clientes 
+                SET fecha_clave = current_date
+                WHERE id_cliente = ?';
+        $params = array($this->idc);
+        return Database::executeRow($sql, $params);
+    }
+
+    public function checkEmail()
+    {
+        $sql = 'SELECT email_c ,id_cliente FROM clientes WHERE email_c = ?';
+        $params = array($this->emailc);
+        return Database::getRow($sql, $params);
+    }
+
     /*public function generosClientes()
     {
         $sql = ''

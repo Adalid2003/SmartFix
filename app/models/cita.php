@@ -247,4 +247,14 @@ class Cita extends Validator
         $params = array($this->id);
         return Database::executeRow($sql, $params);
     }
+
+    public function readCitaC()
+    {
+        $sql = 'SELECT fecha_cita,nombres_c,estado_cita, hora, razon
+                FROM cita INNER JOIN clientes USING(id_cliente) INNER JOIN estado_cita USING(id_estado_cita) INNER JOIN hora_cita USING(id_hora)
+                WHERE id_cliente = ?
+                ORDER BY fecha_cita desc';
+        $params = array($this->$_SESSION['id_cliente']);
+        return Database::getRows($sql, $params);
+    }
 }

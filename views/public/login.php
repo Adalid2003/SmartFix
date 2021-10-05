@@ -32,6 +32,11 @@ Public_Page::headerTemplate('Iniciar sesión');
         </div>
         <div class="row center-align">
             <button type="submit" class="btn waves-effect blue tooltipped" data-tooltip="Ingresar"><i class="material-icons">send</i></button>
+            <p>
+            <a href="../../views/public/recuperar.php">He olvidado mi contraseña</a>
+        </div>
+        <div class="row center-align">
+            <button type="submit" class="btn waves-effect blue tooltipped" data-tooltip="Ingresar"><i class="material-icons">send</i></button>
         </div>
     </form>
     <p class="center-align indigo-text">¿Aun no tienes una cuenta? <a href="../../views/public/registrarse.php">REGISTRATE AHORA</a></p>

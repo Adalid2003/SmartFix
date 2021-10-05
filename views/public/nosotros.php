@@ -6,7 +6,7 @@ Public_Page::headerTemplate('Sobre nosotros');
 ?>
 <!--Comienzo seccion quienes somos-->
 <h4 class="center blue-grey-text">Sobre nosotros</h4>
-<<ul class="collapsible">
+<ul class="collapsible">
     <!--Informacion Relevante-->
     <li>
         <div class="collapsible-header"><i class="material-icons">filter_drama</i>¿Que servicios brindamos?</div>

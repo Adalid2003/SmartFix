@@ -31,10 +31,7 @@ function fillTable(dataset) {
                 <!--td>${row.fecha_nacimiento}</td-->
                 <td>
                     <a href="#" onclick="openUpdateDialog(${row.id_usuario})" class="btn waves-effect blue tooltipped" data-tooltip="Actualizar"><i class="material-icons">mode_edit</i></a>
-                    <p>
                     <a href="#" onclick="openDeleteDialog(${row.id_usuario})" class="btn waves-effect red tooltipped" data-tooltip="Eliminar"><i class="material-icons">delete</i></a>
-                    <p>
-                    <a href="../../app/reports/dashboard/detalle_usuarios.php" target="_blank" class="btn waves-effect green accent-4 tooltipped" data-tooltip="Reporte datos del usuario"><i class="material-icons">assignment</i></a>
                 </td>
             </tr>
         `;

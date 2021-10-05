@@ -93,7 +93,7 @@ class Modelos extends Validator
         if ($data = Database::getRow($sql, $params)){
             $sql = 'INSERT INTO modelo (id_modelo, modelo, anio, marca)
                 VALUES(?, ?, ?, ?)';
-                $params = array($data['mas'], $this->modelo, $this->anio, this->marca);
+                $params = array($data['mas'], $this->modelo, $this->anio, $this->marca);
                 return Database::executeRow($sql, $params);
         } else {
             return false;

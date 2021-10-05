@@ -26,7 +26,6 @@ Dashboard_Page::headerTemplate('Mantenimiento Marcas');
         </div>
         <div class="input-field col s6 m4">
             <a href="#" onclick="openCreateDialog()" class="btn waves-effect cyan darken-1 tooltipped" data-tooltip="Crear"><i class="material-icons">add</i></a>
-            <a href="../../app/reports/dashboard/usuarios.php" target="_blank" class="btn waves-effect amber tooltipped" data-tooltip="Reporte"><i class="material-icons">assignment</i></a>
         </div>
         <table class="responsive-table highlight">
             <thead>

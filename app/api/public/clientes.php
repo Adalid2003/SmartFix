@@ -3,6 +3,8 @@ require_once('../../helpers/database.php');
 require_once('../../helpers/validator.php');
 require_once('../../models/clientes.php');
 
+
+
 if (isset($_GET['action'])) {
     // Se crea una sesión o se reanuda la actual para poder utilizar variables de sesión en el script.
     session_start();
@@ -92,7 +94,6 @@ if (isset($_GET['action'])) {
                                                 } else {
                                                     $result['exception'] = 'Por favor seleccione un género.';
                                                 }
-                                                
                                             } else {
                                                 $result['exception'] = 'Teléfono incorrecto';
                                             }
@@ -112,6 +113,51 @@ if (isset($_GET['action'])) {
                         }
                     }
                 }
+                break;
+            case 'sendCode':
+                $_SESSION['codigo'] = random_int(100, 999999);
+                try {
+
+                    //Ajustes del servidor
+                    $mail->SMTPDebug = 0;
+                    $mail->isSMTP();
+                    $mail->Host       = 'smtp.gmail.com';
+                    $mail->SMTPAuth   = true;
+                    $mail->Username   = 'reparacionsmartfix@gmail.com';
+                    $mail->Password   = 'smartfix123';
+                    $mail->SMTPSecure = 'tls';
+                    $mail->Port       = 587;
+
+                    //Receptores
+                    $mail->setFrom('reparacionsmartfix@gmail.com', 'Soporte SmartFix');
+                    $mail->addAddress($_SESSION['correo_cliente']);
+
+                    //Contenido
+                    $mail->isHTML(true);                                  //Set email format to HTML
+                    $mail->Subject = 'Codigo de Verificación';
+                    $mail->Body    = 'Tu código de verificación es: <b>' . $_SESSION['codigo'] . '</b>.';
+                    $mail->AltBody = 'Tu código de verificación es: ' . $_SESSION['codigo'] . '.';
+
+                    if ($mail->send()) {
+                        $result['status'] = 1;
+                        $result['message'] = 'Correo enviado correctamente';
+                    }
+                } catch (Exception $e) {
+                    $result['exception'] = $mail->ErrorInfo;
+                }
+                break;
+            case 'checkCode':
+                $_POST = $cliente->validateForm($_POST);
+                if ($_POST['codigo'] == $_SESSION['codigo']) {
+                    unset($_SESSION['codigo']);
+                    $_SESSION['id_cliente'] = $_SESSION['id_cliente_temp'];
+                    unset($_SESSION['id_cliente_temp']);
+                    $result['status'] = 1;
+                    $result['message'] = 'Sesión iniciada correctamente.';
+                } else {
+                    $result['exception'] = 'El código ingresado es incorrecto.';
+                }
+
                 break;
             case 'logIn':
                 $_POST = $cliente->validateForm($_POST);
@@ -134,6 +180,141 @@ if (isset($_GET['action'])) {
                     } else {
                         $result['exception'] = 'Alias incorrecto';
                     }
+                }
+                break;
+            case 'changePassword':
+                if ($cliente->setId($_SESSION['id_cliente_tmp'])) {
+                    $_POST = $cliente->validateForm($_POST);
+                    if ($cliente->checkPassword($_POST['clave_actual'])) {
+                        if (
+                            $_POST['clave_actual'] == $_POST['clave_nueva_1'] ||
+                            $_POST['clave_actual'] == $_POST['clave_nueva_2']
+                        ) {
+                            $result['exception'] = 'Su clave no puede ser igual que la anterior.';
+                        } else {
+                            if ($_POST['clave_nueva_1'] == $_POST['clave_nueva_2']) {
+                                if ($cliente->setPassword($_POST['clave_nueva_1'])) {
+                                    if ($cliente->changePasswordOut()) {
+                                        $result['status'] = 1;
+                                        $result['message'] = 'Contraseña cambiada correctamente';
+                                        unset($_SESSION['id_cliente_tmp']);
+                                        $_SESSION['id_cliente'] = $cliente->getId();
+                                        $cliente->actualizarFecha();
+                                    } else {
+                                        $result['exception'] = Database::getException();
+                                    }
+                                } else {
+                                    $result['exception'] = $cliente->getPasswordError();
+                                }
+                            } else {
+                                $result['exception'] = 'Claves nuevas diferentes';
+                            }
+                        }
+                    } else {
+                        $result['exception'] = 'Clave actual incorrecta';
+                    }
+                } else {
+                    $result['exception'] = 'Usuario incorrecto';
+                }
+                break;
+            case 'validateEmail':
+                $_POST = $cliente->validateForm($_POST);
+                if ($cliente->setEmail($_POST['txtCorreo'])) {
+                    if ($correo = $cliente->checkEmail()) {
+                        if ($correo['email_c'] == $_POST['txtCorreo']) {
+                            $_SESSION['id_cliente_tmp'] = $correo['id_cliente'];
+                            $_SESSION['email_c'] = $correo['email_c'];
+                            $result['status'] = 1;
+                            $result['message'] = 'Correo verificado.';
+                        } else {
+                            $result['exception'] = 'El correo electrónico ingresado no coincide con su cuenta.';
+                        }
+                    } else {
+                        if (Database::getException()) {
+                            $result['exception'] = Database::getException();
+                        } else {
+                            $result['exception'] = 'El correo ingresado no existe en nuestro sistema, por favor verifique su información o vuelva a intentarlo.';
+                        }
+                    }
+                } else {
+                    $result['exception'] = 'Id pendiente de ingresar.';
+                }
+                break;
+            case 'sendEmail':
+                $_SESSION['codigo_email'] = random_int(100, 999999);
+                try {
+
+                    
+
+                    //Load Composer's autoloader
+                    require '../../libraries/phpmailer52/class.phpmailer.php';
+                    require '../../libraries/phpmailer52/class.smtp.php';
+                    require '../../libraries/phpmailer52/class.phpmaileroauthgoogle.php';
+
+                    //Create an instance; passing `true` enables exceptions
+                    $mail = new PHPMailer(true);
+                    $mail->CharSet = 'UTF-8';
+                    $mail->setLanguage("es");
+                    //Ajustes del servidor
+                    $mail->SMTPDebug = 0;
+                    $mail->isSMTP();
+                    $mail->Host       = 'smtp.gmail.com';
+                    $mail->SMTPAuth   = true;
+                    $mail->Username   = 'recuperacionsmartfix@gmail.com';
+                    $mail->Password   = 'smartfix123';
+                    $mail->SMTPSecure = 'tls';
+                    $mail->Port       = 587;
+
+                    //Receptores
+                    $mail->setFrom('recuperacionsmartfix@gmail.com', 'Soporte SmartFix');
+                    $mail->addAddress($_SESSION['email_c']);
+
+                    //Contenido
+                    $mail->isHTML(true);                                  //Set email format to HTML
+                    $mail->Subject = 'Codigo de Verificación';
+                    $mail->Body    = 'Tu código de verificación es: <b>' . $_SESSION['codigo_email'] . '</b>.';
+                    $mail->AltBody = 'Tu código de verificación es: ' . $_SESSION['codigo_email'] . '.';
+
+                    if ($mail->send()) {
+                        $result['status'] = 1;
+                        $result['message'] = 'Se ha enviado un código de recuperación de contraseña a su correo.';
+                    }
+                } catch (Exception $e) {
+                    $result['exception'] = $mail->ErrorInfo;
+                }
+                break;
+            case 'validateCode':
+                $_POST = $cliente->validateForm($_POST);
+                if ($_SESSION['codigo_email'] == $_POST['txtCodigo']) {
+                    unset($_SESSION['codigo_email']);
+                    $result['status'] = 1;
+                    $result['message'] = 'Código verificado correctamente.';
+                } else {
+                    $result['exception'] = 'El código que usted ha ingresado ya venció o es invalido.';
+                }
+
+                break;
+            case 'changePasswordOut':
+                if ($cliente->setId($_SESSION['id_cliente_tmp'])) {
+                    $_POST = $cliente->validateForm($_POST);
+                    if ($_POST['clave_nueva_1'] == $_POST['clave_nueva_2']) {
+                        if ($cliente->setPassword($_POST['clave_nueva_1'])) {
+                            if ($cliente->changePasswordOut()) {
+                                $result['status'] = 1;
+                                $result['message'] = 'Contraseña cambiada correctamente';
+                                unset($_SESSION['id_cliente_tmp']);
+                                $cliente->actualizarFecha();
+                            } else {
+                                $result['exception'] = Database::getException();
+                            }
+                        } else {
+                            $result['exception'] = $cliente->getPasswordError();
+                        }
+                    } else {
+                        $result['exception'] = 'Claves nuevas diferentes';
+                    }
+                } else {
+                    $result['exception'] = 'Usuario incorrecto';
                 }
                 break;
             default:
