@@ -10,7 +10,7 @@ Public_Page::headerTemplate('Registrarse');
     <!-- Título del contenido principal -->
     <h4 class="center-align indigo-text">Regístrate como cliente</h4>
     <!-- Formulario para crear cuenta -->
-    <form method="post" id="register-form">
+    <form method="post" id="register-form"  autocomplete="off">
         <!-- Campo oculto para asignar el token del reCAPTCHA -->
         <input type="hidden" id="g-recaptcha-response" name="g-recaptcha-response"/>
         <div class="row">

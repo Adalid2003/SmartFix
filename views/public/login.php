@@ -17,7 +17,7 @@ Public_Page::headerTemplate('Iniciar sesión');
     <!-- Título del contenido principal -->
     <h4 class="center-align indigo-text">Iniciar sesión</h4>
     <!-- Formulario para iniciar sesión -->
-    <form method="post" id="session-form">
+    <form method="post" id="session-form" autocomplete="off">
         <div class="row">
             <div class="input-field col s12 m4 offset-m4">
                 <i class="material-icons prefix">email</i>
@@ -44,7 +44,7 @@ Public_Page::headerTemplate('Iniciar sesión');
 
 <!-- Modal Structure -->
 <div id="cambiarContraseña" class="modal">
-        <form method="post" id="cambiarcontraseña-form">
+        <form method="post" id="cambiarcontraseña-form" autocomplete="off">
             <div class="modal-content">
                 <h4>Actualizar Contraseña</h4>
                 <p>Han pasado 90 dias desde la última vez que actualizaste tu contraseña, para poder iniciar sesión, debes actualizarla.</p>
