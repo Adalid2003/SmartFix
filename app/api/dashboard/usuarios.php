@@ -417,21 +417,55 @@ if (isset($_GET['action'])) {
                 $_POST = $usuario->validateForm($_POST);
                 if ($usuario->checkUser($_POST['alias'])) {
                     if ($usuario->getEstado()) {
-                    if ($usuario->checkPassword($_POST['clave'])) {
-                        $result['status'] = 1;
-                        $result['message'] = 'Autenticación correcta';
-                        $_SESSION['id_usuario'] = $usuario->getId();
-                        $_SESSION['alias_u'] = $usuario->getAlias();
-                    } else {
-                        if (Database::getException()) {
-                            $result['exception'] = Database::getException();
+                        if ($usuario->checkPassword($_POST['clave'])) {
+                            if ($usuario->resetAttempts()) {
+                                if ($usuario->checkIfPasswordHas90Days()) {
+                                    $_SESSION['id_tmp'] = $usuario->getId();
+                                    $_SESSION['alias_u'] = $usuario->getAlias();
+                                    $result['error'] = 1;
+                                } else {
+                                    if (Database::getException()) {
+                                        $result['exception'] = Database::getException();
+                                    } else {
+                                        $result['status'] = 1;
+                                        $result['message'] = 'Autenticación correcta';
+                                        $_SESSION['id_usuario'] = $usuario->getId();
+                                        $_SESSION['alias_u'] = $usuario->getAlias();
+                                    }
+                                }
+                            } else {
+                                $result['exception'] = Database::getException();
+                            }
                         } else {
-                            $result['exception'] = 'Clave incorrecta';
+                            if (Database::getException()) {
+                                $result['exception'] = Database::getException();
+                            } else {
+                                if ($usuario->increaseAttempt()) {
+                                    if ($intentos = $usuario->getAttempts()) {
+                                        if ($intentos['intentos'] >= 3) {
+                                            if ($usuario->updateStateToFalse()) {
+                                                $result['exception'] = 'Usuario bloqueado por intentos excedidos. Contacte con su administrador.';
+                                            } else {
+                                                $result['exception'] = Database::getException();
+                                            }
+                                        } else {
+                                            $result['exception'] = 'Clave incorrecta.';
+                                        }
+                                    } else {
+                                        if (Database::getException()) {
+                                            $result['exception'] = Database::getException();
+                                        } else {
+                                            $result['exception'] = 'No se han podido obtener los intentos de este usuario.';
+                                        } 
+                                    }
+                                } else {
+                                    $result['exception'] = Database::getException();
+                                }
+                            }
                         }
+                    } else {
+                        $result['exception'] = 'La cuenta ha sido desactivada';
                     }
-                } else{
-                    $result['exception'] = 'La cuenta ha sido desactivada';
-                }
                 } else {
                     if (Database::getException()) {
                         $result['exception'] = Database::getException();
@@ -439,7 +473,28 @@ if (isset($_GET['action'])) {
                         $result['exception'] = 'Alias incorrecto';
                     }
                 }
-            
+                break;
+            case 'changePassword90Days':
+                $_POST = $usuario->validateForm($_POST);
+                if ($usuario->setClave($_POST['txtNuevaContraseña'])) {
+                    if ($_POST['txtNuevaContraseña'] == $_POST['txtConfirmarContraseña']) {
+                        $_SESSION['id_usuario'] = $_SESSION['id_tmp'];
+                        if ($usuario->changePassword()) {
+                            if ($usuario->setNewPassword90Days()) {
+                                $result['status'] = 1;
+                                $result['message'] = 'Contraseña actualizada. Sesión iniciada correctamente.';
+                            } else {
+                                $result['exception'] = Database::getException();
+                            }
+                        } else {
+                            $result['exception'] = Database::getException();
+                        }
+                    } else {
+                        $result['exception'] = 'Las contraseñas no coinciden.';
+                    }
+                } else {
+                    $result['exception'] = 'Su contraseña no cumple con los requisitos.';
+                }
                 break;
             default:
                 $result['exception'] = 'Acción no disponible fuera de la sesión';

@@ -245,6 +245,54 @@ class Usuarios extends Validator
         }
     }
 
+    //funcion para sumar un intento luego de fallar la contraseña
+    public function increaseAttempt()
+    {
+        $sql = 'UPDATE usuarios SET intentos = intentos + 1 WHERE alias_u = ?';
+        $params = array($this->alias);
+        return Database::executeRow($sql, $params);
+    }
+
+    //funcion para resetear los intentos luego de iniciar sesión
+    public function resetAttempts()
+    {
+        $sql = 'UPDATE usuarios SET intentos = 0 WHERE alias_u = ?';
+        $params = array($this->alias);
+        return Database::executeRow($sql, $params);
+    }
+
+    //funcion para obtener la cantidad de intentos de un usuario
+    public function getAttempts()
+    {
+        $sql  = 'SELECT intentos FROM usuarios WHERE alias_u = ?';
+        $params = array($this->alias);
+        return Database::getRow($sql, $params);
+    }
+
+    //funcion para actualizar el estado de un usuario a false
+    public function updateStateToFalse()
+    {
+        $sql = 'UPDATE usuarios SET estado_usuario = false WHERE alias_u = ?';
+        $params = array($this->alias);
+        return Database::executeRow($sql, $params);
+    }
+
+    //funcion para verificar si ya cumplieron los 90 dias de la contraseña de un usuario
+    public function checkIfPasswordHas90Days()
+    {
+        $sql = 'SELECT*FROM usuarios WHERE fechaclave < current_date - 90 AND alias_u = ?';
+        $params = array($this->alias);
+        return Database::getRow($sql, $params);
+    }
+
+    //funcion para actualizar la fecha de cambio de clave a la actual
+    public function setNewPassword90Days()
+    {
+        $sql = 'UPDATE usuarios SET fechaclave = current_date WHERE id_usuario = ?';
+        $params = array($_SESSION['id_usuario']);
+        return Database::executeRow($sql, $params);
+    }
+
     public function changePassword()
     {
         // Se transforma la contraseña a una cadena de texto de longitud fija mediante el algoritmo por defecto.

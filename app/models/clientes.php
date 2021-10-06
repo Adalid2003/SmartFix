@@ -15,6 +15,7 @@ class Clientes extends Validator
     private $telefonoc = null;
     private $nacimientoc = null;
     private $genero = null;
+    private $estado = null;
 
     /*
     *   Métodos para validar y asignar valores de los atributos.
@@ -23,6 +24,16 @@ class Clientes extends Validator
     {
         if ($this->validateNaturalNumber($value)) {
             $this->idc = $value;
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function setEstado($value)
+    {
+        if ($this->validateBoolean($value)) {
+            $this->estado = $value;
             return true;
         } else {
             return false;
@@ -133,6 +144,11 @@ class Clientes extends Validator
         return $this->nombresc;
     }
 
+    public function getEstado()
+    {
+        return $this->estado;
+    }
+
     public function getApellidos()
     {
         return $this->apellidosc;
@@ -201,10 +217,11 @@ class Clientes extends Validator
 
     public function checkClient($correo)
     {
-        $sql = 'SELECT id_cliente FROM clientes WHERE email_c = ?';
+        $sql = 'SELECT id_cliente, estado_cliente FROM clientes WHERE email_c = ?';
         $params = array($correo);
         if ($data = Database::getRow($sql, $params)) {
             $this->idc = $data['id_cliente'];
+            $this->estado = $data['estado_cliente'];
             $this->emailc = $correo;
             return true;
         } else {
@@ -223,6 +240,54 @@ class Clientes extends Validator
         } else {
             return false;
         }
+    }
+
+    //funcion para sumar un intento luego de fallar la contraseña
+    public function increaseAttempt()
+    {
+        $sql = 'UPDATE clientes SET intentos = intentos + 1 WHERE email_c = ?';
+        $params = array($this->emailc);
+        return Database::executeRow($sql, $params);
+    }
+
+    //funcion para resetear los intentos luego de iniciar sesión
+    public function resetAttempts()
+    {
+        $sql = 'UPDATE clientes SET intentos = 0 WHERE email_c = ?';
+        $params = array($this->emailc);
+        return Database::executeRow($sql, $params);
+    }
+
+    //funcion para obtener la cantidad de intentos de un usuario
+    public function getAttempts()
+    {
+        $sql  = 'SELECT intentos FROM clientes WHERE email_c = ?';
+        $params = array($this->emailc);
+        return Database::getRow($sql, $params);
+    }
+
+    //funcion para actualizar el estado de un usuario a false
+    public function updateStateToFalse()
+    {
+        $sql = 'UPDATE clientes SET estado_cliente = false WHERE email_c = ?';
+        $params = array($this->emailc);
+        return Database::executeRow($sql, $params);
+    }
+
+    //funcion para verificar si ya cumplieron los 90 dias de la contraseña de un usuario
+    public function checkIfPasswordHas90Days()
+    {
+        $sql = 'SELECT*FROM clientes WHERE fecha_clave < current_date - 90 AND email_c = ?';
+        $params = array($this->emailc);
+        return Database::getRow($sql, $params);
+    }
+
+    //funcion para actualizar la fecha de cambio de clave a la actual
+    public function setNewPassword90Days()
+    {
+        $sql = 'UPDATE clientes SET fecha_clave = current_date WHERE id_cliente = ?';
+        $params = array($_SESSION['id_cliente']);
+        return Database::executeRow($sql, $params);
     }
 
     public function changePassword()

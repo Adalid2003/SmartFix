@@ -162,17 +162,56 @@ if (isset($_GET['action'])) {
             case 'logIn':
                 $_POST = $cliente->validateForm($_POST);
                 if ($cliente->checkClient($_POST['usuario'])) {
-                    if ($cliente->checkPassword($_POST['clave'])) {
-                        $_SESSION['id_cliente'] = $cliente->getId();
-                        $_SESSION['correo_cliente'] = $cliente->getCorreo();
-                        $result['status'] = 1;
-                        $result['message'] = 'Autenticación correcta';
-                    } else {
-                        if (Database::getException()) {
-                            $result['exception'] = Database::getException();
+                    if ($cliente->getEstado()) {
+                        if ($cliente->checkPassword($_POST['clave'])) {
+                            if ($cliente->resetAttempts()) {
+                                if ($cliente->checkIfPasswordHas90Days()) {
+                                    $_SESSION['id_tmp'] = $cliente->getId();
+                                    $_SESSION['correo_cliente'] = $cliente->getCorreo();
+                                    $result['error'] = 1;
+                                } else {
+                                    if (Database::getException()) {
+                                        $result['exception'] = Database::getException();
+                                    } else {
+                                        $_SESSION['id_cliente'] = $cliente->getId();
+                                        $_SESSION['correo_cliente'] = $cliente->getCorreo();
+                                        $result['status'] = 1;
+                                        $result['message'] = 'Autenticación correcta';
+                                    }
+                                }
+                            } else {
+                                $result['exception'] = Database::getException();
+                            }
+                            
                         } else {
-                            $result['exception'] = 'Clave incorrecta';
+                            if (Database::getException()) {
+                                $result['exception'] = Database::getException();
+                            } else {
+                                if ($cliente->increaseAttempt()) {
+                                    if ($intentos = $cliente->getAttempts()) {
+                                        if ($intentos['intentos'] >= 3) {
+                                            if ($cliente->updateStateToFalse()) {
+                                                $result['exception'] = 'Usuario bloqueado por intentos excedidos. Contacte con su administrador.';
+                                            } else {
+                                                $result['exception'] = Database::getException();
+                                            }
+                                        } else {
+                                            $result['exception'] = 'Clave incorrecta.';
+                                        }
+                                    } else {
+                                        if (Database::getException()) {
+                                            $result['exception'] = Database::getException();
+                                        } else {
+                                            $result['exception'] = 'No se han podido obtener los intentos de este usuario.';
+                                        } 
+                                    }
+                                } else {
+                                    $result['exception'] = Database::getException();
+                                }
+                            }
                         }
+                    } else {
+                        $result['exception'] = 'Su cuenta ha sido inhabilitada.';
                     }
                 } else {
                     if (Database::getException()) {
@@ -180,6 +219,28 @@ if (isset($_GET['action'])) {
                     } else {
                         $result['exception'] = 'Alias incorrecto';
                     }
+                }
+                break;
+            case 'changePassword90Days':
+                $_POST = $cliente->validateForm($_POST);
+                if ($cliente->setPassword($_POST['txtNuevaContraseña'])) {
+                    if ($_POST['txtNuevaContraseña'] == $_POST['txtConfirmarContraseña']) {
+                        $_SESSION['id_cliente'] = $_SESSION['id_tmp'];
+                        if ($cliente->changePassword()) {
+                            if ($cliente->setNewPassword90Days()) {
+                                $result['status'] = 1;
+                                $result['message'] = 'Contraseña actualizada. Sesión iniciada correctamente.';
+                            } else {
+                                $result['exception'] = Database::getException();
+                            }
+                        } else {
+                            $result['exception'] = Database::getException();
+                        }
+                    } else {
+                        $result['exception'] = 'Las contraseñas no coinciden.';
+                    }
+                } else {
+                    $result['exception'] = 'Su contraseña no cumple con los requisitos.';
                 }
                 break;
             case 'changePassword':
