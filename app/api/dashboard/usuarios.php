@@ -15,7 +15,7 @@ if (isset($_GET['action'])) {
     if (isset($_SESSION['id_usuario'])) {
         // Se compara la acción a realizar cuando un administrador ha iniciado sesión.
         switch ($_GET['action']) {
-            //Se ejecuta la accion para cerrar sesión
+                //Se ejecuta la accion para cerrar sesión
             case 'logOut':
                 if (session_destroy()) {
                     $result['status'] = 1;
@@ -115,6 +115,17 @@ if (isset($_GET['action'])) {
                 break;
             case 'readAllEsp':
                 if ($result['dataset'] = $usuario->readAllEsp()) {
+                    $result['status'] = 1;
+                } else {
+                    if (Database::getException()) {
+                        $result['exception'] = Database::getException();
+                    } else {
+                        $result['exception'] = 'No hay tipos de usuario registrados';
+                    }
+                }
+                break;
+            case 'readHistorial':
+                if ($result['dataset'] = $usuario->readHistorial()) {
                     $result['status'] = 1;
                 } else {
                     if (Database::getException()) {
@@ -431,6 +442,7 @@ if (isset($_GET['action'])) {
                                         $result['message'] = 'Autenticación correcta';
                                         $_SESSION['id_usuario'] = $usuario->getId();
                                         $_SESSION['alias_u'] = $usuario->getAlias();
+                                        $usuario->createHistorial();
                                     }
                                 }
                             } else {
@@ -456,7 +468,7 @@ if (isset($_GET['action'])) {
                                             $result['exception'] = Database::getException();
                                         } else {
                                             $result['exception'] = 'No se han podido obtener los intentos de este usuario.';
-                                        } 
+                                        }
                                     }
                                 } else {
                                     $result['exception'] = Database::getException();
@@ -472,6 +484,104 @@ if (isset($_GET['action'])) {
                     } else {
                         $result['exception'] = 'Alias incorrecto';
                     }
+                }
+                break;
+            case 'validateEmail':
+                $_POST = $usuario->validateForm($_POST);
+                if ($usuario->setCorreo($_POST['txtCorreo'])) {
+                    if ($correo = $usuario->checkEmail()) {
+                        if ($correo['email_u'] == $_POST['txtCorreo']) {
+                            $_SESSION['id_usuario_tmp'] = $correo['id_usuario'];
+                            $_SESSION['email_u'] = $correo['email_u'];
+                            $result['status'] = 1;
+                            $result['message'] = 'Correo verificado.';
+                        } else {
+                            $result['exception'] = 'El correo electrónico ingresado no coincide con su cuenta.';
+                        }
+                    } else {
+                        if (Database::getException()) {
+                            $result['exception'] = Database::getException();
+                        } else {
+                            $result['exception'] = 'No hay correo';
+                        }
+                    }
+                } else {
+                    $result['exception'] = 'Id pendiente de ingresar.';
+                }
+                break;
+            case 'sendEmail':
+                $_SESSION['codigo_email'] = random_int(100, 999999);
+                try {
+
+                    //Load Composer's autoloader
+                    require '../../libraries/phpmailer52/class.phpmailer.php';
+                    require '../../libraries/phpmailer52/class.smtp.php';
+                    require '../../libraries/phpmailer52/class.phpmaileroauthgoogle.php';
+
+                    //Create an instance; passing `true` enables exceptions
+                    $mail = new PHPMailer(true);
+                    $mail->CharSet = 'UTF-8';
+                    $mail->setLanguage("es");
+                    //Ajustes del servidor
+                    $mail->SMTPDebug = 0;
+                    $mail->isSMTP();
+                    $mail->Host       = 'smtp.gmail.com';
+                    $mail->SMTPAuth   = true;
+                    $mail->Username   = 'recuperacionsmartfix@gmail.com';
+                    $mail->Password   = 'smartfix123';
+                    $mail->SMTPSecure = 'tls';
+                    $mail->Port       = 587;
+
+                    //Receptores
+                    $mail->setFrom('recuperacionsmartfix@gmail.com', 'Soporte SmartFix');
+                    $mail->addAddress($_SESSION['email_u']);
+
+                    //Contenido
+                    $mail->isHTML(true);                                  //Set email format to HTML
+                    $mail->Subject = 'Codigo de Verificación';
+                    $mail->Body    = 'Tu código de verificación es: <b>' . $_SESSION['codigo_email'] . '</b>.';
+                    $mail->AltBody = 'Tu código de verificación es: ' . $_SESSION['codigo_email'] . '.';
+
+                    if ($mail->send()) {
+                        $result['status'] = 1;
+                        $result['message'] = 'Se ha enviado un código de recuperación de contraseña a su correo.';
+                    }
+                } catch (Exception $e) {
+                    $result['exception'] = $mail->ErrorInfo;
+                }
+                break;
+            case 'validateCode':
+                $_POST = $usuario->validateForm($_POST);
+                if ($_SESSION['codigo_email'] == $_POST['txtCodigo']) {
+                    unset($_SESSION['codigo_email']);
+                    $result['status'] = 1;
+                    $result['message'] = 'Código verificado correctamente.';
+                } else {
+                    $result['exception'] = 'El código que usted ha ingresado es invalido.';
+                }
+
+                break;
+            case 'changePasswordOut':
+                if ($usuario->setId($_SESSION['id_usuario_tmp'])) {
+                    $_POST = $usuario->validateForm($_POST);
+                    if ($_POST['clave_nueva_1'] == $_POST['clave_nueva_2']) {
+                        if ($usuario->setClave($_POST['clave_nueva_1'])) {
+                            if ($usuario->changePasswordOut()) {
+                                $result['status'] = 1;
+                                $result['message'] = 'Contraseña cambiada correctamente';
+                                unset($_SESSION['id_usuario_tmp']);
+                                $usuario->actualizarFecha();
+                            } else {
+                                $result['exception'] = Database::getException();
+                            }
+                        } else {
+                            $result['exception'] = $usuario->getPasswordError();
+                        }
+                    } else {
+                        $result['exception'] = 'Claves nuevas diferentes';
+                    }
+                } else {
+                    $result['exception'] = 'Usuario incorrecto';
                 }
                 break;
             case 'changePassword90Days':

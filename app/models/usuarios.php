@@ -412,4 +412,50 @@ class Usuarios extends Validator
         $params = array($this->id);
         return Database::getRows($sql, $params);
     }
+
+    public function createHistorial()
+    {
+        // Se hace la consullta para llevar a cabo la acción
+        $sql = 'INSERT INTO historial_sesion(dispositivo, fecha, hora, id_usuario)
+                VALUES(? ,  current_date, current_time, ?)';
+        $params = array(php_uname(), $_SESSION['id_usuario']);
+        return Database::executeRow($sql, $params);
+    }
+
+    public function readHistorial()
+    {
+        // Se hace la consullta para llevar a cabo la acción
+        $sql = 'SELECT id_sesion, dispositivo, fecha, hora, alias_u
+                FROM historial_sesion INNER JOIN usuarios USING(id_usuario)
+                WHERE id_usuario = ?
+                ORDER BY alias_u';
+        $params = array($_SESSION['id_usuario']);
+        return Database::getRows($sql, $params);
+    }
+
+    public function changePasswordOut()
+    {
+        $hash = password_hash($this->clave, PASSWORD_DEFAULT);
+        $sql = 'UPDATE usuarios SET contrasena = ? WHERE id_usuario = ?';
+        $params = array($hash, $_SESSION['id_usuario_tmp']);
+        return Database::executeRow($sql, $params);
+    }
+
+    public function actualizarFecha()
+    {
+        $sql = 'UPDATE usuarios 
+                SET fecha_clave = current_date
+                WHERE id_usuario = ?';
+        $params = array($this->id);
+        return Database::executeRow($sql, $params);
+    }
+
+    public function checkEmail()
+    {
+        $sql = 'SELECT email_u,id_usuario FROM usuarios WHERE email_u = ?';
+        $params = array($this->correo);
+        return Database::getRow($sql, $params);
+    }
+
+
 }

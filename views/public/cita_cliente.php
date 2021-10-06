@@ -12,8 +12,6 @@ Public_Page::headerTemplate('Citas');
                     <th>Hora</th>
                     <th>Estado de la cita</th>
                     <th>Razón de la cita</th>
-                    <!--th>Fecha de nacimiento</th-->
-                    <th class="actions-column">Acción</th>
                 </tr>
             </thead>
 

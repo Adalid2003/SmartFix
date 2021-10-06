@@ -101,6 +101,17 @@ if (isset($_GET['action'])) {
                     }
                 }
                 break;
+                case 'readCita':
+                    if ($result['dataset'] = $citas->readCitaC()) {
+                        $result['status'] = 1;
+                    } else {
+                        if (Database::getException()) {
+                            $result['exception'] = Database::getException();
+                        } else {
+                            $result['exception'] = 'Usted no tiene citas programadas.';
+                        }
+                    }
+                    break;
                 //Se ejecuta la accion para buscar un registro
             case 'search':
                 $_POST = $citas->validateForm($_POST);

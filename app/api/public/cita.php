@@ -50,6 +50,17 @@ if (isset($_GET['action'])) {
                         $result['exception'] = 'No hay clases ingresados aún';
                     }
                 }
+                case 'readCita':
+                    if ($result['dataset'] = $citas->readCitaC()) {
+                        $result['status'] = 1;
+                    } else {
+                        if (Database::getException()) {
+                            $result['exception'] = Database::getException();
+                        } else {
+                            $result['exception'] = 'Usted no tiene citas programadas.';
+                        }
+                    }
+                    break;
             case 'create':
                 //print_r($_POST);
                 $_POST = $citas->validateForm($_POST);

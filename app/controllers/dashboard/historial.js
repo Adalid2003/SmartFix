@@ -1,9 +1,9 @@
 // Constante para establecer la ruta y parámetros de comunicación con la API.
-const API_CITA = '../../app/api/public/cita.php?action=';
+const API_USUARIOS = '../../app/api/dashboard/usuarios.php?action=';
 // Método manejador de eventos que se ejecuta cuando el documento ha cargado.
 document.addEventListener('DOMContentLoaded', function () {
     // Se llama a la función que obtiene los registros para llenar la tabla. Se encuentra en el archivo components.js
-    readRowsC(API_CITA);
+    readRowsH(API_USUARIOS);
 });
 
 // Función para llenar la tabla con los datos de los registros. Se manda a llamar en la función readRows().
@@ -14,10 +14,9 @@ function fillTable(dataset) {
         // Se crean y concatenan las filas de la tabla con los datos de cada registro.
         content += `
             <tr>
-                <td>${row.fecha_cita}</td>
-                <td>${row.hora}</td>
-                <td>${row.estado_cita}</td>
-                <td>${row.razon}</td>
+            <td>${row.dispositivo}</td>
+            <td>${row.fecha}</td>
+            <td>${row.hora}</td>
             </tr>
         `;
     });

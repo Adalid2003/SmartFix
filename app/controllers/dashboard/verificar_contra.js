@@ -1,5 +1,5 @@
 // Constante para establecer la ruta y parámetros de comunicación con la API.
-const API_USUARIOS = '../../app/api/public/clientes.php?action=';
+const API_USUARIOS = '../../app/api/dashboard/usuarios.php?action=';
 
 // Método manejador de eventos que se ejecuta cuando se envía el formulario de cambiar clave.
 document.getElementById('password-form').addEventListener('submit', function (event) {

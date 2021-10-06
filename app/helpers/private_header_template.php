@@ -2,6 +2,7 @@
 /*
 *	Clase para definir las plantillas de las páginas web del sitio privado.
 */
+
 class Dashboard_Page
 {
     /*
@@ -84,6 +85,7 @@ class Dashboard_Page
                          <li><a href="../../views/dashboard/citas.php"><i class="material-icons">date_range</i>Citas</a></li>
                          <li><a href="../../views/dashboard/reparaciones.php"><i class="material-icons">build</i>Reparaciones</a></li>
                          <li><a href="../../views/dashboard/clientes.php"><i class="material-icons">contacts</i>Clientes</a></li>
+                         <li><a href="../../views/dashboard/historial.php"><i class="material-icons">history</i>Historial de sesiones</a></li>
                          <li><a class="subheader">Detalles de su cuenta</a></li>
                          <li><a class="dropdown-trigger" href="#" data-target="dropdown-mobile"><i class="material-icons">verified_user</i>Usuario: <b>' . $_SESSION['alias_u'] . '</b></a></li>
                          <li><a href="#" onclick="openPasswordDialog()"><i class="material-icons">security</i>Cambiar contraseña</a></li>

@@ -92,6 +92,7 @@ function openUpdateDialog(id) {
     document.getElementById('clave1').disabled = true;
     document.getElementById('clave2').disabled = true;
 
+
     // Se define un objeto con los datos del registro seleccionado.
     const data = new FormData();
     data.append('id_usuario', id);
@@ -115,6 +116,7 @@ function openUpdateDialog(id) {
                     document.getElementById('telefono').value = response.dataset.telefono_u;
                     document.getElementById('dui_u').value = response.dataset.dui_u;
                     document.getElementById('sueldo').value = response.dataset.sueldo;
+                    document.getElementById('fecha_nacimiento').value = response.dataset.fecha_nacimiento;
                     //document.getElementById('fecha_nacimiento').value = response.dataset.fecha_nacimiento;
                     if (response.dataset.estado_usuario) {
                         document.getElementById('estado_usuario').checked = true;
