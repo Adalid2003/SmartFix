@@ -16,12 +16,24 @@ if (isset($_GET['action'])) {
     if (isset($_SESSION['id_cliente'])) {
         // Se compara la acción a realizar cuando un cliente ha iniciado sesión.
         switch ($_GET['action']) {
+
             case 'logOut':
                 if (session_destroy()) {
                     $result['status'] = 1;
                     $result['message'] = 'Sesión eliminada correctamente';
                 } else {
                     $result['exception'] = 'Ocurrió un problema al cerrar la sesión';
+                }
+                break;
+            case 'readHistorial':
+                if ($result['dataset'] = $cliente->readHistorial()) {
+                    $result['status'] = 1;
+                } else {
+                    if (Database::getException()) {
+                        $result['exception'] = Database::getException();
+                    } else {
+                        $result['exception'] = 'Usted no tiene sesiones iniciadas.';
+                    }
                 }
                 break;
             default:
@@ -177,12 +189,12 @@ if (isset($_GET['action'])) {
                                         $_SESSION['correo_cliente'] = $cliente->getCorreo();
                                         $result['status'] = 1;
                                         $result['message'] = 'Autenticación correcta';
+                                        $cliente->createHistorial();
                                     }
                                 }
                             } else {
                                 $result['exception'] = Database::getException();
                             }
-                            
                         } else {
                             if (Database::getException()) {
                                 $result['exception'] = Database::getException();
@@ -203,7 +215,7 @@ if (isset($_GET['action'])) {
                                             $result['exception'] = Database::getException();
                                         } else {
                                             $result['exception'] = 'No se han podido obtener los intentos de este usuario.';
-                                        } 
+                                        }
                                     }
                                 } else {
                                     $result['exception'] = Database::getException();
@@ -305,7 +317,7 @@ if (isset($_GET['action'])) {
                 $_SESSION['codigo_email'] = random_int(100, 999999);
                 try {
 
-                    
+
 
                     //Load Composer's autoloader
                     require '../../libraries/phpmailer52/class.phpmailer.php';

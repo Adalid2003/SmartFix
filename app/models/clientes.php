@@ -443,6 +443,26 @@ class Clientes extends Validator
         return Database::getRow($sql, $params);
     }
 
+    public function createHistorial()
+    {
+        // Se hace la consullta para llevar a cabo la acción
+        $sql = 'INSERT INTO historial_sesion_c(dispositivo, fecha, hora, id_cliente)
+                VALUES(? ,  current_date, current_time, ?)';
+        $params = array(php_uname(), $_SESSION['id_cliente']);
+        return Database::executeRow($sql, $params);
+    }
+
+    public function readHistorial()
+    {
+        // Se hace la consullta para llevar a cabo la acción
+        $sql = 'SELECT id_sesion_c, dispositivo, fecha, hora, nombres_c
+                FROM historial_sesion_c INNER JOIN clientes USING(id_cliente)
+                WHERE id_cliente = ?
+                ORDER BY nombres_c';
+        $params = array($_SESSION['id_cliente']);
+        return Database::getRows($sql, $params);
+    }
+
     /*public function generosClientes()
     {
         $sql = ''

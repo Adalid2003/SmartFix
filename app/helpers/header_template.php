@@ -48,6 +48,7 @@ class Public_Page
                         <li><a href="../../views/public/nosotros.php">Sobre nosotros</a></li>
                         <li><a href="../../views/public/cita.php">Agendar cita</a></li>
                         <li><a href="../../views/public/cita_cliente.php">Mis citas</a></li>
+                        <li><a href="../../views/public/historial.php">Actividad de inicio de sesión</a></li>
                         <li><a href="#" onclick="logOut()"><i class="material-icons left">close</i>Cerrar sesión</a></li>
                     </ul>
                 </div>

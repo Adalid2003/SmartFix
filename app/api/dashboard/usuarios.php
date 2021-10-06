@@ -15,6 +15,7 @@ if (isset($_GET['action'])) {
     if (isset($_SESSION['id_usuario'])) {
         // Se compara la acción a realizar cuando un administrador ha iniciado sesión.
         switch ($_GET['action']) {
+           
                 //Se ejecuta la accion para cerrar sesión
             case 'logOut':
                 if (session_destroy()) {
