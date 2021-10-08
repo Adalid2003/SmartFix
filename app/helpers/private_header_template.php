@@ -290,6 +290,29 @@ class Dashboard_Page
                     </form>
                 </div>
             </div>
+
+            <!-- Componente Modal para mostrar el formulario de seguridad -->
+            <div id="security-modal" class="modal">
+                <div class="modal-content">
+                    <h4 class="center-align">Verificación de dos pasos</h4>
+                    <form method="post" id="security-form">
+                            <div class="col s12 m6">
+                                <p>
+                                    <label>
+                                    <input id="checkbox_autenticacion" type="checkbox" />
+                                    <span class="center-align">¿Desea activar la verificación de dos pasos?</span>
+                                    </label>
+                                </p>
+                                <input type="hidden" value="no" id="checkboxValue" name="checkboxValue"/>
+                            </div>
+                        </div>
+                        <div class="row center-align">
+                            <button type="submit" class="btn waves-effect blue tooltipped" data-tooltip="Guardar Cambios"><i class="material-icons">save</i></button>
+                            <a href="#" class="btn waves-effect grey tooltipped modal-close" data-tooltip="Cancelar"><i class="material-icons">cancel</i></a>
+                        </div>
+                    </form>
+                </div>
+            </div>
         ');
     }
 }

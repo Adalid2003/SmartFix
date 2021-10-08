@@ -16,6 +16,7 @@ class Clientes extends Validator
     private $nacimientoc = null;
     private $genero = null;
     private $estado = null;
+    private $doble = null;
 
     /*
     *   Métodos para validar y asignar valores de los atributos.
@@ -130,6 +131,17 @@ class Clientes extends Validator
         }
     }
 
+    public function setDoble($value)
+    {
+        if ($this->validateNaturalNumber($value)) {
+            $this->doble = $value;
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+
     /*
     *   Métodos para obtener valores de los atributos.
     */
@@ -187,6 +199,11 @@ class Clientes extends Validator
     public function getNacimiento()
     {
         return $this->nacimientoc;
+    }
+
+    public function getDoble()
+    {
+        return $this->doble;
     }
 
     /*
@@ -299,6 +316,14 @@ class Clientes extends Validator
         return Database::executeRow($sql, $params);
     }
 
+     //Capturar preferencia del usuario
+     public function checkAuth()
+     {
+         $sql = 'SELECT doble FROM clientes WHERE id_cliente = ?';
+         $params = array($this->idc);
+         return Database::getRow($sql, $params);
+     }
+
     /*
     *   Métodos para realizar las operaciones SCRUD (search, create, read, update, delete).
     */
@@ -314,9 +339,9 @@ class Clientes extends Validator
     {
         // Se transforma la contraseña a una cadena de texto de longitud fija mediante el algoritmo por defecto.
         $hash = password_hash($this->clavec, PASSWORD_DEFAULT);
-        $sql = 'INSERT INTO clientes(nombres_c, apellidos_c, dui_c, email_c, alias_c,telefono_c, fecha_nac, contrasena, genero)
-                VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)';
-        $params = array($this->nombresc, $this->apellidosc, $this->duic, $this->emailc, $this->aliasc, $this->telefonoc, $this->nacimientoc, $hash, $this->genero);
+        $sql = 'INSERT INTO clientes(nombres_c, apellidos_c, dui_c, email_c, alias_c,telefono_c, fecha_nac, contrasena, genero, doble)
+                VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
+        $params = array($this->nombresc, $this->apellidosc, $this->duic, $this->emailc, $this->aliasc, $this->telefonoc, $this->nacimientoc, $hash, $this->genero, $this->doble);
         return Database::executeRow($sql, $params);
     }
 

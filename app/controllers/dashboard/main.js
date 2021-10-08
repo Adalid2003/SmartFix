@@ -361,4 +361,3 @@ function fillTable(dataset){
     // Se inicializa el componente Tooltip asignado a los enlaces para que funcionen las sugerencias textuales.
     M.Tooltip.init(document.querySelectorAll('.tooltipped'));
 }
-

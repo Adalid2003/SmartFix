@@ -44,6 +44,7 @@ if (isset($_GET['action'])) {
         switch ($_GET['action']) {
             case 'register':
                 $_POST = $cliente->validateForm($_POST);
+                //print_r($_POST);
                 // Se sanea el valor del token para evitar datos maliciosos.
                 $token = filter_input(INPUT_POST, 'g-recaptcha-response', FILTER_SANITIZE_STRING);
                 if ($token) {
@@ -85,12 +86,16 @@ if (isset($_GET['action'])) {
                                                         if ($cliente->setNacimineto($_POST['nacimiento_cliente'])) {
                                                             if ($_POST['clave_cliente'] == $_POST['confirmar_clave']) {
                                                                 if ($cliente->setPassword($_POST['clave_cliente'])) {
+                                                                    if ($cliente->setDoble(1)) {
                                                                     if ($cliente->createRow()) {
                                                                         $result['status'] = 1;
                                                                         $result['message'] = 'Cliente registrado correctamente';
                                                                     } else {
                                                                         $result['exception'] = Database::getException();
                                                                     }
+                                                                }else{
+                                                                    $result['exception'] = 'Verificación invalida';
+                                                                }
                                                                 } else {
                                                                     $result['exception'] = $cliente->getPasswordError();
                                                                 }
@@ -122,37 +127,47 @@ if (isset($_GET['action'])) {
                                 $result['exception'] = 'Nombres incorrectos';
                             }
                         } else {
+                            $result['exception'] = 'Error de ReCaptcha, por favor recargue la pagina.';
                         }
                     }
                 }
                 break;
             case 'sendCode':
-                $_SESSION['codigo'] = random_int(100, 999999);
+                $_SESSION['codigo_email'] = random_int(100, 999999);
                 try {
 
+                    ///Load Composer's autoloader
+                    require '../../libraries/phpmailer52/class.phpmailer.php';
+                    require '../../libraries/phpmailer52/class.smtp.php';
+                    require '../../libraries/phpmailer52/class.phpmaileroauthgoogle.php';
+
+                    //Create an instance; passing `true` enables exceptions
+                    $mail = new PHPMailer(true);
+                    $mail->CharSet = 'UTF-8';
+                    $mail->setLanguage("es");
                     //Ajustes del servidor
                     $mail->SMTPDebug = 0;
                     $mail->isSMTP();
                     $mail->Host       = 'smtp.gmail.com';
                     $mail->SMTPAuth   = true;
-                    $mail->Username   = 'reparacionsmartfix@gmail.com';
+                    $mail->Username   = 'recuperacionsmartfix@gmail.com';
                     $mail->Password   = 'smartfix123';
                     $mail->SMTPSecure = 'tls';
                     $mail->Port       = 587;
 
                     //Receptores
-                    $mail->setFrom('reparacionsmartfix@gmail.com', 'Soporte SmartFix');
-                    $mail->addAddress($_SESSION['correo_cliente']);
+                    $mail->setFrom('recuperacionsmartfix@gmail.com', 'Soporte SmartFix');
+                    $mail->addAddress($_SESSION['email_c']);
 
                     //Contenido
                     $mail->isHTML(true);                                  //Set email format to HTML
-                    $mail->Subject = 'Codigo de Verificación';
-                    $mail->Body    = 'Tu código de verificación es: <b>' . $_SESSION['codigo'] . '</b>.';
-                    $mail->AltBody = 'Tu código de verificación es: ' . $_SESSION['codigo'] . '.';
+                    $mail->Subject = 'Codigo de Verificación para inicio de sesión';
+                    $mail->Body    = 'Tu código de verificación para iniciar sesión es: <b>' . $_SESSION['codigo_email'] . '</b>.';
+                    $mail->AltBody = 'Tu código de verificación para iniciar sesión es: ' . $_SESSION['codigo_email'] . '.';
 
                     if ($mail->send()) {
                         $result['status'] = 1;
-                        $result['message'] = 'Correo enviado correctamente';
+                        $result['message'] = 'Se ha enviado un código de recuperación de contraseña a su correo.';
                     }
                 } catch (Exception $e) {
                     $result['exception'] = $mail->ErrorInfo;
@@ -160,12 +175,13 @@ if (isset($_GET['action'])) {
                 break;
             case 'checkCode':
                 $_POST = $cliente->validateForm($_POST);
-                if ($_POST['codigo'] == $_SESSION['codigo']) {
-                    unset($_SESSION['codigo']);
+                if ($_POST['codigo'] == $_SESSION['codigo_email']) {
+                    unset($_SESSION['codigo_mail']);
                     $_SESSION['id_cliente'] = $_SESSION['id_cliente_temp'];
                     unset($_SESSION['id_cliente_temp']);
                     $result['status'] = 1;
                     $result['message'] = 'Sesión iniciada correctamente.';
+                    $cliente->createHistorial();
                 } else {
                     $result['exception'] = 'El código ingresado es incorrecto.';
                 }
@@ -179,18 +195,34 @@ if (isset($_GET['action'])) {
                             if ($cliente->resetAttempts()) {
                                 if ($cliente->checkIfPasswordHas90Days()) {
                                     $_SESSION['id_tmp'] = $cliente->getId();
-                                    $_SESSION['correo_cliente'] = $cliente->getCorreo();
+                                    $_SESSION['email_c'] = $cliente->getCorreo();
                                     $result['error'] = 1;
                                 } else {
                                     if (Database::getException()) {
                                         $result['exception'] = Database::getException();
                                     } else {
-                                        $_SESSION['id_cliente'] = $cliente->getId();
-                                        $_SESSION['correo_cliente'] = $cliente->getCorreo();
-                                        $result['status'] = 1;
-                                        $result['message'] = 'Autenticación correcta';
-                                        $cliente->createHistorial();
-                                    }
+                                        if ($data = $cliente->checkAuth()) {
+                                            if ($data['doble'] == 1) {
+                                                $_SESSION['id_cliente_temp'] = $cliente->getId();
+                                                $_SESSION['email_c'] = $cliente->getCorreo();
+                                                unset($_SESSION['id_cliente']);
+                                                $result['status'] = 1;
+                                                $result['auth'] = 1;
+                                                $result['message'] = 'Por su seguridad, se ha enviado un código para que pueda iniciar sesión de una forma segura';
+                                            } else {
+                                                $result['status'] = 1;
+                                                $result['message'] = 'Autenticación correcta';
+                                                $cliente->createHistorial();
+                                            }
+                                        } else {
+                                           if (Database::getException()) {
+                                               $result['exception'] = Database::getException();
+                                           } else {
+                                               $result['exception'] = 'Por alguna razón usted no posee ninguna preferencia.';
+                                           }
+                                        }
+                                    } 
+                                    
                                 }
                             } else {
                                 $result['exception'] = Database::getException();

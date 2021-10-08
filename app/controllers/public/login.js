@@ -15,10 +15,13 @@ document.getElementById('session-form').addEventListener('submit', function (eve
             request.json().then(function (response) {
                 // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
                 if (response.status) {
-                    sweetAlert(1, response.message, 'index.php');
-                } else if (response.error) {
-                    var instance = M.Modal.getInstance(document.getElementById('cambiarContraseña'));
-                    instance.open();
+                    if (response.auth) {
+                        sweetAlert(1, response.message, 'autenticacion.php');
+                    } else {
+                        sweetAlert(1, response.message, 'index.php');
+                    }
+                } else if (response.error){
+                    sweetAlert(3, response.exception,'cambiar_contra.php');
                 } else {
                     sweetAlert(2, response.exception, null);
                 }

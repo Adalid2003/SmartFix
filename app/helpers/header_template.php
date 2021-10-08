@@ -218,6 +218,25 @@ class Public_Page
                     <a href="#!" class="modal-action modal-close btn waves-effect"><i class="material-icons">done</i></a>
                 </div>
             </div>
-        ');
+        
+            <!-- Componente Modal para mostrar el formulario de seguridad -->
+            <div id="security-modal" class="modal">
+                <div class="modal-content">
+                    <h4 class="center-align">Panel de Seguridad</h4>
+                    <form method="post" id="security-form">
+                            <div class="col s12 m6">
+                                <p>
+                                    <label>
+                                    <input id="checkbox_autenticacion" type="checkbox" />
+                                    <span>¿Desea activar la verificación de dos pasos?</span>
+                                    </label>
+                                </p>
+                                <input type="hidden" value="no" id="checkboxValue" name="checkboxValue"/>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            ');
     }
 }
